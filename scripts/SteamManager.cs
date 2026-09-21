@@ -198,7 +198,7 @@ public partial class SteamManager : Node3D
 		}
 		catch (System.Exception e)
 		{
-			GD.Print("Error fetching lobbies! " + e.Message + e.StackTrace);
+			GD.Print("Error fetching lobbies! " + e.Message);
 			return false;
 		}
 	}
@@ -237,8 +237,8 @@ public partial class SteamManager : Node3D
 
 	public void CreateSteamSocketServer()
 	{
-		steamSocketManager = SteamNetworkingSockets.CreateRelaySocket<SteamSocketManager>(25565);
-		steamConnectionManager = SteamNetworkingSockets.ConnectRelay<SteamConnectionManager>(PlayerSteamID,25565);
+		steamSocketManager = SteamNetworkingSockets.CreateRelaySocket<SteamSocketManager>(0);
+		steamConnectionManager = SteamNetworkingSockets.ConnectRelay<SteamConnectionManager>(PlayerSteamID,0);
 		IsHost = true;
 
 		GD.Print("Socket server created!");
@@ -249,7 +249,7 @@ public partial class SteamManager : Node3D
 		if (!IsHost)
 		{
 			GD.Print("Joining socket server...");
-			steamConnectionManager = SteamNetworkingSockets.ConnectRelay<SteamConnectionManager>(host, 25565);
+			steamConnectionManager = SteamNetworkingSockets.ConnectRelay<SteamConnectionManager>(host, 0);
 		}
 	}
 
@@ -261,7 +261,7 @@ public partial class SteamManager : Node3D
 			GD.Print("String is too large for the outgoing data buffer");
 			return;
 		}
-		Encoding.Default.GetBytes(packetStr, 0, packetStr.Length, DataContainer.outgoingData, 0);
+		Encoding.UTF8.GetBytes(packetStr, 0, packetStr.Length, DataContainer.outgoingData, 0);
 		unsafe
 		{
 			fixed(byte* ptr = DataContainer.outgoingData)
@@ -289,7 +289,7 @@ public partial class SteamManager : Node3D
 				GD.Print("String is too large for the outgoing data buffer");
 				return;
 			}
-			Encoding.Default.GetBytes(str, 0, str.Length, DataContainer.outgoingData, 0);
+			Encoding.UTF8.GetBytes(str, 0, str.Length, DataContainer.outgoingData, 0);
 			unsafe
 			{
 				fixed(byte* ptr = DataContainer.outgoingData)
