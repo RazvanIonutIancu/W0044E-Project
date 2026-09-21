@@ -15,7 +15,9 @@ public class DataParser
 	public static Dictionary<string,string> ParseData(nint data, int size)
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
-		return JsonConvert.DeserializeObject<Dictionary<string,string>>(System.Text.Encoding.UTF8.GetString(DataContainer.incomingData.AsSpan<byte>(0,size)));
+		string str = System.Text.Encoding.UTF8.GetString(DataContainer.incomingData.AsSpan<byte>(0,size));
+		GD.Print(str);
+		return JsonConvert.DeserializeObject<Dictionary<string,string>>(str);
 	}
 
 	public static void ProcessAllData()

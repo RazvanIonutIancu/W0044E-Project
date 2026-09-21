@@ -7,8 +7,6 @@ public partial class NetworkThreadManager : Node
 	private Thread networkThread;
 	private bool networkIsRunning = true;
 
-
-
 	public async override void _EnterTree()
 	{
 		networkThread = new Thread(NetworkLoop);
