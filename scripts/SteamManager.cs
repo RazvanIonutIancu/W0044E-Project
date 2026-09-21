@@ -220,7 +220,7 @@ public partial class SteamManager : Node3D
 			GD.Print("Found no lobby with code: " + code);
 			return false; 
 		}
-		lobbies[0].Join();
+		await lobbies[0].Join();
 		return true;
 	}
 

@@ -5,15 +5,33 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Facepunch.Steamworks.Posix">
-      <HintPath>Facepunch.Steamworks.Posix.dll</HintPath>
-    </Reference>
-    <Content Include="libsteam_api.so">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>libsteam_api.so</Link>
-    </Content>
-  </ItemGroup>
+  <Choose>
+
+    <When Condition=" '$(OS)' == 'Windows_NT' ">
+      <ItemGroup>
+        <Reference Include="Facepunch.Steamworks.Win64">
+          <HintPath>Facepunch.Steamworks.Win64.dll</HintPath>
+        </Reference>
+        <Content Include="steam_api.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <Link>steam_api.dll</Link>
+        </Content>
+      </ItemGroup>
+    </When>
+
+    <When Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+      <ItemGroup>
+        <Reference Include="Facepunch.Steamworks.Posix">
+          <HintPath>Facepunch.Steamworks.Posix.dll</HintPath>
+        </Reference>
+        <Content Include="libsteam_api.so">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <Link>libsteam_api.so</Link>
+        </Content>
+      </ItemGroup>
+    </When>
+  </Choose>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
