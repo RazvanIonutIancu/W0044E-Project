@@ -198,7 +198,7 @@ public partial class SteamManager : Node3D
 		}
 		catch (System.Exception e)
 		{
-			GD.Print("Error fetching lobbies! " + e.Message);
+			GD.Print("Error fetching lobbies! " + e.Message + e.StackTrace);
 			return false;
 		}
 	}
