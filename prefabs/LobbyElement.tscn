@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://b77scs0ayk0qi"]
 
+[ext_resource type="Script" uid="uid://oqi5s2vuv504" path="res://scripts/menus/LobbyElement.cs" id="1_bp57f"]
+
 [node name="LobbyElement" type="Control" unique_id=296601057]
 layout_mode = 3
 anchors_preset = 15
@@ -9,6 +11,7 @@ offset_right = -800.0
 offset_bottom = -607.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_bp57f")
 
 [node name="NameLabel" type="RichTextLabel" parent="." unique_id=1891540408]
 layout_mode = 1

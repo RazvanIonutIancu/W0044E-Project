@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dajge0dtp3ukd" path="res://scripts/menus/LobbyPlayer.cs" id="1_xbtfn"]
 
 [node name="LobbyPlayer" type="Control" unique_id=1685741502 node_paths=PackedStringArray("avatar", "name")]
+custom_minimum_size = Vector2(214, 40)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
