@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cr4283a6y45sk"]
+
+[ext_resource type="Script" uid="uid://dajge0dtp3ukd" path="res://scripts/menus/LobbyPlayer.cs" id="1_xbtfn"]
+
+[node name="LobbyPlayer" type="Control" unique_id=1685741502 node_paths=PackedStringArray("avatar", "name")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -938.0
+offset_bottom = -608.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xbtfn")
+avatar = NodePath("Avatar")
+name = NodePath("Name")
+
+[node name="Avatar" type="TextureRect" parent="." unique_id=1554081287]
+layout_mode = 0
+offset_right = 42.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.15
+
+[node name="Name" type="RichTextLabel" parent="." unique_id=566280514]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 1.0
+offset_right = 256.0
+offset_bottom = 41.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.58

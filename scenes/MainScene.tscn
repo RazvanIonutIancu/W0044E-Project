@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://jko7s7v4xicf"]
+
+[ext_resource type="Script" uid="uid://28w0f3wpsbid" path="res://scripts/SteamManager.cs" id="1_c6dvc"]
+[ext_resource type="Script" uid="uid://c0dc7ymhg5oy1" path="res://scripts/NetworkThreadManager.cs" id="2_611at"]
+[ext_resource type="Script" uid="uid://7yham0ru035b" path="res://scripts/SteamCallbacks.cs" id="3_k24pf"]
+[ext_resource type="PackedScene" uid="uid://bk66tyorskbqu" path="res://scenes/MainMenu.tscn" id="4_611at"]
+[ext_resource type="Script" uid="uid://byba5v5rkwe1f" path="res://scripts/SceneLoader.cs" id="4_k24pf"]
+[ext_resource type="PackedScene" uid="uid://dvybprtma3esf" path="res://scenes/LobbyMenu.tscn" id="6_ygjfp"]
+
+[node name="SteamManager" type="Node3D" unique_id=324727336 node_paths=PackedStringArray("sceneLoader")]
+script = ExtResource("1_c6dvc")
+sceneLoader = NodePath("SceneLoader")
+
+[node name="NetworkThread" type="Node" parent="." unique_id=1423481932]
+script = ExtResource("2_611at")
+
+[node name="Callbacks" type="Node" parent="." unique_id=872904060 node_paths=PackedStringArray("sceneLoader")]
+script = ExtResource("3_k24pf")
+sceneLoader = NodePath("../SceneLoader")
+
+[node name="SceneLoader" type="Node" parent="." unique_id=2013999659 node_paths=PackedStringArray("menuSceneContainer")]
+script = ExtResource("4_k24pf")
+mainMenu = ExtResource("4_611at")
+lobbyMenu = ExtResource("6_ygjfp")
+menuSceneContainer = NodePath("../MenuSceneContainer")
+
+[node name="MenuSceneContainer" type="Control" parent="." unique_id=1796931161]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

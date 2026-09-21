@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dvybprtma3esf"]
+
+[ext_resource type="Script" uid="uid://buxsp1chjj2vd" path="res://scripts/menus/LobbyMenu.cs" id="1_77kkm"]
+[ext_resource type="PackedScene" uid="uid://cr4283a6y45sk" path="res://prefabs/LobbyPlayer.tscn" id="2_j2aal"]
+
+[node name="LobbyMenu" type="Control" unique_id=1965579072 node_paths=PackedStringArray("playerContainer", "codeLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_77kkm")
+lobbyPlayer = ExtResource("2_j2aal")
+playerContainer = NodePath("Players")
+codeLabel = NodePath("Toolbar/Code")
+
+[node name="Players" type="VBoxContainer" parent="." unique_id=1483929920]
+layout_mode = 0
+offset_left = 261.0
+offset_top = 24.0
+offset_right = 709.0
+offset_bottom = 368.0
+
+[node name="Toolbar" type="VBoxContainer" parent="." unique_id=1725902394]
+custom_minimum_size = Vector2(107.125, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 13.0
+offset_right = 135.0
+offset_bottom = 13.0
+grow_vertical = 2
+
+[node name="Code" type="RichTextLabel" parent="Toolbar" unique_id=1300188208]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Code: AAAA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Invite Friend" type="Button" parent="Toolbar" unique_id=2018394300]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Invite Friend"
+
+[node name="Disconnect" type="Button" parent="Toolbar" unique_id=59357047]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Disconnect"
+
+[connection signal="button_down" from="Toolbar/Invite Friend" to="." method="InviteFriend"]
+[connection signal="button_down" from="Toolbar/Disconnect" to="." method="Disconnect"]

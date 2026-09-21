@@ -1,0 +1,75 @@
+using Godot;
+using System;
+using System.Collections.Generic;
+using Steamworks;
+using Steamworks.Data;
+using Newtonsoft.Json;
+using System.Linq;
+
+public partial class LobbyMenu : Control
+{
+	[Export] private PackedScene lobbyPlayer;
+	[Export] private VBoxContainer playerContainer;
+
+	[Export] private RichTextLabel codeLabel;
+
+	public override void _EnterTree()
+    {
+		SteamCallbacks.OnPlayerLeftLobby += OnPlayerLeftLobbyCallback;
+		SteamCallbacks.OnPlayerJoinLobby += OnPlayerJoinLobbyCallback;
+		SteamManager.OnLobbyInitialized += OnLobbyInitializedCallback;
+    }
+
+    public override void _ExitTree()
+    {
+		SteamCallbacks.OnPlayerLeftLobby -= OnPlayerLeftLobbyCallback;
+		SteamCallbacks.OnPlayerJoinLobby -= OnPlayerJoinLobbyCallback;
+		SteamManager.OnLobbyInitialized -= OnLobbyInitializedCallback;
+    }
+
+	private void OnPlayerLeftLobbyCallback(Friend friend)
+	{
+		GetNode<LobbyPlayer>($"LobbyUsers/{friend.Id.AccountId.ToString()}").QueueFree();
+	}
+
+	public void Disconnect()
+	{
+		SteamManager.Manager.Disconnect();
+	}
+
+	public void AddLobbyPlayerElement(Friend friend)
+	{
+		LobbyPlayer player = lobbyPlayer.Instantiate<LobbyPlayer>();
+		playerContainer.AddChild(player);
+		player.Name = friend.Id.AccountId.ToString();
+
+		Steamworks.Data.Image? rawSteamAvatar = friend.GetSmallAvatarAsync().Result;
+
+		Texture2D avatar = new Texture2D();
+
+		if(rawSteamAvatar.HasValue)
+		{
+			Steamworks.Data.Image steamImage = rawSteamAvatar.Value;
+			Godot.Image godotImage = new Godot.Image();
+			godotImage.SetData((int)steamImage.Width, (int)steamImage.Height,false, Godot.Image.Format.Rgba8, steamImage.Data);
+			avatar = ImageTexture.CreateFromImage(godotImage);
+		}
+	
+		player.SetLabels(friend.Name.ToString(),avatar);
+	}
+
+	private void OnPlayerJoinLobbyCallback(Friend friend)
+	{
+		AddLobbyPlayerElement(friend);
+	}
+
+	public void InviteFriend()
+	{
+		SteamManager.Manager.OpenFriendOverlayForInvite();
+	}
+
+	public void OnLobbyInitializedCallback(bool b) 
+	{
+		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code");
+	}
+}
