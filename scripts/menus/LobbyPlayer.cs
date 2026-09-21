@@ -11,4 +11,9 @@ public partial class LobbyPlayer : Node
 		name.Text = _name;
 		avatar.Texture = sprite;
 	}
+
+	public void SetReady(bool isReady) 
+	{
+		GD.Print(name.Text + " ready status changed to: " + isReady.ToString());
+	}
 }

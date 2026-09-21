@@ -8,13 +8,9 @@ using System.Collections.Generic;
 
 public class DataParser
 {
-	public static event Action<Dictionary<string,string>> OnUpdateNode;
-	public static event Action<Dictionary<string,string>> OnChatMessage;
-	public static event Action<Dictionary<string,string>> OnReadyMessage;
-	public static event Action<Dictionary<string,string>> OnGameStartMessage;
-	public static event Action<Dictionary<string,string>> OnPlayerUpdate;
-
 	public static List<SteamPacket> packetList = new List<SteamPacket>();
+
+	public static Action<Dictionary<string,string>> OnReadyMessage;
 
 	public static Dictionary<string,string> ParseData(nint data, int size)
 	{
@@ -38,20 +34,8 @@ public class DataParser
 
 		switch(packet["DataType"])
 		{
-			case "ChatMessage":
-				OnChatMessage.Invoke(packet);
-				break;
-			case "Ready":
+			case "ReadyMessage":
 				OnReadyMessage.Invoke(packet);
-				break;
-			case "StartGame":
-				OnGameStartMessage.Invoke(packet);
-				break;
-			case "UpdatePlayer":
-				OnPlayerUpdate.Invoke(packet);
-				break;
-			case "UpdateNode":
-				OnUpdateNode.Invoke(packet);
 				break;
 			default:
 				break;
