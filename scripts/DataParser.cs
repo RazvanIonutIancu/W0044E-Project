@@ -11,6 +11,7 @@ public class DataParser
 	public static List<SteamPacket> packetList = new List<SteamPacket>();
 
 	public static Action<Dictionary<string,string>> OnReadyMessage;
+	public static Action<Dictionary<string,string>> OnChatMessage;
 
 	public static Dictionary<string,string> ParseData(nint data, int size)
 	{
@@ -38,6 +39,14 @@ public class DataParser
 		{
 			case "ReadyMessage":
 				OnReadyMessage.Invoke(packet);
+				break;
+			case "ChatMessage":
+				//message is relatyed so all cconnected clients/users see it terminology kinda crap maybe
+				if (SteamManager.Manager.IsHost)
+				{
+					SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet));
+				}
+				OnChatMessage.Invoke(packet);
 				break;
 			default:
 				break;
