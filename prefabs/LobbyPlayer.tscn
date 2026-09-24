@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dajge0dtp3ukd" path="res://scripts/menus/LobbyPlayer.cs" id="1_xbtfn"]
 
-[node name="LobbyPlayer" type="Control" unique_id=1685741502 node_paths=PackedStringArray("avatar", "name")]
+[node name="LobbyPlayer" type="Control" unique_id=1685741502 node_paths=PackedStringArray("avatar", "name", "readyText", "pingText")]
 custom_minimum_size = Vector2(214, 40)
 layout_mode = 3
 anchors_preset = 15
@@ -15,6 +15,8 @@ grow_vertical = 2
 script = ExtResource("1_xbtfn")
 avatar = NodePath("Avatar")
 name = NodePath("Name")
+readyText = NodePath("ReadyText")
+pingText = NodePath("Ping")
 
 [node name="Avatar" type="TextureRect" parent="." unique_id=1554081287]
 layout_mode = 0
@@ -31,3 +33,29 @@ offset_right = 256.0
 offset_bottom = 41.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 4.58
+text = "ExampleName"
+
+[node name="ReadyText" type="RichTextLabel" parent="." unique_id=74602989]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 14.0
+offset_right = 202.0
+offset_bottom = 39.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.58
+bbcode_enabled = true
+text = "[font_size=11][i]Not Ready[/i][font_size=11]"
+scroll_active = false
+vertical_alignment = 1
+
+[node name="Ping" type="RichTextLabel" parent="." unique_id=1715216527]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 22.0
+offset_right = 141.0
+offset_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.58
+bbcode_enabled = true
+text = "[font_size=7]Ping: 100[font_size=7]"
+scroll_active = false

@@ -12,8 +12,9 @@ public class DataParser
 
 	public static Action<Dictionary<string,string>> OnReadyMessage;
 	public static Action<Dictionary<string,string>> OnChatMessage;
+    public static Action<Dictionary<string, string>> OnPingInfo;
 
-	public static Dictionary<string,string> ParseData(nint data, int size)
+    public static Dictionary<string,string> ParseData(nint data, int size)
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
 		string str = System.Text.Encoding.UTF8.GetString(DataContainer.incomingData.AsSpan<byte>(0,size));
@@ -28,6 +29,7 @@ public class DataParser
 		switch(packet["DataType"])
 		{
 			case "ReadyMessage":
+			    SyncIncomingData(packet, sender);
 				OnReadyMessage.Invoke(packet);
 				break;
 			case "ChatMessage":
@@ -35,7 +37,11 @@ public class DataParser
                 SyncIncomingData(packet, sender);
                 OnChatMessage.Invoke(packet);
 				break;
-			default:
+			case "PingInfo":
+			    SyncIncomingData(packet, sender);
+                OnPingInfo.Invoke(packet);
+                break;
+            default:
 				break;
 		}
 	}

@@ -18,7 +18,10 @@ public partial class LobbyMenu : Control
 
 	private bool clientIsReady = false;
 
-	public override void _EnterTree()
+    private int frameCounter = 0;
+    private int frameCounterTarget = 30;
+
+    public override void _EnterTree()
     {
 		SteamCallbacks.OnPlayerLeftLobby += OnPlayerLeftLobbyCallback;
 		SteamCallbacks.OnPlayerJoinLobby += OnPlayerJoinLobbyCallback;
@@ -34,6 +37,29 @@ public partial class LobbyMenu : Control
 		SteamManager.OnLobbyInitialized -= OnLobbyInitializedCallback;
 		DataParser.OnReadyMessage -= OnReadyMessageCallback;
 		DataParser.OnChatMessage -= OnChatMessageCallback;
+    }
+
+	public override void _Process(double delta)
+    {
+		frameCounter++;
+		if(frameCounter >= frameCounterTarget) 
+		{
+ 			Dictionary<string, string> packet = new Dictionary<string, string>()
+        	{
+				{"DataType","PingInfo"},
+				{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
+				{"Ping",SteamManager.steamConnectionManager.Connection.QuickStatus().Ping.ToString()}
+        	};
+            SteamManager.SendData(packet);
+			foreach(Node node in playerContainer.GetChildren()) 
+			{
+				if(node is LobbyPlayer)
+				{
+                	((LobbyPlayer)node).OnPingInfoCallback(packet);
+				}
+            }
+            frameCounter = 0;
+        }
     }
 
 	private void OnPlayerLeftLobbyCallback(Friend friend)
@@ -64,7 +90,7 @@ public partial class LobbyMenu : Control
 			avatar = ImageTexture.CreateFromImage(godotImage);
 		}
 	
-		player.SetLabels(friend.Name.ToString(),avatar);
+		player.SetLabels(friend.Name.ToString(),avatar,friend.Id.AccountId.ToString());
 	}
 
 	public void ToggleReady() 
@@ -84,7 +110,8 @@ public partial class LobbyMenu : Control
 	private void OnPlayerJoinLobbyCallback(Friend friend)
 	{
 		AddLobbyPlayerElement(friend);
-	}
+        OnLobbyInitializedCallback(true);
+    }
 
 	public void InviteFriend()
 	{
