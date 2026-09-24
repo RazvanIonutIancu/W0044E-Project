@@ -118,7 +118,7 @@ public partial class LobbyMenu : Control
 	{
 		AddLobbyPlayerElement(friend);
         OnLobbyInitializedCallback(true);
-        SendReadyPacket();
+        //SendReadyPacket();
     }
 
 	public void InviteFriend()
