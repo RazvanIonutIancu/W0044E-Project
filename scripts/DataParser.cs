@@ -31,15 +31,20 @@ public class DataParser
 				OnReadyMessage.Invoke(packet);
 				break;
 			case "ChatMessage":
-				//message is relatyed so all cconnected clients/users see it terminology kinda crap maybe
-				if(SteamManager.Manager.IsHost) 
-				{
-					SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
-				}
-				OnChatMessage.Invoke(packet);
+                //message is relatyed so all cconnected clients/users see it terminology kinda crap maybe
+                SyncIncomingData(packet, sender);
+                OnChatMessage.Invoke(packet);
 				break;
 			default:
 				break;
+		}
+	}
+
+	private static void SyncIncomingData(Dictionary<string,string> packet, Connection? sender) //For host
+	{
+		if(SteamManager.Manager.IsHost) 
+		{
+			SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
 		}
 	}
 }

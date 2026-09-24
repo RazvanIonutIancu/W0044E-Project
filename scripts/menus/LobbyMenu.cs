@@ -134,4 +134,5 @@ public partial class LobbyMenu : Control
 		GD.Print(packet["SenderName"] + " sent a message to the lobby, the message was:" + packet["Message"] + ". great success very niceee" );
 		chatLog.AppendText("[color=green]" + DateTime.Now.ToString("HH:mm") + "[/color]" + "[b]" + "[color=orange]" + packet["SenderName"] + "[/color][/b]:" + packet["Message"] + "\n");
 	}
+
 }
