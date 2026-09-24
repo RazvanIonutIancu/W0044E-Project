@@ -91,7 +91,21 @@ public partial class SteamManager : Node3D
 	public override void _Process(double delta)
 	{
 		SteamClient.RunCallbacks();
-		DataParser.ProcessAllData();
+		try
+		{
+			if(steamSocketManager != null)
+			{
+                steamSocketManager.Receive();
+            }
+			if(steamConnectionManager != null && steamConnectionManager.Connected)
+			{
+                steamConnectionManager.Receive();
+            }
+		}
+		catch(Exception e)
+		{
+            GD.Print("Error receiving message: " + e.Message + e.StackTrace);
+        }
 	}
 
 	public void Disconnect()
@@ -253,7 +267,7 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public void Broadcast(string packetStr, SendType sendType = SendType.Reliable)
+	public void Broadcast(string packetStr, SendType sendType = SendType.Reliable, Steamworks.Data.Connection? skip = null)
 	{
 		int byteCount = Encoding.Default.GetByteCount(packetStr);
 		if(byteCount > DataContainer.outgoingData.Length)
@@ -268,6 +282,10 @@ public partial class SteamManager : Node3D
 			{
 				foreach(var item in steamSocketManager.Connected.Skip(1).ToArray())
 				{
+					if(skip.HasValue) 
+					{
+						if(item == skip.Value) { continue; }
+					}
 					item.SendMessage((nint)ptr, byteCount, sendType);
 				}
 			}
@@ -276,27 +294,30 @@ public partial class SteamManager : Node3D
 
 	public static void SendData(Dictionary<string,string> packet, SendType sendType = SendType.Reliable)
 	{
-		if (Manager.IsHost)
+		string str = JsonConvert.SerializeObject(packet);
+		int byteCount = Encoding.Default.GetByteCount(str);
+		if(byteCount > DataContainer.outgoingData.Length)
 		{
-			Manager.Broadcast(JsonConvert.SerializeObject(packet), sendType);
-		} 
-		else
-		{
-			string str = JsonConvert.SerializeObject(packet);
-			int byteCount = Encoding.Default.GetByteCount(str);
-			if(byteCount > DataContainer.outgoingData.Length)
-			{
-				GD.Print("String is too large for the outgoing data buffer");
-				return;
-			}
-			Encoding.UTF8.GetBytes(str, 0, str.Length, DataContainer.outgoingData, 0);
-			unsafe
-			{
-				fixed(byte* ptr = DataContainer.outgoingData)
+			GD.Print("String is too large for the outgoing data buffer");
+			return;
+		}
+		Encoding.UTF8.GetBytes(str, 0, str.Length, DataContainer.outgoingData, 0);
+        unsafe
+        {
+            fixed (byte* ptr = DataContainer.outgoingData)
+            {
+				if (Manager.IsHost)
+				{
+					foreach(var item in steamSocketManager.Connected.Skip(1).ToArray())
+					{
+						item.SendMessage((nint)ptr, byteCount, sendType);
+					}
+				} 
+				else
 				{
 					steamConnectionManager.Connection.SendMessage((nint)ptr, byteCount, sendType);
 				}
-			}
-		}
+            }
+        }
 	}
 }

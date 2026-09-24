@@ -21,17 +21,7 @@ public class DataParser
 		return JsonConvert.DeserializeObject<Dictionary<string,string>>(str);
 	}
 
-	public static void ProcessAllData()
-	{
-		while(packetList.Count > 0)
-		{
-			SteamPacket packet = packetList[0];
-			ProcessData(packet.data, packet.size);
-			packetList.Remove(packet);
-		}
-	}
-
-	public static void ProcessData(nint data, int size)
+	public static void ProcessData(nint data, int size, Connection? sender)
 	{
 		Dictionary<string,string> packet = ParseData(data, size);
 
@@ -42,9 +32,9 @@ public class DataParser
 				break;
 			case "ChatMessage":
 				//message is relatyed so all cconnected clients/users see it terminology kinda crap maybe
-				if (SteamManager.Manager.IsHost)
+				if(SteamManager.Manager.IsHost) 
 				{
-					SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet));
+					SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
 				}
 				OnChatMessage.Invoke(packet);
 				break;

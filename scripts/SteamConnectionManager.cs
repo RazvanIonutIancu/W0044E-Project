@@ -27,6 +27,6 @@ public class SteamConnectionManager : ConnectionManager
 	public override void OnMessage(nint data, int size, long messageNum, long recvTime, int channel)
 	{
 		base.OnMessage(data, size, messageNum, recvTime, channel);
-		DataParser.packetList.Add(new SteamPacket(data, size));
-	}
+        DataParser.ProcessData(data, size, null);
+    }
 }
