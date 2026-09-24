@@ -83,7 +83,7 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public async override void _Ready()
+	public override void _Ready()
 	{
 		sceneLoader.LoadMainMenu();
 	}
@@ -94,7 +94,7 @@ public partial class SteamManager : Node3D
 		DataParser.ProcessAllData();
 	}
 
-	public async void Disconnect()
+	public void Disconnect()
 	{
 		sceneLoader.LoadMainMenu();
 		if(currentLobby.HasValue)
