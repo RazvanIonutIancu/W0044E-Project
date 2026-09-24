@@ -83,12 +83,12 @@ public partial class LobbyMenu : Control
 
 		Steamworks.Data.Image? rawSteamAvatar = friend.GetSmallAvatarAsync().Result;
 
-		Texture2D avatar = new Texture2D();
+		Texture2D avatar = new ();
 
 		if(rawSteamAvatar.HasValue)
 		{
 			Steamworks.Data.Image steamImage = rawSteamAvatar.Value;
-			Godot.Image godotImage = new Godot.Image();
+			Godot.Image godotImage = new();
 			godotImage.SetData((int)steamImage.Width, (int)steamImage.Height,false, Godot.Image.Format.Rgba8, steamImage.Data);
 			avatar = ImageTexture.CreateFromImage(godotImage);
 		}
