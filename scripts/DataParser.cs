@@ -40,7 +40,7 @@ public class DataParser
 		}
 	}
 
-	private static void SyncIncomingData(Dictionary<string,string> packet, Connection? sender) //For host
+	private static void SyncIncomingData(Dictionary<string,string> packet, Connection? sender)
 	{
 		if(SteamManager.Manager.IsHost) 
 		{
