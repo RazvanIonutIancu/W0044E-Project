@@ -269,7 +269,7 @@ public partial class SteamManager : Node3D
 
 	public void Broadcast(string packetStr, SendType sendType = SendType.Reliable, Steamworks.Data.Connection? skip = null)
 	{
-		int byteCount = Encoding.Default.GetByteCount(packetStr);
+		int byteCount = Encoding.UTF8.GetByteCount(packetStr);
 		if(byteCount > DataContainer.outgoingData.Length)
 		{
 			GD.Print("String is too large for the outgoing data buffer");
@@ -295,7 +295,7 @@ public partial class SteamManager : Node3D
 	public static void SendData(Dictionary<string,string> packet, SendType sendType = SendType.Reliable)
 	{
 		string str = JsonConvert.SerializeObject(packet);
-		int byteCount = Encoding.Default.GetByteCount(str);
+		int byteCount = Encoding.UTF8.GetByteCount(str);
 		if(byteCount > DataContainer.outgoingData.Length)
 		{
 			GD.Print("String is too large for the outgoing data buffer");
