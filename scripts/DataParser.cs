@@ -11,6 +11,7 @@ public class DataParser
 	public static List<SteamPacket> packetList = new List<SteamPacket>();
 
 	public static Action<Dictionary<string,string>> OnReadyMessage;
+	public static Action<Dictionary<string,string>> OnChatMessage;
 
 	public static Dictionary<string,string> ParseData(nint data, int size)
 	{
@@ -20,17 +21,7 @@ public class DataParser
 		return JsonConvert.DeserializeObject<Dictionary<string,string>>(str);
 	}
 
-	public static void ProcessAllData()
-	{
-		while(packetList.Count > 0)
-		{
-			SteamPacket packet = packetList[0];
-			ProcessData(packet.data, packet.size);
-			packetList.Remove(packet);
-		}
-	}
-
-	public static void ProcessData(nint data, int size)
+	public static void ProcessData(nint data, int size, Connection? sender)
 	{
 		Dictionary<string,string> packet = ParseData(data, size);
 
@@ -39,8 +30,21 @@ public class DataParser
 			case "ReadyMessage":
 				OnReadyMessage.Invoke(packet);
 				break;
+			case "ChatMessage":
+                //message is relatyed so all cconnected clients/users see it terminology kinda crap maybe
+                SyncIncomingData(packet, sender);
+                OnChatMessage.Invoke(packet);
+				break;
 			default:
 				break;
+		}
+	}
+
+	private static void SyncIncomingData(Dictionary<string,string> packet, Connection? sender) //For host
+	{
+		if(SteamManager.Manager.IsHost) 
+		{
+			SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
 		}
 	}
 }

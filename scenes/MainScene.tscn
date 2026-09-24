@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://jko7s7v4xicf"]
 
 [ext_resource type="Script" uid="uid://28w0f3wpsbid" path="res://scripts/SteamManager.cs" id="1_c6dvc"]
-[ext_resource type="Script" uid="uid://c0dc7ymhg5oy1" path="res://scripts/NetworkThreadManager.cs" id="2_611at"]
 [ext_resource type="Script" uid="uid://7yham0ru035b" path="res://scripts/SteamCallbacks.cs" id="3_k24pf"]
 [ext_resource type="PackedScene" uid="uid://bk66tyorskbqu" path="res://scenes/MainMenu.tscn" id="4_611at"]
 [ext_resource type="Script" uid="uid://byba5v5rkwe1f" path="res://scripts/SceneLoader.cs" id="4_k24pf"]
@@ -10,9 +9,6 @@
 [node name="SteamManager" type="Node3D" unique_id=324727336 node_paths=PackedStringArray("sceneLoader")]
 script = ExtResource("1_c6dvc")
 sceneLoader = NodePath("SceneLoader")
-
-[node name="NetworkThread" type="Node" parent="." unique_id=1423481932]
-script = ExtResource("2_611at")
 
 [node name="Callbacks" type="Node" parent="." unique_id=872904060 node_paths=PackedStringArray("sceneLoader")]
 script = ExtResource("3_k24pf")

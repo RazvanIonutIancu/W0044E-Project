@@ -11,7 +11,7 @@ public partial class SteamCallbacks : Node
 
 	[Export] private SceneLoader sceneLoader;
 
-	public async override void _EnterTree()
+	public override void _EnterTree()
 	{
 		SteamMatchmaking.OnLobbyGameCreated += OnLobbyGameCreated;
 		SteamMatchmaking.OnLobbyCreated += OnLobbyCreated;
@@ -22,7 +22,7 @@ public partial class SteamCallbacks : Node
 		SteamFriends.OnGameLobbyJoinRequested += OnJoinRequested;
 	}
 
-	public async override void _ExitTree()
+	public override void _ExitTree()
 	{
 		SteamMatchmaking.OnLobbyGameCreated -= OnLobbyGameCreated;
 		SteamMatchmaking.OnLobbyCreated -= OnLobbyCreated;
@@ -51,7 +51,7 @@ public partial class SteamCallbacks : Node
 		OnPlayerJoinLobby.Invoke(friend);
 	}
 
-	private async void OnLobbyCreated(Result result, Lobby lobby)
+	private void OnLobbyCreated(Result result, Lobby lobby)
 	{
 		if(result != Result.OK)
 		{
@@ -64,7 +64,7 @@ public partial class SteamCallbacks : Node
 		SteamManager.Manager.CreateSteamSocketServer();
 	}
 
-	private async void OnLobbyEntered(Lobby lobby)
+	private void OnLobbyEntered(Lobby lobby)
 	{
 		SteamManager.currentLobby = lobby;
 		sceneLoader.LoadLobbyMenu();

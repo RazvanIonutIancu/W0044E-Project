@@ -30,6 +30,7 @@ public class SteamSocketManager : SocketManager
     public override void OnMessage(Connection connection, NetIdentity identity, nint data, int size, long messageNum, long recvTime, int channel)
     {
         base.OnMessage(connection, identity, data, size, messageNum, recvTime, channel);
-        DataParser.packetList.Add(new SteamPacket(data, size));
+
+        DataParser.ProcessData(data, size, connection);
     }
 }
