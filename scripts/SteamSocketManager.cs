@@ -13,8 +13,6 @@ public class SteamSocketManager : SocketManager
         base.OnConnected(connection, info);
 		// Send inital info
 
-
-        
 		GD.Print("Player has connected");
     }
 

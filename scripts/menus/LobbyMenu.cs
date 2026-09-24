@@ -41,25 +41,28 @@ public partial class LobbyMenu : Control
 
 	public override void _Process(double delta)
     {
-		frameCounter++;
-		if(frameCounter >= frameCounterTarget) 
+		if(SteamManager.steamConnectionManager != null && SteamManager.steamConnectionManager.Connected)
 		{
- 			Dictionary<string, string> packet = new Dictionary<string, string>()
-        	{
-				{"DataType","PingInfo"},
-				{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
-				{"Ping",SteamManager.steamConnectionManager.Connection.QuickStatus().Ping.ToString()}
-        	};
-            SteamManager.SendData(packet);
-			foreach(Node node in playerContainer.GetChildren()) 
+			frameCounter++;
+			if(frameCounter >= frameCounterTarget) 
 			{
-				if(node is LobbyPlayer)
+ 				Dictionary<string, string> packet = new Dictionary<string, string>()
+        		{
+					{"DataType","PingInfo"},
+					{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
+					{"Ping",SteamManager.steamConnectionManager.Connection.QuickStatus().Ping.ToString()}
+        		};
+        	    SteamManager.SendData(packet);
+				foreach(Node node in playerContainer.GetChildren()) 
 				{
-                	((LobbyPlayer)node).OnPingInfoCallback(packet);
-				}
-            }
-            frameCounter = 0;
-        }
+					if(node is LobbyPlayer)
+					{
+        	        	((LobbyPlayer)node).OnPingInfoCallback(packet);
+					}
+        	    }
+        	    frameCounter = 0;
+        	}
+		}
     }
 
 	private void OnPlayerLeftLobbyCallback(Friend friend)
