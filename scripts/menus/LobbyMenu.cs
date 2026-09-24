@@ -46,7 +46,7 @@ public partial class LobbyMenu : Control
 			frameCounter++;
 			if(frameCounter >= frameCounterTarget) 
 			{
- 				Dictionary<string, string> packet = new Dictionary<string, string>()
+ 				Dictionary<string, string> packet = new ()
         		{
 					{"DataType","PingInfo"},
 					{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
@@ -55,9 +55,9 @@ public partial class LobbyMenu : Control
         	    SteamManager.SendData(packet);
 				foreach(Node node in playerContainer.GetChildren()) 
 				{
-					if(node is LobbyPlayer)
+					if(node is LobbyPlayer player)
 					{
-        	        	((LobbyPlayer)node).OnPingInfoCallback(packet);
+        	        	player.OnPingInfoCallback(packet);
 					}
         	    }
         	    frameCounter = 0;
@@ -153,7 +153,7 @@ public partial class LobbyMenu : Control
 
 		chatInput.Text = "";
 
-		Dictionary<string,string> packet = new Dictionary<string,string>()
+		Dictionary<string,string> packet = new ()
 		{
 			{"DataType","ChatMessage"},
 			{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
