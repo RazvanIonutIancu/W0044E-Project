@@ -13,7 +13,7 @@ public partial class LobbyMenu : Control
 
 	[Export] private RichTextLabel codeLabel;
 
-	[Export] private RichTextLabel chatLog;
+	[Export] public RichTextLabel chatLog;
 	[Export] private LineEdit chatInput;
 
 	private bool clientIsReady = false;
@@ -96,21 +96,26 @@ public partial class LobbyMenu : Control
 	public void ToggleReady() 
 	{
 		clientIsReady = !clientIsReady;
+        SendReadyPacket();
+	}
 
+	private void SendReadyPacket()
+	{
 		Dictionary<string,string> packet = new Dictionary<string,string>()
 		{
 			{"DataType","ReadyMessage"},
 			{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
 			{"Ready",clientIsReady.ToString()}
 		};
-		OnReadyMessageCallback(packet);
 		SteamManager.SendData(packet);
+		OnReadyMessageCallback(packet);
 	}
 
 	private void OnPlayerJoinLobbyCallback(Friend friend)
 	{
 		AddLobbyPlayerElement(friend);
         OnLobbyInitializedCallback(true);
+        SendReadyPacket();
     }
 
 	public void InviteFriend()
