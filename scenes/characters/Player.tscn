@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c2k6ny3dbuhjk"]
+
+[ext_resource type="Script" uid="uid://d3sr0owckgs6c" path="res://scripts/characters/Player.cs" id="1_pq8s5"]
+
+[node name="Player" type="CharacterBody2D" unique_id=1371564531]
+script = ExtResource("1_pq8s5")
+
+[node name="Mesh" type="Polygon2D" parent="." unique_id=939396202]
+position = Vector2(0, -7.6293945e-06)
+scale = Vector2(0.4952741, 0.47505423)
+polygon = PackedVector2Array(-40.38168, -63.150673, 0, 1.606005e-05, -40.38168, 75.78084, 76.72519, 1.606005e-05)
+
+[node name="CollissionShape" type="CollisionPolygon2D" parent="." unique_id=1143344934]
+position = Vector2(-37.954567, 17.63749)
+scale = Vector2(0.530303, 0.54501086)
+polygon = PackedVector2Array(33.857185, -87.406494, 71.57147, -32.36172, 33.857185, 33.692005, 143.22862, -32.36172)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=422650173]
+
+[node name="AimRayCast" type="RayCast2D" parent="." unique_id=1259298338]
+position = Vector2(38, 0)
+target_position = Vector2(500, 0)
+collision_mask = 17

@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://drot2uw411mve"]
 
+[ext_resource type="PackedScene" uid="uid://c2k6ny3dbuhjk" path="res://scenes/characters/Player.tscn" id="1_bwyim"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xk8pb"]
 size = Vector2(18642, 321)
 
@@ -9,16 +11,18 @@ size = Vector2(347, 10463)
 [node name="TestMap" type="Node2D" unique_id=791214708]
 
 [node name="Ground" type="Node2D" parent="." unique_id=1522447867]
+scale = Vector2(0.3, 0.3)
 
 [node name="Sprite2D" type="Polygon2D" parent="Ground" unique_id=1632475946]
-position = Vector2(-806.4046, -663.8566)
-scale = Vector2(0.45217085, 0.35928077)
+position = Vector2(-1036.2496, -719.09546)
+scale = Vector2(0.2960261, 0.2412491)
 color = Color(0.4390491, 0.43904912, 0.43904912, 1)
-polygon = PackedVector2Array(-1472, -468, -1429, 35014, 46869, 34929, 46919, -169)
+polygon = PackedVector2Array(-1472, -468, -1429, 35014, 46852.652, 34911.016, 46919, -169)
 
 [node name="Walls" type="Node2D" parent="." unique_id=993183936]
+scale = Vector2(0.2, 0.2)
 
-[node name="OutsideWalls" type="Area2D" parent="Walls" unique_id=620961673]
+[node name="OutsideWalls" type="StaticBody2D" parent="Walls" unique_id=593703702]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/OutsideWalls" unique_id=1622964521]
@@ -45,7 +49,7 @@ shape = SubResource("RectangleShape2D_hb6bs")
 position = Vector2(18417, 5078)
 shape = SubResource("RectangleShape2D_hb6bs")
 
-[node name="Wall1" type="Area2D" parent="Walls" unique_id=693406384]
+[node name="Wall1" type="StaticBody2D" parent="Walls" unique_id=26385423]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall1" unique_id=1895828215]
@@ -56,7 +60,7 @@ polygon = PackedVector2Array(1355, 740, 1387, 4716, 3901, 4760, 3847, 7392, 4898
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall1" unique_id=1437680069]
 polygon = PackedVector2Array(1302, 1169, 1302, 5118, 3827, 5198, 3809, 7822, 4830, 7795, 4830, 4240, 2171, 4213, 2162, 1106)
 
-[node name="Wall2" type="Area2D" parent="Walls" unique_id=1207274683]
+[node name="Wall2" type="StaticBody2D" parent="Walls" unique_id=1365655160]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall2" unique_id=810297758]
@@ -66,7 +70,7 @@ polygon = PackedVector2Array(3857, 2615, 8039, 2654, 8039, 1933, 3818, 1946)
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall2" unique_id=1826692461]
 polygon = PackedVector2Array(3805, 1920, 3857, 2615, 8013, 2654, 8052, 1920)
 
-[node name="Wall3" type="Area2D" parent="Walls" unique_id=856381468]
+[node name="Wall3" type="StaticBody2D" parent="Walls" unique_id=1700255033]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall3" unique_id=215566823]
@@ -76,7 +80,7 @@ polygon = PackedVector2Array(6964, 8567, 6938, 3493, 14450, 3480, 14515, 8488, 1
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall3" unique_id=425616685]
 polygon = PackedVector2Array(6964, 8606, 6951, 3493, 14437, 3493, 14515, 8501, 13952, 8501, 13925, 3939, 7475, 3939, 7436, 8527)
 
-[node name="Wall4" type="Area2D" parent="Walls" unique_id=2108314425]
+[node name="Wall4" type="StaticBody2D" parent="Walls" unique_id=1998392701]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall4" unique_id=1686063379]
@@ -86,7 +90,7 @@ polygon = PackedVector2Array(8524, 8422, 8472, 4673, 10097, 4660, 10045, 5381, 9
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall4" unique_id=1890849631]
 polygon = PackedVector2Array(8550, 8436, 8485, 4699, 10097, 4673, 10058, 5355, 9153, 5355, 9153, 8475)
 
-[node name="Wall5" type="Area2D" parent="Walls" unique_id=266179424]
+[node name="Wall5" type="StaticBody2D" parent="Walls" unique_id=1258787756]
 collision_layer = 16
 
 [node name="Polygon2D2" type="Polygon2D" parent="Walls/Wall5" unique_id=987591310]
@@ -96,7 +100,7 @@ polygon = PackedVector2Array(11185, 4739, 11185, 5302, 12313, 5276, 12339, 8383,
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall5" unique_id=976976686]
 polygon = PackedVector2Array(11185, 5302, 11199, 4725, 12929, 4594, 13008, 8357, 12352, 8396, 12326, 5276)
 
-[node name="Wall6" type="Area2D" parent="Walls" unique_id=1629298838]
+[node name="Wall6" type="StaticBody2D" parent="Walls" unique_id=1768894316]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall6" unique_id=1808971409]
@@ -106,7 +110,7 @@ polygon = PackedVector2Array(10032, 8304, 9966, 5971, 11474, 5932, 11474, 8265)
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall6" unique_id=786057609]
 polygon = PackedVector2Array(10032, 8331, 9953, 5971, 11513, 5945, 11461, 8304)
 
-[node name="Wall7" type="Area2D" parent="Walls" unique_id=2129854162]
+[node name="Wall7" type="StaticBody2D" parent="Walls" unique_id=1368313614]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall7" unique_id=642947016]
@@ -116,7 +120,7 @@ polygon = PackedVector2Array(11382, 2195, 15656, 2261, 16469, 1474, 11290, 1540)
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall7" unique_id=461678881]
 polygon = PackedVector2Array(11369, 2248, 15656, 2274, 16469, 1461, 11277, 1553)
 
-[node name="Wall8" type="Area2D" parent="Walls" unique_id=1071525626]
+[node name="Wall8" type="StaticBody2D" parent="Walls" unique_id=1600568228]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall8" unique_id=8857938]
@@ -126,7 +130,7 @@ polygon = PackedVector2Array(16338, 2798, 17072, 2025, 17124, 9026, 16377, 9052)
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall8" unique_id=13336550]
 polygon = PackedVector2Array(17072, 2025, 16338, 2785, 16364, 9104, 17098, 9039)
 
-[node name="Wall9" type="Area2D" parent="Walls" unique_id=2053540491]
+[node name="Wall9" type="StaticBody2D" parent="Walls" unique_id=989465156]
 collision_layer = 16
 
 [node name="Polygon2D" type="Polygon2D" parent="Walls/Wall9" unique_id=821945549]
@@ -135,3 +139,18 @@ polygon = PackedVector2Array(1340, 7872, 2415, 7859, 2454, 9275, 1353, 9235)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls/Wall9" unique_id=1509842220]
 polygon = PackedVector2Array(2441, 9301, 2415, 7885, 1353, 7885, 1340, 9196)
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=1710579462]
+
+[node name="SpawnPoint1" type="Marker2D" parent="SpawnPoints" unique_id=1510181771]
+
+[node name="SpawnPoint2" type="Marker2D" parent="SpawnPoints" unique_id=2111887263]
+
+[node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints" unique_id=869613436]
+
+[node name="SpawnPoint4" type="Marker2D" parent="SpawnPoints" unique_id=265892993]
+
+[node name="Player" parent="." unique_id=1371564531 instance=ExtResource("1_bwyim")]
+position = Vector2(161, 286)
+collision_mask = 17
+speed = 500.0
