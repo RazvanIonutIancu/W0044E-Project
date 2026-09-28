@@ -13,7 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_77kkm")
 lobbyPlayer = ExtResource("2_j2aal")
 playerContainer = NodePath("Players")
-codeLabel = NodePath("Toolbar/Code")
+codeLabel = NodePath("Toolbar/Control/Code")
 chatLog = NodePath("Chat/ChatLog")
 chatInput = NodePath("Chat/InputRow/ChatInput")
 levelSelect = NodePath("Toolbar/OptionButton")
@@ -37,12 +37,30 @@ offset_right = 135.0
 offset_bottom = 13.0
 grow_vertical = 2
 
-[node name="Code" type="RichTextLabel" parent="Toolbar" unique_id=1300188208]
-custom_minimum_size = Vector2(0, 35)
+[node name="Control" type="Control" parent="Toolbar" unique_id=544158469]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Toolbar/Control" unique_id=411197923]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 0
+offset_top = 4.0
+offset_right = 111.0
+offset_bottom = 39.0
+
+[node name="Code" type="RichTextLabel" parent="Toolbar/Control" unique_id=1300188208]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 0
+offset_top = 4.0
+offset_right = 111.0
+offset_bottom = 39.0
 text = "Code: AAAA"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="OptionButton" type="OptionButton" parent="Toolbar" unique_id=1291747964]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
 
 [node name="Invite Friend" type="Button" parent="Toolbar" unique_id=2018394300]
 custom_minimum_size = Vector2(0, 35)
@@ -58,10 +76,6 @@ text = "Ready"
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Disconnect"
-
-[node name="OptionButton" type="OptionButton" parent="Toolbar" unique_id=1291747964]
-custom_minimum_size = Vector2(0, 55.03)
-layout_mode = 2
 
 [node name="Start Game" type="Button" parent="Toolbar" unique_id=1168218171]
 custom_minimum_size = Vector2(0, 35)
