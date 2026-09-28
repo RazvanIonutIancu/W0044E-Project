@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://drot2uw411mve"]
 
 [ext_resource type="Script" uid="uid://dbyx1b3kpf0cj" path="res://scripts/TestLevel1.cs" id="1_bwyim"]
+[ext_resource type="PackedScene" uid="uid://c2k6ny3dbuhjk" path="res://scenes/characters/Player.tscn" id="2_kbf6l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xk8pb"]
 size = Vector2(18642, 321)
@@ -8,8 +9,11 @@ size = Vector2(18642, 321)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hb6bs"]
 size = Vector2(347, 10463)
 
-[node name="TestMap" type="Node2D" unique_id=791214708]
+[node name="TestMap" type="Node2D" unique_id=791214708 node_paths=PackedStringArray("spawnPointContainer", "playerContainer")]
 script = ExtResource("1_bwyim")
+playerPrefab = ExtResource("2_kbf6l")
+spawnPointContainer = NodePath("SpawnPoints")
+playerContainer = NodePath("Players")
 
 [node name="Ground" type="Node2D" parent="." unique_id=1522447867]
 scale = Vector2(0.3, 0.3)
@@ -155,7 +159,4 @@ position = Vector2(3486, 228)
 [node name="SpawnPoint4" type="Marker2D" parent="SpawnPoints" unique_id=265892993]
 position = Vector2(3505, 1937)
 
-[node name="Player" parent="." unique_id=1371564531 instance=ExtResource("1_bwyim")]
-position = Vector2(161, 286)
-collision_mask = 17
-speed = 500.0
+[node name="Players" type="Node2D" parent="." unique_id=1553904542]

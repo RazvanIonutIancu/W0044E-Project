@@ -34,22 +34,20 @@ public partial class LobbyMenu : Control
 		DataParser.OnChatMessage += OnChatMessageCallback;
         DataParser.OnStartGame += OnStartGame;
 
+		int _id = 0;
+        foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
+		{
+            ILevelManager level = scene.Instantiate<ILevelManager>();
+            levelSelect.AddItem(level.LevelName(), _id);
+            ((Node)level).Free();
+            _id++;
+        }
+        levelSelect.Selected = 0;
+
         if(!SteamManager.Manager.IsHost)
 		{
-            levelSelect.Visible = false;
+            levelSelect.Disabled = true;
             startButton.Visible = false;
-        }
-		else
-		{
-            int _id = 0;
-            foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
-			{
-                ILevelManager level = scene.Instantiate<ILevelManager>();
-                levelSelect.AddItem(level.LevelName(), _id);
-                ((Node)level).Free();
-                _id++;
-            }
-            levelSelect.Selected = 0;
         }
     }
 

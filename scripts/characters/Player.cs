@@ -8,27 +8,36 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public RayCast2D aimingRayCast;
 
+    [Export] private Camera2D camera;
 
-	public string playerID = "0A";
+
+    public string playerID = "0A";
 	public bool isAlive = true;
 
+    private bool isControlled = false;
 
 
+    // DEBUG
 
-	// DEBUG
+    PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
 
-	PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
-
-	// DEBUG END
-
+    // DEBUG END
 
 
-
+    public void Initialize()
+	{
+        isControlled = playerID == SteamManager.Manager.PlayerSteamID.AccountId.ToString();
+        if (isControlled) { camera.MakeCurrent(); }
+    }
 
 
 	public override void _PhysicsProcess(double delta)
 	{
-
+		if(!isControlled)
+		{
+			// This is a remote player
+            return;
+        }
 		PlayerAim();
 		MoveCharacter(delta);
 

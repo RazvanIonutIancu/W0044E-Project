@@ -26,16 +26,16 @@ public sealed class GameManager
 
 	public static void AddPlayer(string id)
 	{
-        instance.playerList.Add(new PlayerState(id));
+        Instance().playerList.Add(new PlayerState(id));
     }
 
 	public static void RemovePlayer(string id)
 	{
-        for (int i = 0; i < instance.playerList.Count; i++)
+        for (int i = 0; i < Instance().playerList.Count; i++)
 		{
-			if(instance.playerList[i].ToString() == id)
+			if(Instance().playerList[i].ToString() == id)
 			{
-                instance.playerList.RemoveAt(i);
+                Instance().playerList.RemoveAt(i);
                 return;
 			}
 		}
