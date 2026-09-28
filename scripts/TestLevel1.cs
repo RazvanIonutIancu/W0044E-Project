@@ -17,8 +17,8 @@ public partial class TestLevel1 : Node2D, ILevelManager
     {
         // SpawnPlayer
 
-        return;
+        return new Player();
     }
 
-    public string Name() { return "Test Level 1"; }
+    public string LevelName() { return "Test Level 1"; }
 }

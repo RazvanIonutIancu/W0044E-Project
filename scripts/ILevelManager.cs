@@ -4,5 +4,5 @@ using System;
 public interface ILevelManager
 {
     public Player SpawnPlayer(PlayerState state);
-    public string Name();
+    public string LevelName();
 }

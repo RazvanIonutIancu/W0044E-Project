@@ -45,7 +45,7 @@ public partial class LobbyMenu : Control
             foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
 			{
                 ILevelManager level = scene.Instantiate<ILevelManager>();
-                levelSelect.AddItem(level.Name(), _id);
+                levelSelect.AddItem(level.LevelName(), _id);
                 ((Node)level).Free();
                 _id++;
             }
