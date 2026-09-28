@@ -5,6 +5,26 @@ public partial class Player : CharacterBody2D
 {
 	[Export]
 	public float speed = 300.0f;
+	[Export]
+	public RayCast2D aimingRayCast;
+
+
+	public string playerID = "0A";
+	public bool isAlive = true;
+
+
+
+
+	// DEBUG
+
+	PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
+
+	// DEBUG END
+
+
+
+
+
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -36,6 +56,13 @@ public partial class Player : CharacterBody2D
 			velocity += Vector2.Right;
 		}
 
+
+		if(Input.IsActionJustPressed("shoot"))
+		{
+			Shoot();
+		}
+
+
 		Velocity = velocity.Normalized() * speed;
 		MoveAndSlide();
 	}
@@ -45,6 +72,28 @@ public partial class Player : CharacterBody2D
 	{
 		LookAt(GetGlobalMousePosition());
 	}
+
+
+
+
+
+
+	// DEBUG
+
+	private void Shoot()
+	{
+
+
+		Vector2 targetPosition = aimingRayCast.GetCollisionPoint();
+
+		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
+		sparkParticles.GlobalPosition = targetPosition;
+		AddSibling(sparkParticles);
+
+
+	}
+
+
 
 
 }
