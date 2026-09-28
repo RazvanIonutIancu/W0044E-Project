@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Buffers;
 using System.Text;
 
-public partial class SteamManager : Node3D
+sealed public partial class SteamManager : Node3D
 {
 
 	const int MAX_MEMBERS = 4;
