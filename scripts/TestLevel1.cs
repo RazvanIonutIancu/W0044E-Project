@@ -13,9 +13,11 @@ public partial class TestLevel1 : Node2D, ILevelManager
 	{
 	}
 
-    public void SpawnPlayer(PlayerState state)
+    public Player SpawnPlayer(PlayerState state)
     {
         // SpawnPlayer
+
+        return;
     }
 
     public string Name() { return "Test Level 1"; }

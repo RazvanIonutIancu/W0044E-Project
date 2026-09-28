@@ -150,8 +150,3 @@ polygon = PackedVector2Array(2441, 9301, 2415, 7885, 1353, 7885, 1340, 9196)
 [node name="SpawnPoint3" type="Marker2D" parent="SpawnPoints" unique_id=869613436]
 
 [node name="SpawnPoint4" type="Marker2D" parent="SpawnPoints" unique_id=265892993]
-
-[node name="Player" parent="." unique_id=1371564531 instance=ExtResource("1_bwyim")]
-position = Vector2(161, 286)
-collision_mask = 17
-speed = 500.0
