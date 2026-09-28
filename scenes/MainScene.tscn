@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://7yham0ru035b" path="res://scripts/SteamCallbacks.cs" id="3_k24pf"]
 [ext_resource type="PackedScene" uid="uid://bk66tyorskbqu" path="res://scenes/MainMenu.tscn" id="4_611at"]
 [ext_resource type="Script" uid="uid://byba5v5rkwe1f" path="res://scripts/SceneLoader.cs" id="4_k24pf"]
+[ext_resource type="PackedScene" uid="uid://drot2uw411mve" path="res://scenes/maps/TestMap.tscn" id="6_1wiy7"]
 [ext_resource type="PackedScene" uid="uid://dvybprtma3esf" path="res://scenes/LobbyMenu.tscn" id="6_ygjfp"]
 
 [node name="SteamManager" type="Node3D" unique_id=324727336 node_paths=PackedStringArray("sceneLoader")]
@@ -14,11 +15,13 @@ sceneLoader = NodePath("SceneLoader")
 script = ExtResource("3_k24pf")
 sceneLoader = NodePath("../SceneLoader")
 
-[node name="SceneLoader" type="Node" parent="." unique_id=2013999659 node_paths=PackedStringArray("menuSceneContainer")]
+[node name="SceneLoader" type="Node" parent="." unique_id=2013999659 node_paths=PackedStringArray("menuSceneContainer", "levelContainer")]
 script = ExtResource("4_k24pf")
 mainMenu = ExtResource("4_611at")
 lobbyMenu = ExtResource("6_ygjfp")
 menuSceneContainer = NodePath("../MenuSceneContainer")
+levelContainer = NodePath("../LevelContainer")
+levels = Array[PackedScene]([ExtResource("6_1wiy7")])
 
 [node name="MenuSceneContainer" type="Control" parent="." unique_id=1796931161]
 layout_mode = 3
@@ -27,3 +30,5 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="LevelContainer" type="Node2D" parent="." unique_id=2121174986]

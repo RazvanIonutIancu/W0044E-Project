@@ -8,9 +8,22 @@ public partial class SceneLoader : Node
 
 	[Export] private Control menuSceneContainer;
 
-	private void ClearMenuContainer()
+    [Export] private Node2D levelContainer;
+
+    [Export] public PackedScene[] levels;
+
+    private void ClearMenuContainer()
 	{
 		Godot.Collections.Array<Node> children = menuSceneContainer.GetChildren();
+		foreach(Node node in children)
+		{
+			node.QueueFree();
+		}
+	}
+
+	private void ClearLevelContainer()
+	{
+		Godot.Collections.Array<Node> children = levelContainer.GetChildren();
 		foreach(Node node in children)
 		{
 			node.QueueFree();
@@ -32,4 +45,13 @@ public partial class SceneLoader : Node
 		LobbyMenu menu = lobbyMenu.Instantiate<LobbyMenu>();
 		menuSceneContainer.AddChild(menu);
 	}
+
+	public ILevelManager LoadLevel(int id)
+	{
+        ClearLevelContainer();
+
+        ILevelManager level = (ILevelManager)levels[id].Instantiate<Node2D>();
+        levelContainer.AddChild((Node)level);
+        return level;
+    }
 }

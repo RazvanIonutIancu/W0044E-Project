@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://buxsp1chjj2vd" path="res://scripts/menus/LobbyMenu.cs" id="1_77kkm"]
 [ext_resource type="PackedScene" uid="uid://cr4283a6y45sk" path="res://prefabs/LobbyPlayer.tscn" id="2_j2aal"]
 
-[node name="LobbyMenu" type="Control" unique_id=1965579072 node_paths=PackedStringArray("playerContainer", "codeLabel", "chatLog", "chatInput")]
+[node name="LobbyMenu" type="Control" unique_id=1965579072 node_paths=PackedStringArray("playerContainer", "codeLabel", "chatLog", "chatInput", "levelSelect", "startButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +16,8 @@ playerContainer = NodePath("Players")
 codeLabel = NodePath("Toolbar/Code")
 chatLog = NodePath("Chat/ChatLog")
 chatInput = NodePath("Chat/InputRow/ChatInput")
+levelSelect = NodePath("Toolbar/OptionButton")
+startButton = NodePath("Toolbar/Start Game")
 
 [node name="Players" type="VBoxContainer" parent="." unique_id=1483929920]
 layout_mode = 0
@@ -56,6 +58,15 @@ text = "Ready"
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Disconnect"
+
+[node name="OptionButton" type="OptionButton" parent="Toolbar" unique_id=1291747964]
+custom_minimum_size = Vector2(0, 55.03)
+layout_mode = 2
+
+[node name="Start Game" type="Button" parent="Toolbar" unique_id=1168218171]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Start Game"
 
 [node name="Chat" type="VBoxContainer" parent="." unique_id=1300188209]
 layout_mode = 1
@@ -99,5 +110,6 @@ text = "Send"
 [connection signal="button_down" from="Toolbar/Invite Friend" to="." method="InviteFriend"]
 [connection signal="button_down" from="Toolbar/Ready" to="." method="ToggleReady"]
 [connection signal="button_down" from="Toolbar/Disconnect" to="." method="Disconnect"]
+[connection signal="button_down" from="Toolbar/Start Game" to="." method="OnStartGamePressed"]
 [connection signal="text_submitted" from="Chat/InputRow/ChatInput" to="." method="OnChatInputSubmitted"]
 [connection signal="button_down" from="Chat/InputRow/Send" to="." method="OnSendPressed"]

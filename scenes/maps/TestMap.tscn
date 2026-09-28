@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://drot2uw411mve"]
 
-[ext_resource type="PackedScene" uid="uid://c2k6ny3dbuhjk" path="res://scenes/characters/Player.tscn" id="1_bwyim"]
+[ext_resource type="Script" uid="uid://dbyx1b3kpf0cj" path="res://scripts/TestLevel1.cs" id="1_bwyim"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xk8pb"]
 size = Vector2(18642, 321)
@@ -9,6 +9,7 @@ size = Vector2(18642, 321)
 size = Vector2(347, 10463)
 
 [node name="TestMap" type="Node2D" unique_id=791214708]
+script = ExtResource("1_bwyim")
 
 [node name="Ground" type="Node2D" parent="." unique_id=1522447867]
 scale = Vector2(0.3, 0.3)
