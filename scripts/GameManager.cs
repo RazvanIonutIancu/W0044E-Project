@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public sealed class GameManager
 {
-    private static GameManager instance;
+    public static GameManager instance;
 
 	public List<PlayerState> playerList = new List<PlayerState>();
 

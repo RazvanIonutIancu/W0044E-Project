@@ -7,37 +7,56 @@ public partial class Player : CharacterBody2D
 	public float speed = 300.0f;
 	[Export]
 	public RayCast2D aimingRayCast;
+	[Export]
+	public Timer respawnTimer;
 
-    [Export] private Camera2D camera;
+	[Export] private Camera2D camera;
 
 
-    public string playerID = "0A";
+	public string playerID = "0A";
 	public bool isAlive = true;
 
-    private bool isControlled = false;
+	private bool isControlled = false;
 
 
-    // DEBUG
+	// DEBUG
 
-    PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
+	PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
+	PackedScene clonePackedScene = GD.Load<PackedScene>("res://scenes/characters/Clone.tscn");
 
-    // DEBUG END
+	// DEBUG END
 
 
-    public void Initialize()
+	public void Initialize()
 	{
-        isControlled = playerID == SteamManager.Manager.PlayerSteamID.AccountId.ToString();
-        if (isControlled) { camera.MakeCurrent(); }
-    }
+		isControlled = playerID == SteamManager.Manager.PlayerSteamID.AccountId.ToString();
+		if (isControlled) { camera.MakeCurrent(); }
+	}
 
 
 	public override void _PhysicsProcess(double delta)
 	{
+
 		if(!isControlled)
 		{
 			// This is a remote player
-            return;
-        }
+			return;
+		}
+
+		if(!isAlive)
+		{
+			// DEBUG
+			if(respawnTimer.IsStopped())
+			{
+				RepawnPlayer();
+				return;
+			}
+			// DEBUG END
+
+			return;
+		}
+
+
 		PlayerAim();
 		MoveCharacter(delta);
 
@@ -69,6 +88,11 @@ public partial class Player : CharacterBody2D
 		if(Input.IsActionJustPressed("shoot"))
 		{
 			Shoot();
+		}
+
+		if(Input.IsActionJustPressed("spawnClone"))
+		{
+			KillPlayer();
 		}
 
 
@@ -103,6 +127,37 @@ public partial class Player : CharacterBody2D
 	}
 
 
+	private void KillPlayer()
+	{
+		isAlive = false;
+		GetNode<Polygon2D>("Mesh").Visible = false;
+		GetNode<CollisionPolygon2D>("CollisionShape").Visible = false;
+		SpawnClone();
+		respawnTimer.Start();
+	}
+
+	private void RepawnPlayer()
+	{
+		GlobalPosition = GameManager.instance.currentLevel.GetSpawnPoint();
+
+		isAlive = true;
+		GetNode<Polygon2D>("Mesh").Visible = true;
+		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
+	}
+
+
+	private void SpawnClone()
+	{
+		Vector2 targetPosition = GlobalPosition;
+
+		StaticBody2D clone = clonePackedScene.Instantiate<StaticBody2D>();
+		clone.GlobalPosition = targetPosition;
+		clone.Rotation = Rotation;
+		AddSibling(clone);
+	}
+
+
+	// DEBUG END
 
 
 }

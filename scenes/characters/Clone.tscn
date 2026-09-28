@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ks25iluv1j15"]
+
+[node name="Clone" type="StaticBody2D" unique_id=1506454001]
+collision_layer = 2
+collision_mask = 3
+
+[node name="Mesh" type="Polygon2D" parent="." unique_id=1449375544]
+position = Vector2(0, -7.6293945e-06)
+scale = Vector2(0.4952741, 0.47505423)
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(-40.38168, -63.150673, 0, 1.606005e-05, -40.38168, 75.78084, 76.72519, 1.606005e-05)
+
+[node name="CollissionShape" type="CollisionPolygon2D" parent="." unique_id=604387586]
+position = Vector2(-37.954567, 17.63749)
+scale = Vector2(0.530303, 0.54501086)
+polygon = PackedVector2Array(33.857185, -87.406494, 71.57147, -32.36172, 33.857185, 33.692005, 143.22862, -32.36172)
