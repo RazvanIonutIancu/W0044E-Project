@@ -28,6 +28,7 @@ public partial class TestLevel1 : Node2D, ILevelManager
         playerContainer.AddChild(player);
         player.GlobalPosition = GetSpawnPoint();
         player.playerID = state.ToString();
+        player.Initialize();
         return player;
     }
 

@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://d3sr0owckgs6c" path="res://scripts/characters/Player.cs" id="1_pq8s5"]
 
-[node name="Player" type="CharacterBody2D" unique_id=1371564531 node_paths=PackedStringArray("aimingRayCast")]
+[node name="Player" type="CharacterBody2D" unique_id=1371564531 node_paths=PackedStringArray("aimingRayCast", "camera")]
 script = ExtResource("1_pq8s5")
 aimingRayCast = NodePath("AimRayCast")
+camera = NodePath("Camera2D")
 
 [node name="Mesh" type="Polygon2D" parent="." unique_id=939396202]
 position = Vector2(0, -7.6293945e-06)

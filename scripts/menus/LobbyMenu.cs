@@ -178,6 +178,7 @@ public partial class LobbyMenu : Control
 			{"DataType","StartGame"},
 			{"LevelID",levelSelect.Selected.ToString()}
         };
+        SteamManager.SendData(packet);
         OnStartGame(packet);
     }
 
