@@ -70,7 +70,7 @@ public partial class LobbyMenu : Control
 			frameCounter++;
 			if(frameCounter >= frameCounterTarget) 
 			{
- 				Dictionary<string, string> packet = new Dictionary<string, string>()
+ 				Dictionary<string, string> packet = new ()
         		{
 					{"DataType","PingInfo"},
 					{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
@@ -79,9 +79,9 @@ public partial class LobbyMenu : Control
         	    SteamManager.SendData(packet);
 				foreach(Node node in playerContainer.GetChildren()) 
 				{
-					if(node is LobbyPlayer)
+					if(node is LobbyPlayer player)
 					{
-        	        	((LobbyPlayer)node).OnPingInfoCallback(packet);
+        	        	player.OnPingInfoCallback(packet);
 					}
         	    }
         	    frameCounter = 0;
@@ -108,12 +108,12 @@ public partial class LobbyMenu : Control
 
 		Steamworks.Data.Image? rawSteamAvatar = friend.GetSmallAvatarAsync().Result;
 
-		Texture2D avatar = new Texture2D();
+		Texture2D avatar = new ();
 
 		if(rawSteamAvatar.HasValue)
 		{
 			Steamworks.Data.Image steamImage = rawSteamAvatar.Value;
-			Godot.Image godotImage = new Godot.Image();
+			Godot.Image godotImage = new();
 			godotImage.SetData((int)steamImage.Width, (int)steamImage.Height,false, Godot.Image.Format.Rgba8, steamImage.Data);
 			avatar = ImageTexture.CreateFromImage(godotImage);
 		}
@@ -202,7 +202,7 @@ public partial class LobbyMenu : Control
 
 		chatInput.Text = "";
 
-		Dictionary<string,string> packet = new Dictionary<string,string>()
+		Dictionary<string,string> packet = new ()
 		{
 			{"DataType","ChatMessage"},
 			{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
