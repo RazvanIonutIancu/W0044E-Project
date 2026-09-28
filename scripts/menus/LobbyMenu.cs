@@ -5,6 +5,7 @@ using Steamworks;
 using Steamworks.Data;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Threading.Tasks;
 
 public partial class LobbyMenu : Control
 {
@@ -16,7 +17,10 @@ public partial class LobbyMenu : Control
 	[Export] public RichTextLabel chatLog;
 	[Export] private LineEdit chatInput;
 
-	private bool clientIsReady = false;
+    [Export] private OptionButton levelSelect;
+    [Export] private Button startButton;
+
+    private bool clientIsReady = false;
 
     private int frameCounter = 0;
     private int frameCounterTarget = 30;
@@ -28,6 +32,25 @@ public partial class LobbyMenu : Control
 		SteamManager.OnLobbyInitialized += OnLobbyInitializedCallback;
 		DataParser.OnReadyMessage += OnReadyMessageCallback;
 		DataParser.OnChatMessage += OnChatMessageCallback;
+        DataParser.OnStartGame += OnStartGame;
+
+        if(!SteamManager.Manager.IsHost)
+		{
+            levelSelect.Visible = false;
+            startButton.Visible = false;
+        }
+		else
+		{
+            int _id = 0;
+            foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
+			{
+                ILevelManager level = scene.Instantiate<ILevelManager>();
+                levelSelect.AddItem(level.Name(), _id);
+                ((Node)level).Free();
+                _id++;
+            }
+            levelSelect.Selected = 0;
+        }
     }
 
     public override void _ExitTree()
@@ -37,6 +60,7 @@ public partial class LobbyMenu : Control
 		SteamManager.OnLobbyInitialized -= OnLobbyInitializedCallback;
 		DataParser.OnReadyMessage -= OnReadyMessageCallback;
 		DataParser.OnChatMessage -= OnChatMessageCallback;
+		DataParser.OnStartGame -= OnStartGame;
     }
 
 	public override void _Process(double delta)
@@ -67,7 +91,8 @@ public partial class LobbyMenu : Control
 
 	private void OnPlayerLeftLobbyCallback(Friend friend)
 	{
-		GetNode<LobbyPlayer>($"Players/{friend.Id.AccountId.ToString()}").QueueFree();
+        GameManager.RemovePlayer(friend.Id.AccountId.ToString());
+        GetNode<LobbyPlayer>($"Players/{friend.Id.AccountId.ToString()}").QueueFree();
 	}
 
 	public void Disconnect()
@@ -116,7 +141,8 @@ public partial class LobbyMenu : Control
 
 	private void OnPlayerJoinLobbyCallback(Friend friend)
 	{
-		AddLobbyPlayerElement(friend);
+        GameManager.AddPlayer(friend.Id.AccountId.ToString());
+        AddLobbyPlayerElement(friend);
         OnLobbyInitializedCallback(true);
         //SendReadyPacket();
     }
@@ -145,6 +171,29 @@ public partial class LobbyMenu : Control
 	{
 		SendChatMessage();
 	}
+
+	public void OnStartGamePressed()
+	{
+
+        Dictionary<string, string> packet = new Dictionary<string, string>()
+        {
+			{"DataType","StartGame"},
+			{"LevelID",levelSelect.Selected.ToString()}
+        };
+        OnStartGame(packet);
+    }
+
+	private void OnStartGame(Dictionary<string,string> packet)
+	{
+        GameManager.Instance().currentLevel = SteamManager.Manager.sceneLoader.LoadLevel(int.Parse(packet["LevelID"]));
+
+        foreach(PlayerState item in GameManager.Instance().playerList)
+		{
+            GameManager.Instance().currentLevel.SpawnPlayer(item);
+        }
+
+        Visible = false;
+    }
 
 	private void SendChatMessage()
 	{

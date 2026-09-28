@@ -34,7 +34,7 @@ public partial class SteamManager : Node3D
 	public static event Action<List<Lobby>> OnLobbyRefreshCompleted;
 	public static event Action<bool> OnLobbyInitialized;
 
-	[Export] private SceneLoader sceneLoader;
+	[Export] public SceneLoader sceneLoader;
 
 	private Random random = new Random();
 
