@@ -50,9 +50,9 @@ public partial class Player : CharacterBody2D
 		respawnScreen.player = this;
 		respawnScreen.respawnTimer = respawnTimer;
 
-        // DEBUG END
-        playerMovementDictionary.Add("DataType", "MovePlayer");
-        playerMovementDictionary.Add("playerID", playerID);
+		// DEBUG END
+		playerMovementDictionary.Add("DataType", "MovePlayer");
+		playerMovementDictionary.Add("playerID", playerID);
 		playerMovementDictionary.Add("posX", Position.X.ToString());
 		playerMovementDictionary.Add("posY", Position.Y.ToString());
 		playerMovementDictionary.Add("rotation", Rotation.ToString());
@@ -155,7 +155,7 @@ public partial class Player : CharacterBody2D
 
 		Vector2 newGlobalPosition = new Vector2(newPosX, newPosY);
 
-		GlobalPosition = newGlobalPosition;
+		GlobalPosition = GlobalPosition.Lerp(newGlobalPosition, 0.8f);
 		Rotation = newRotation;
 
 
