@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public partial class Player : CharacterBody2D
 {
 	[Export]
-	public float speed = 300.0f;
+	public float speed = 300.0f * 60f;
 	[Export]
 	public RayCast2D aimingRayCast;
 	[Export]
@@ -95,24 +95,24 @@ public partial class Player : CharacterBody2D
 
 	private void MoveCharacter(double delta)
 	{
-		Vector2 velocity = Vector2.Zero;
+		Vector2 velocity = Input.GetVector("left", "right", "up", "down");
 
-		if(Input.IsActionPressed("up"))
-		{
-			velocity += Vector2.Up;
-		}
-		if(Input.IsActionPressed("down"))
-		{
-			velocity += Vector2.Down;
-		}
-		if(Input.IsActionPressed("left"))
-		{
-			velocity += Vector2.Left;
-		}
-		if(Input.IsActionPressed("right"))
-		{
-			velocity += Vector2.Right;
-		}
+		// if(Input.IsActionPressed("up"))
+		// {
+		// 	velocity += Vector2.Up;
+		// }
+		// if(Input.IsActionPressed("down"))
+		// {
+		// 	velocity += Vector2.Down;
+		// }
+		// if(Input.IsActionPressed("left"))
+		// {
+		// 	velocity += Vector2.Left;
+		// }
+		// if(Input.IsActionPressed("right"))
+		// {
+		// 	velocity += Vector2.Right;
+		// }
 
 
 		if(Input.IsActionJustPressed("shoot"))
@@ -126,7 +126,7 @@ public partial class Player : CharacterBody2D
 		}
 
 
-		Velocity = velocity.Normalized() * speed;
+		Velocity = velocity.Normalized() * speed * (float)delta;
 		MoveAndSlide();
 
 		playerMovementDictionary["posX"] = GlobalPosition.X.ToString();
@@ -155,7 +155,6 @@ public partial class Player : CharacterBody2D
 
 		Vector2 newGlobalPosition = new Vector2(newPosX, newPosY);
 
-		//GlobalPosition = GlobalPosition.Lerp(newGlobalPosition, 0.8f);
 		GlobalPosition = newGlobalPosition;
 		Rotation = newRotation;
 
