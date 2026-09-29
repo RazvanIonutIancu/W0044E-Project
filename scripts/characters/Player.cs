@@ -50,9 +50,9 @@ public partial class Player : CharacterBody2D
 		respawnScreen.player = this;
 		respawnScreen.respawnTimer = respawnTimer;
 
-		// DEBUG END
-
-		playerMovementDictionary.Add("playerID", playerID);
+        // DEBUG END
+        playerMovementDictionary.Add("DataType", "MovePlayer");
+        playerMovementDictionary.Add("playerID", playerID);
 		playerMovementDictionary.Add("posX", Position.X.ToString());
 		playerMovementDictionary.Add("posY", Position.Y.ToString());
 		playerMovementDictionary.Add("rotation", Rotation.ToString());
