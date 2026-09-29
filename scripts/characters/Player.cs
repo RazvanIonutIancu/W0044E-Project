@@ -155,7 +155,8 @@ public partial class Player : CharacterBody2D
 
 		Vector2 newGlobalPosition = new Vector2(newPosX, newPosY);
 
-		GlobalPosition = GlobalPosition.Lerp(newGlobalPosition, 0.8f);
+		//GlobalPosition = GlobalPosition.Lerp(newGlobalPosition, 0.8f);
+		GlobalPosition = newGlobalPosition;
 		Rotation = newRotation;
 
 
