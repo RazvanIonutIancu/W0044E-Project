@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b25soddvfclek"
-path="res://.godot/imported/guns_top_view_outline.png-1379d5c01b1ad6017b29364ef0897523.ctex"
+uid="uid://qbd5qararels"
+path="res://.godot/imported/guns-top-view.png-c90e7e9e37407f4f05f2c9b43e420901.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/guns/guns_top_view_outline.png"
-dest_files=["res://.godot/imported/guns_top_view_outline.png-1379d5c01b1ad6017b29364ef0897523.ctex"]
+source_file="res://assets/guns/guns-top-view.png"
+dest_files=["res://.godot/imported/guns-top-view.png-c90e7e9e37407f4f05f2c9b43e420901.ctex"]
 
 [params]
 

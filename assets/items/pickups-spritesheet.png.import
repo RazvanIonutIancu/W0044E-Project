@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bamx2mrxewobp"
-path="res://.godot/imported/2D Pickups v6.2 spritesheet.png-d689f8c409d93daf022ae74af870e5c8.ctex"
+uid="uid://wejsveiq7fmt"
+path="res://.godot/imported/pickups-spritesheet.png-76ed6ace0720d023898897122e3fec08.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/items/2D Pickups v6.2 spritesheet.png"
-dest_files=["res://.godot/imported/2D Pickups v6.2 spritesheet.png-d689f8c409d93daf022ae74af870e5c8.ctex"]
+source_file="res://assets/items/pickups-spritesheet.png"
+dest_files=["res://.godot/imported/pickups-spritesheet.png-76ed6ace0720d023898897122e3fec08.ctex"]
 
 [params]
 

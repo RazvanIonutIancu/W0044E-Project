@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqqw2vg38xrwx"
-path="res://.godot/imported/survivor character v4.3 template.png-b29c0e32da3f09cafdd57e0db8869dd7.ctex"
+uid="uid://degdato18rcwq"
+path="res://.godot/imported/health-red.png-793a2b84555b4a070c08f692e69b1994.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character/survivor character v4.3 template.png"
-dest_files=["res://.godot/imported/survivor character v4.3 template.png-b29c0e32da3f09cafdd57e0db8869dd7.ctex"]
+source_file="res://assets/items/health-red.png"
+dest_files=["res://.godot/imported/health-red.png-793a2b84555b4a070c08f692e69b1994.ctex"]
 
 [params]
 

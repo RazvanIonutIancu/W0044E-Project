@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://n2pbtxyyaskl"
-path="res://.godot/imported/zombie.png-e4d59af6714de9f6487785ab4a9631a1.ctex"
+uid="uid://drtckneey5hg6"
+path="res://.godot/imported/ammo-rifle-alt.png-5f8267c3ac8adb12e6cd8316c96ff22d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character/zombie.png"
-dest_files=["res://.godot/imported/zombie.png-e4d59af6714de9f6487785ab4a9631a1.ctex"]
+source_file="res://assets/items/ammo-rifle-alt.png"
+dest_files=["res://.godot/imported/ammo-rifle-alt.png-5f8267c3ac8adb12e6cd8316c96ff22d.ctex"]
 
 [params]
 

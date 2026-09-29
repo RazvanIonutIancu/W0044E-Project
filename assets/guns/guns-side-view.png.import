@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d35al2w2l6oal"
-path="res://.godot/imported/guns_side_view.png-cd4f28d21557a761aa9435599e244feb.ctex"
+uid="uid://dofoxf0x8611l"
+path="res://.godot/imported/guns-side-view.png-50800c9eb1403efb6460a55ad1849305.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/guns/guns_side_view.png"
-dest_files=["res://.godot/imported/guns_side_view.png-cd4f28d21557a761aa9435599e244feb.ctex"]
+source_file="res://assets/guns/guns-side-view.png"
+dest_files=["res://.godot/imported/guns-side-view.png-50800c9eb1403efb6460a55ad1849305.ctex"]
 
 [params]
 

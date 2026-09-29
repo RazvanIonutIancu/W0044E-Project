@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1mvgov217x6o"
-path="res://.godot/imported/guns_top_view.png-82e4a860e42551b9031e8ce1b749cab5.ctex"
+uid="uid://c1xskxan5r147"
+path="res://.godot/imported/health-green.png-c6a008cf3f54da7c6ddc3c63c7e928f2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/guns/guns_top_view.png"
-dest_files=["res://.godot/imported/guns_top_view.png-82e4a860e42551b9031e8ce1b749cab5.ctex"]
+source_file="res://assets/items/health-green.png"
+dest_files=["res://.godot/imported/health-green.png-c6a008cf3f54da7c6ddc3c63c7e928f2.ctex"]
 
 [params]
 

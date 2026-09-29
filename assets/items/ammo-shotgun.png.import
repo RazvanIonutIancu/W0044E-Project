@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh3sqc8gpw8jp"
-path="res://.godot/imported/guns_side_view_outline.png-9451e5225d48f70e68470c1a85e89d66.ctex"
+uid="uid://cfqlpodniqrmo"
+path="res://.godot/imported/ammo-shotgun.png-982fc4022b5eb52f979e95d190e57058.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/guns/guns_side_view_outline.png"
-dest_files=["res://.godot/imported/guns_side_view_outline.png-9451e5225d48f70e68470c1a85e89d66.ctex"]
+source_file="res://assets/items/ammo-shotgun.png"
+dest_files=["res://.godot/imported/ammo-shotgun.png-982fc4022b5eb52f979e95d190e57058.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://p18ww3a43qej"
-path="res://.godot/imported/survivor character v4.2 spritesheet.png-981b28f18168c2c5c1ca8db2b59f84b1.ctex"
+uid="uid://bhmj2gfbgg2b2"
+path="res://.godot/imported/ammo-shotgun-alt.png-495c158e5d6f787966fcf4ebb85e892d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/character/survivor character v4.2 spritesheet.png"
-dest_files=["res://.godot/imported/survivor character v4.2 spritesheet.png-981b28f18168c2c5c1ca8db2b59f84b1.ctex"]
+source_file="res://assets/items/ammo-shotgun-alt.png"
+dest_files=["res://.godot/imported/ammo-shotgun-alt.png-495c158e5d6f787966fcf4ebb85e892d.ctex"]
 
 [params]
 
