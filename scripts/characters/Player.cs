@@ -9,20 +9,24 @@ public partial class Player : CharacterBody2D
 	public RayCast2D aimingRayCast;
 	[Export]
 	public Timer respawnTimer;
+	[Export]
+	public Timer respawnCameraTimer;
 
 	[Export] private Camera2D camera;
 
 
 	public string playerID = "0A";
-	public bool isAlive = true;
-
 	private bool isControlled = false;
+	public bool isAlive = true;
 
 
 	// DEBUG
 
 	PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
 	PackedScene clonePackedScene = GD.Load<PackedScene>("res://scenes/characters/Clone.tscn");
+
+	[Export]
+	RespawnScreen respawnScreen;
 
 	// DEBUG END
 
@@ -31,6 +35,14 @@ public partial class Player : CharacterBody2D
 	{
 		isControlled = playerID == SteamManager.Manager.PlayerSteamID.AccountId.ToString();
 		if (isControlled) { camera.MakeCurrent(); }
+
+
+		// DEBUG
+
+		respawnScreen.player = this;
+		respawnScreen.respawnTimer = respawnTimer;
+
+		// DEBUG END
 	}
 
 
@@ -45,14 +57,6 @@ public partial class Player : CharacterBody2D
 
 		if(!isAlive)
 		{
-			// DEBUG
-			if(respawnTimer.IsStopped())
-			{
-				RepawnPlayer();
-				return;
-			}
-			// DEBUG END
-
 			return;
 		}
 
@@ -134,17 +138,9 @@ public partial class Player : CharacterBody2D
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = false;
 		SpawnClone();
 		respawnTimer.Start();
+		respawnCameraTimer.Start();
+		respawnScreen.Show();
 	}
-
-	private void RepawnPlayer()
-	{
-		GlobalPosition = GameManager.instance.currentLevel.GetSpawnPoint();
-
-		isAlive = true;
-		GetNode<Polygon2D>("Mesh").Visible = true;
-		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
-	}
-
 
 	private void SpawnClone()
 	{
@@ -155,6 +151,23 @@ public partial class Player : CharacterBody2D
 		clone.Rotation = Rotation;
 		AddSibling(clone);
 	}
+
+
+
+	private void RepawnPlayer()
+	{
+		respawnScreen.Hide();
+		isAlive = true;
+		GetNode<Polygon2D>("Mesh").Visible = true;
+		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
+	}
+
+	public void MoveRespawn()
+	{
+		GlobalPosition = GameManager.instance.currentLevel.GetSpawnPoint();
+	}
+
+
 
 
 	// DEBUG END
