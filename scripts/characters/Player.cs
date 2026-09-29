@@ -164,7 +164,7 @@ public partial class Player : CharacterBody2D
 
 	public void MoveRespawn()
 	{
-		GlobalPosition = GameManager.instance.currentLevel.GetSpawnPoint();
+		GlobalPosition = GameManager.Instance().currentLevel.GetSpawnPoint();
 	}
 
 

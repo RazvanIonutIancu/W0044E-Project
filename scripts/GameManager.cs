@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public sealed class GameManager
 {
-    public static GameManager instance;
+    private static GameManager instance;
 
 	public List<PlayerState> playerList = new List<PlayerState>();
+
+    public int selectedLevelIndex = 0;
 
     public ILevelManager currentLevel = null;
 
@@ -31,13 +33,20 @@ public sealed class GameManager
 
 	public static void RemovePlayer(string id)
 	{
+        PlayerState player = GetPlayerState(id);
+		if(player == null) { return; }
+    	Instance().playerList.Remove(player);
+    }
+
+	public static PlayerState GetPlayerState(string id)
+	{
         for (int i = 0; i < Instance().playerList.Count; i++)
 		{
 			if(Instance().playerList[i].ToString() == id)
 			{
-                Instance().playerList.RemoveAt(i);
-                return;
-			}
+                return Instance().playerList[i];
+            }
 		}
+        return null;
     }
 }
