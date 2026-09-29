@@ -15,6 +15,7 @@ public class DataParser
     public static Action<Dictionary<string,string>> OnPingInfo;
     public static Action<Dictionary<string,string>> OnStartGame;
     public static Action<Dictionary<string,string>> OnInitialState;
+    public static Action<Dictionary<string, string>> OnLevelSelected;
     public static Dictionary<string,string> ParseData(nint data, int size)
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
@@ -47,6 +48,9 @@ public class DataParser
                 break;
 			case "InitialState":
                 OnInitialState.Invoke(packet);
+                break;
+			case "LevelSelected":
+                OnLevelSelected.Invoke(packet);
                 break;
             default:
 				break;
