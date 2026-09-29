@@ -11,6 +11,11 @@ public partial class MainMenu : Control
 	[Export] private VBoxContainer lobbyContainer;
 	[Export] private ProgressBar progressBar;
 	[Export] private LineEdit codeEdit;
+	[Export] private CheckBox PrivateLobbyCheckbox;
+	[Export] private LineEdit LobbyPasswordEdit;
+
+	public bool IsLobbyPrivate {get  { return PrivateLobbyCheckbox.ButtonPressed;} }
+	public string LobbyPassword {get { return LobbyPasswordEdit.Text;} }
 
     public override void _EnterTree()
     {

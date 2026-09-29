@@ -5,11 +5,11 @@ using Steamworks;
 
 public partial class LobbyElement : Node
 {
-
 	private Lobby lobby {get; set;}
 
 	[Export] private RichTextLabel nameLabel;
-
+	[Export] private LineEdit LobbyPasswordEdit;
+	public string LobbyPassword {get { return LobbyPasswordEdit.Text;} }
 	public void SetLabels(string id, string name, Lobby _lobby)
 	{
 		nameLabel.Text = name;

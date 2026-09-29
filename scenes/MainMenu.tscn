@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "PrivateLobbyCheckbox", "LobbyPasswordEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +15,8 @@ lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
 codeEdit = NodePath("Toolbar/HBoxContainer/Code")
+PrivateLobbyCheckbox = NodePath("Toolbar/Private")
+LobbyPasswordEdit = NodePath("Toolbar/Password2")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
 custom_minimum_size = Vector2(107.125, 0)
@@ -31,9 +33,19 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="Host" type="Button" parent="Toolbar" unique_id=2017420289]
-custom_minimum_size = Vector2(0, 35)
+custom_minimum_size = Vector2(50, 35)
 layout_mode = 2
 text = "Host"
+
+[node name="Private" type="CheckBox" parent="Toolbar" unique_id=809977229]
+layout_mode = 2
+text = "private"
+
+[node name="Password2" type="LineEdit" parent="Toolbar" unique_id=1706843689]
+layout_mode = 2
+placeholder_text = "Password..."
+max_length = 4
+caret_blink = true
 
 [node name="Find" type="Button" parent="Toolbar" unique_id=1560355549]
 custom_minimum_size = Vector2(0, 35)

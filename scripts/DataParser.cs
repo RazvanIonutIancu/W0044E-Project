@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 public class DataParser
 {
-	public static List<SteamPacket> packetList = new List<SteamPacket>();
+	public static List<SteamPacket> packetList = [];
 
 	public static Action<Dictionary<string,string>> OnReadyMessage;
 	public static Action<Dictionary<string,string>> OnChatMessage;

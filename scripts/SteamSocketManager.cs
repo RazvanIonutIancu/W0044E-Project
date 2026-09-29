@@ -17,7 +17,8 @@ public class SteamSocketManager : SocketManager
         {
             {"DataType","InitialState"},
             {"Code",SteamManager.currentLobby.Value.GetData("code")},
-            {"LevelIndex",GameManager.Instance().selectedLevelIndex.ToString()}
+            {"LevelIndex",GameManager.Instance().selectedLevelIndex.ToString()},
+            // {"Visibilty", "Public"}
         };
         foreach(PlayerState player in GameManager.Instance().playerList)
         {
