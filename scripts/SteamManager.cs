@@ -292,6 +292,24 @@ public partial class SteamManager : Node3D
 		}
 	}
 
+	public void BroadcastToSpecificConnection(string packetStr, Connection connection, SendType sendType = SendType.Reliable)
+	{
+		int byteCount = Encoding.UTF8.GetByteCount(packetStr);
+		if(byteCount > DataContainer.outgoingData.Length)
+		{
+			GD.Print("String is too large for the outgoing data buffer");
+			return;
+		}
+		Encoding.UTF8.GetBytes(packetStr, 0, packetStr.Length, DataContainer.outgoingData, 0);
+		unsafe
+		{
+			fixed(byte* ptr = DataContainer.outgoingData)
+			{
+				connection.SendMessage((nint)ptr, byteCount, sendType);
+			}
+		}
+	}
+
 	public static void SendData(Dictionary<string,string> packet, SendType sendType = SendType.Reliable)
 	{
 		string str = JsonConvert.SerializeObject(packet);

@@ -25,6 +25,8 @@ public partial class LobbyMenu : Control
     private int frameCounter = 0;
     private int frameCounterTarget = 30;
 
+    //private Dictionary<string, string> initialStatePacket;
+
     public override void _EnterTree()
     {
 		SteamCallbacks.OnPlayerLeftLobby += OnPlayerLeftLobbyCallback;
@@ -33,8 +35,9 @@ public partial class LobbyMenu : Control
 		DataParser.OnReadyMessage += OnReadyMessageCallback;
 		DataParser.OnChatMessage += OnChatMessageCallback;
         DataParser.OnStartGame += OnStartGame;
+        DataParser.OnInitialState += OnInitialState;
 
-		int _id = 0;
+        int _id = 0;
         foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
 		{
             ILevelManager level = scene.Instantiate<ILevelManager>();
@@ -43,6 +46,7 @@ public partial class LobbyMenu : Control
             _id++;
         }
         levelSelect.Selected = 0;
+        LevelSelected(levelSelect.Selected);
 
         if(!SteamManager.Manager.IsHost)
 		{
@@ -59,6 +63,7 @@ public partial class LobbyMenu : Control
 		DataParser.OnReadyMessage -= OnReadyMessageCallback;
 		DataParser.OnChatMessage -= OnChatMessageCallback;
 		DataParser.OnStartGame -= OnStartGame;
+        DataParser.OnInitialState -= OnInitialState;
     }
 
 	public override void _Process(double delta)
@@ -85,6 +90,19 @@ public partial class LobbyMenu : Control
         	    frameCounter = 0;
         	}
 		}
+    }
+
+	private void OnInitialState(Dictionary<string,string> packet)
+	{
+        //initialStatePacket = packet;
+        codeLabel.Text = "Code: " + packet["Code"];
+        int levelSelectedIndex = int.Parse(packet["LevelIndex"]);
+        levelSelect.Selected = levelSelectedIndex;
+        LevelSelected(levelSelect.Selected);
+		foreach(PlayerState player in GameManager.Instance().playerList)
+		{
+            player.isReady = bool.Parse(packet[player.ToString()]);
+        }
     }
 
 	private void OnPlayerLeftLobbyCallback(Friend friend)
@@ -141,7 +159,7 @@ public partial class LobbyMenu : Control
 	{
         GameManager.AddPlayer(friend.Id.AccountId.ToString());
         AddLobbyPlayerElement(friend);
-        OnLobbyInitializedCallback(true);
+        //OnLobbyInitializedCallback(true);
         //SendReadyPacket();
     }
 
@@ -157,7 +175,10 @@ public partial class LobbyMenu : Control
 
 	private void OnReadyMessageCallback(Dictionary<string,string> packet) 
 	{
-		GetNode<LobbyPlayer>($"Players/{packet["Sender"]}").SetReady(bool.Parse(packet["Ready"]));
+        string _id = packet["Sender"];
+        bool _isReady = bool.Parse(packet["Ready"]);
+        GameManager.GetPlayerState(_id).isReady = _isReady;
+        GetNode<LobbyPlayer>($"Players/{_id}").SetReady(_isReady);
 	}
 
 	public void OnChatInputSubmitted(string text)
@@ -218,4 +239,8 @@ public partial class LobbyMenu : Control
 		chatLog.AppendText("[color=green]" + DateTime.Now.ToString("HH:mm") + "[/color]" + "[b]" + "[color=orange]" + packet["SenderName"] + "[/color][/b]:" + packet["Message"] + "\n");
 	}
 
+	private void LevelSelected(int idx)
+	{
+        GameManager.Instance().selectedLevelIndex = idx;
+    }
 }

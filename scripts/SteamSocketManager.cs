@@ -11,9 +11,20 @@ public class SteamSocketManager : SocketManager
 	public override void OnConnected(Connection connection, ConnectionInfo info)
     {
         base.OnConnected(connection, info);
-		// Send inital info
+        // Send inital info
 
-		GD.Print("Player has connected");
+        Dictionary<string, string> packet = new()
+        {
+            {"DataType","InitialState"},
+            {"Code",SteamManager.currentLobby.Value.GetData("code")},
+            {"LevelIndex",GameManager.Instance().selectedLevelIndex.ToString()}
+        };
+        foreach(PlayerState player in GameManager.Instance().playerList)
+        {
+            packet.Add(player.ToString(), player.isReady.ToString());
+        }
+        SteamManager.Manager.BroadcastToSpecificConnection(JsonConvert.SerializeObject(packet),connection);
+        GD.Print("Player has connected");
     }
 
     public override void OnConnecting(Connection connection, ConnectionInfo info)

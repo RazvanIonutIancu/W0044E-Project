@@ -14,7 +14,7 @@ public class DataParser
 	public static Action<Dictionary<string,string>> OnChatMessage;
     public static Action<Dictionary<string,string>> OnPingInfo;
     public static Action<Dictionary<string,string>> OnStartGame;
-
+    public static Action<Dictionary<string,string>> OnInitialState;
     public static Dictionary<string,string> ParseData(nint data, int size)
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
@@ -44,6 +44,9 @@ public class DataParser
                 break;
 			case "StartGame":
                 OnStartGame.Invoke(packet);
+                break;
+			case "InitialState":
+                OnInitialState.Invoke(packet);
                 break;
             default:
 				break;
