@@ -36,6 +36,7 @@ public partial class LobbyMenu : Control
 		DataParser.OnChatMessage += OnChatMessageCallback;
         DataParser.OnStartGame += OnStartGame;
         DataParser.OnInitialState += OnInitialState;
+        DataParser.OnLevelSelected += OnLevelSelected;
 
         int _id = 0;
         foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
@@ -64,6 +65,7 @@ public partial class LobbyMenu : Control
 		DataParser.OnChatMessage -= OnChatMessageCallback;
 		DataParser.OnStartGame -= OnStartGame;
         DataParser.OnInitialState -= OnInitialState;
+        DataParser.OnLevelSelected -= OnLevelSelected;
     }
 
 	public override void _Process(double delta)
@@ -101,7 +103,9 @@ public partial class LobbyMenu : Control
         LevelSelected(levelSelect.Selected);
 		foreach(PlayerState player in GameManager.Instance().playerList)
 		{
-            player.isReady = bool.Parse(packet[player.ToString()]);
+            bool _isReady = bool.Parse(packet[player.ToString()]);
+            player.isReady = _isReady;
+            GetNode<LobbyPlayer>($"Players/{player.ToString()}").SetReady(_isReady);
         }
     }
 
@@ -239,8 +243,23 @@ public partial class LobbyMenu : Control
 		chatLog.AppendText("[color=green]" + DateTime.Now.ToString("HH:mm") + "[/color]" + "[b]" + "[color=orange]" + packet["SenderName"] + "[/color][/b]:" + packet["Message"] + "\n");
 	}
 
+	private void OnLevelSelected(Dictionary<string,string> packet)
+	{
+        levelSelect.Selected = int.Parse(packet["LevelID"]);
+        LevelSelected(levelSelect.Selected);
+    }
+
 	private void LevelSelected(int idx)
 	{
         GameManager.Instance().selectedLevelIndex = idx;
+		if(SteamManager.Manager.IsHost)
+		{
+            Dictionary<string, string> packet = new()
+            {
+				{"DataType", "LevelSelected"},
+				{"LevelID", levelSelect.Selected.ToString()}
+            };
+            SteamManager.SendData(packet);
+        }
     }
 }
