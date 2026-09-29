@@ -121,6 +121,7 @@ max_length = 256
 layout_mode = 2
 text = "Send"
 
+[connection signal="item_selected" from="Toolbar/OptionButton" to="." method="LevelSelected"]
 [connection signal="button_down" from="Toolbar/Invite Friend" to="." method="InviteFriend"]
 [connection signal="button_down" from="Toolbar/Ready" to="." method="ToggleReady"]
 [connection signal="button_down" from="Toolbar/Disconnect" to="." method="Disconnect"]

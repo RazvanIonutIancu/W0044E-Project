@@ -198,7 +198,8 @@ public partial class SteamManager : Node3D
 	{
 		try
 		{
-			Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithKeyValue(GAME_KEY,GAME_VALUE).WithMaxResults(MAX_LOBBY_QUERY_RESULTS).RequestAsync();
+            availableLobbies.Clear();
+            Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithKeyValue(GAME_KEY,GAME_VALUE).WithMaxResults(MAX_LOBBY_QUERY_RESULTS).RequestAsync();
 			if (lobbies != null)
 			{
 				foreach(var item in lobbies)
@@ -267,7 +268,7 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public void Broadcast(string packetStr, SendType sendType = SendType.Reliable, Steamworks.Data.Connection? skip = null)
+	public static void Broadcast(string packetStr, SendType sendType = SendType.Reliable, Steamworks.Data.Connection? skip = null)
 	{
 		int byteCount = Encoding.UTF8.GetByteCount(packetStr);
 		if(byteCount > DataContainer.outgoingData.Length)
@@ -288,6 +289,24 @@ public partial class SteamManager : Node3D
 					}
 					item.SendMessage((nint)ptr, byteCount, sendType);
 				}
+			}
+		}
+	}
+
+	public static void BroadcastToSpecificConnection(string packetStr, Connection connection, SendType sendType = SendType.Reliable)
+	{
+		int byteCount = Encoding.UTF8.GetByteCount(packetStr);
+		if(byteCount > DataContainer.outgoingData.Length)
+		{
+			GD.Print("String is too large for the outgoing data buffer");
+			return;
+		}
+		Encoding.UTF8.GetBytes(packetStr, 0, packetStr.Length, DataContainer.outgoingData, 0);
+		unsafe
+		{
+			fixed(byte* ptr = DataContainer.outgoingData)
+			{
+				connection.SendMessage((nint)ptr, byteCount, sendType);
 			}
 		}
 	}

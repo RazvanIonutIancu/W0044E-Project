@@ -16,6 +16,8 @@ public class DataParser
     public static Action<Dictionary<string,string>> OnStartGame;
     public static Action<Dictionary<string,string>> OnPlayerMove;
 
+    public static Action<Dictionary<string,string>> OnInitialState;
+    public static Action<Dictionary<string, string>> OnLevelSelected;
     public static Dictionary<string,string> ParseData(nint data, int size)
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
@@ -50,6 +52,12 @@ public class DataParser
                 OnPlayerMove.Invoke(packet);
 			    SyncIncomingData(packet, sender);
                 break;
+            case "InitialState":
+                OnInitialState.Invoke(packet);
+                break;
+			case "LevelSelected":
+                OnLevelSelected.Invoke(packet);
+                break;
             default:
 				break;
 		}
@@ -59,7 +67,7 @@ public class DataParser
 	{
 		if(SteamManager.Manager.IsHost) 
 		{
-			SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
+			SteamManager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
 		}
 	}
 }

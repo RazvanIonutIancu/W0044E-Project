@@ -25,6 +25,8 @@ public partial class LobbyMenu : Control
     private int frameCounter = 0;
     private int frameCounterTarget = 30;
 
+    //private Dictionary<string, string> initialStatePacket;
+
     public override void _EnterTree()
     {
 		SteamCallbacks.OnPlayerLeftLobby += OnPlayerLeftLobbyCallback;
@@ -33,8 +35,10 @@ public partial class LobbyMenu : Control
 		DataParser.OnReadyMessage += OnReadyMessageCallback;
 		DataParser.OnChatMessage += OnChatMessageCallback;
         DataParser.OnStartGame += OnStartGame;
+        DataParser.OnInitialState += OnInitialState;
+        DataParser.OnLevelSelected += OnLevelSelected;
 
-		int _id = 0;
+        int _id = 0;
         foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
 		{
             ILevelManager level = scene.Instantiate<ILevelManager>();
@@ -43,11 +47,13 @@ public partial class LobbyMenu : Control
             _id++;
         }
         levelSelect.Selected = 0;
+        LevelSelected(levelSelect.Selected);
+
+		startButton.Visible = false;
 
         if(!SteamManager.Manager.IsHost)
 		{
             levelSelect.Disabled = true;
-            startButton.Visible = false;
         }
     }
 
@@ -59,6 +65,8 @@ public partial class LobbyMenu : Control
 		DataParser.OnReadyMessage -= OnReadyMessageCallback;
 		DataParser.OnChatMessage -= OnChatMessageCallback;
 		DataParser.OnStartGame -= OnStartGame;
+        DataParser.OnInitialState -= OnInitialState;
+        DataParser.OnLevelSelected -= OnLevelSelected;
     }
 
 	public override void _Process(double delta)
@@ -85,6 +93,21 @@ public partial class LobbyMenu : Control
         	    frameCounter = 0;
         	}
 		}
+    }
+
+	private void OnInitialState(Dictionary<string,string> packet)
+	{
+        //initialStatePacket = packet;
+        codeLabel.Text = "Code: " + packet["Code"]+ " (init state)";
+        int levelSelectedIndex = int.Parse(packet["LevelIndex"]);
+        levelSelect.Selected = levelSelectedIndex;
+        LevelSelected(levelSelect.Selected);
+		foreach(PlayerState player in GameManager.Instance().playerList)
+		{
+            bool _isReady = bool.Parse(packet[player.ToString()]);
+            player.isReady = _isReady;
+            GetNode<LobbyPlayer>($"Players/{player.ToString()}").SetReady(_isReady);
+        }
     }
 
 	private void OnPlayerLeftLobbyCallback(Friend friend)
@@ -141,7 +164,7 @@ public partial class LobbyMenu : Control
 	{
         GameManager.AddPlayer(friend.Id.AccountId.ToString());
         AddLobbyPlayerElement(friend);
-        OnLobbyInitializedCallback(true);
+        //OnLobbyInitializedCallback(true);
         //SendReadyPacket();
     }
 
@@ -152,13 +175,18 @@ public partial class LobbyMenu : Control
 
 	public void OnLobbyInitializedCallback(bool b) 
 	{
-		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code");
+		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code") +" (lobbyinit)";
 	}
 
 	private void OnReadyMessageCallback(Dictionary<string,string> packet) 
 	{
-		GetNode<LobbyPlayer>($"Players/{packet["Sender"]}").SetReady(bool.Parse(packet["Ready"]));
-	}
+        string _id = packet["Sender"];
+        bool _isReady = bool.Parse(packet["Ready"]);
+        GameManager.GetPlayerState(_id).isReady = _isReady;
+        GetNode<LobbyPlayer>($"Players/{_id}").SetReady(_isReady);
+
+        startButton.Visible = SteamManager.Manager.IsHost && GameManager.IsEveryoneReady();
+    }
 
 	public void OnChatInputSubmitted(string text)
 	{
@@ -218,4 +246,23 @@ public partial class LobbyMenu : Control
 		chatLog.AppendText("[color=green]" + DateTime.Now.ToString("HH:mm") + " [/color]" + "[b]" + "[color=orange]" + packet["SenderName"] + ":[/color][/b] " + packet["Message"] + "\n");
 	}
 
+	private void OnLevelSelected(Dictionary<string,string> packet)
+	{
+        levelSelect.Selected = int.Parse(packet["LevelID"]);
+        LevelSelected(levelSelect.Selected);
+    }
+
+	private void LevelSelected(int idx)
+	{
+        GameManager.Instance().selectedLevelIndex = idx;
+		if(SteamManager.Manager.IsHost)
+		{
+            Dictionary<string, string> packet = new()
+            {
+				{"DataType", "LevelSelected"},
+				{"LevelID", levelSelect.Selected.ToString()}
+            };
+            SteamManager.SendData(packet);
+        }
+    }
 }

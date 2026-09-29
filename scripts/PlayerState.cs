@@ -5,8 +5,9 @@ using System;
 public class PlayerState(string _id)
 {
     private readonly string id = _id;
+    public bool isReady = false;
 
-	public override string ToString()
+    public override string ToString()
 	{
         return id;
     }
