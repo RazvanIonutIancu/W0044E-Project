@@ -49,4 +49,13 @@ public sealed class GameManager
 		}
         return null;
     }
+
+	public static bool IsEveryoneReady()
+	{
+		foreach(PlayerState player in Instance().playerList)
+		{
+			if(!player.isReady) { return false; }
+		}
+        return true;
+    }
 }

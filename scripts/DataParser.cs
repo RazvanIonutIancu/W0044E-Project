@@ -61,7 +61,7 @@ public class DataParser
 	{
 		if(SteamManager.Manager.IsHost) 
 		{
-			SteamManager.Manager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
+			SteamManager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
 		}
 	}
 }

@@ -49,10 +49,11 @@ public partial class LobbyMenu : Control
         levelSelect.Selected = 0;
         LevelSelected(levelSelect.Selected);
 
+		startButton.Visible = false;
+
         if(!SteamManager.Manager.IsHost)
 		{
             levelSelect.Disabled = true;
-            startButton.Visible = false;
         }
     }
 
@@ -183,7 +184,9 @@ public partial class LobbyMenu : Control
         bool _isReady = bool.Parse(packet["Ready"]);
         GameManager.GetPlayerState(_id).isReady = _isReady;
         GetNode<LobbyPlayer>($"Players/{_id}").SetReady(_isReady);
-	}
+
+        startButton.Visible = SteamManager.Manager.IsHost && GameManager.IsEveryoneReady();
+    }
 
 	public void OnChatInputSubmitted(string text)
 	{

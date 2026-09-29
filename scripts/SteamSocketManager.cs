@@ -23,7 +23,7 @@ public class SteamSocketManager : SocketManager
         {
             packet.Add(player.ToString(), player.isReady.ToString());
         }
-        SteamManager.Manager.BroadcastToSpecificConnection(JsonConvert.SerializeObject(packet),connection);
+        SteamManager.BroadcastToSpecificConnection(JsonConvert.SerializeObject(packet),connection);
         GD.Print("Player has connected");
     }
 
