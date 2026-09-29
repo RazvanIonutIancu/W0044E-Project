@@ -98,7 +98,7 @@ public partial class LobbyMenu : Control
 	private void OnInitialState(Dictionary<string,string> packet)
 	{
         //initialStatePacket = packet;
-        codeLabel.Text = "Code: " + packet["Code"];
+        codeLabel.Text = "Code: " + packet["Code"]+ " (init state)";
         int levelSelectedIndex = int.Parse(packet["LevelIndex"]);
         levelSelect.Selected = levelSelectedIndex;
         LevelSelected(levelSelect.Selected);
@@ -175,7 +175,7 @@ public partial class LobbyMenu : Control
 
 	public void OnLobbyInitializedCallback(bool b) 
 	{
-		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code");
+		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code") +" (lobbyinit)";
 	}
 
 	private void OnReadyMessageCallback(Dictionary<string,string> packet) 
