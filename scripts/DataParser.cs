@@ -14,6 +14,7 @@ public class DataParser
 	public static Action<Dictionary<string,string>> OnChatMessage;
     public static Action<Dictionary<string,string>> OnPingInfo;
     public static Action<Dictionary<string,string>> OnStartGame;
+    public static Action<Dictionary<string,string>> OnPlayerMove;
 
     public static Dictionary<string,string> ParseData(nint data, int size)
 	{
@@ -44,6 +45,10 @@ public class DataParser
                 break;
 			case "StartGame":
                 OnStartGame.Invoke(packet);
+                break;
+			case "MovePlayer":
+                OnPlayerMove.Invoke(packet);
+			    SyncIncomingData(packet, sender);
                 break;
             default:
 				break;

@@ -215,7 +215,7 @@ public partial class LobbyMenu : Control
 	private void OnChatMessageCallback(Dictionary<string,string> packet)
 	{ //this is where the messages are handled in tersm of customising. a gd print is put in so we can see in the terminal who is sending what, this is is just me testing sendname packet and message, iuf you see this i forgot to delete so DELETE lol 
 		GD.Print(packet["SenderName"] + " sent a message to the lobby, the message was:" + packet["Message"] + ". great success very niceee" );
-		chatLog.AppendText("[color=green]" + DateTime.Now.ToString("HH:mm") + "[/color]" + "[b]" + "[color=orange]" + packet["SenderName"] + "[/color][/b]:" + packet["Message"] + "\n");
+		chatLog.AppendText("[color=green]" + DateTime.Now.ToString("HH:mm") + " [/color]" + "[b]" + "[color=orange]" + packet["SenderName"] + ":[/color][/b] " + packet["Message"] + "\n");
 	}
 
 }

@@ -19,8 +19,9 @@ public partial class RespawnScreen : Control
 			return;
 		}
 
+	
 		Rotation = -player.Rotation;
-		respawnText.Text = "Respawning in " + (int)respawnTimer.TimeLeft + " seconds";
+		respawnText.Text = "Respawning in " + ((int)respawnTimer.TimeLeft + 1) + " seconds";
 
 	}
 }

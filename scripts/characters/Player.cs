@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Player : CharacterBody2D
 {
@@ -11,6 +12,8 @@ public partial class Player : CharacterBody2D
 	public Timer respawnTimer;
 	[Export]
 	public Timer respawnCameraTimer;
+	[Export]
+	public Timer reloadTimer;
 
 	[Export] private Camera2D camera;
 
@@ -18,6 +21,11 @@ public partial class Player : CharacterBody2D
 	public string playerID = "0A";
 	private bool isControlled = false;
 	public bool isAlive = true;
+
+
+	Dictionary<string, string> playerMovementDictionary = new Dictionary<string, string>();
+
+
 
 
 	// DEBUG
@@ -43,7 +51,25 @@ public partial class Player : CharacterBody2D
 		respawnScreen.respawnTimer = respawnTimer;
 
 		// DEBUG END
+
+		playerMovementDictionary.Add("playerID", playerID);
+		playerMovementDictionary.Add("posX", Position.X.ToString());
+		playerMovementDictionary.Add("posY", Position.Y.ToString());
+		playerMovementDictionary.Add("rotation", Rotation.ToString());
 	}
+
+	public override void _EnterTree()
+	{
+		DataParser.OnPlayerMove += MovePlayer;
+	}
+
+	public override void _ExitTree()
+	{
+		DataParser.OnPlayerMove -= MovePlayer;
+	}
+
+
+
 
 
 	public override void _PhysicsProcess(double delta)
@@ -102,7 +128,41 @@ public partial class Player : CharacterBody2D
 
 		Velocity = velocity.Normalized() * speed;
 		MoveAndSlide();
+
+		playerMovementDictionary["posX"] = GlobalPosition.X.ToString();
+		playerMovementDictionary["posY"] = GlobalPosition.Y.ToString();
+		playerMovementDictionary["rotation"] = Rotation.ToString();
+
+		SteamManager.SendData(playerMovementDictionary, Steamworks.Data.SendType.NoDelay);
 	}
+
+
+	private void MovePlayer(Dictionary<string, string> packet)
+	{
+		if(isControlled)
+		{
+			return;
+		}
+
+		if(playerID != packet["playerID"])
+		{
+			return;
+		}
+
+		float newPosX = float.Parse(packet["posX"]);
+		float newPosY = float.Parse(packet["posY"]);
+		float newRotation = float.Parse(packet["rotation"]);
+
+		Vector2 newGlobalPosition = new Vector2(newPosX, newPosY);
+
+		GlobalPosition = newGlobalPosition;
+		Rotation = newRotation;
+
+
+	}
+
+
+
 
 
 	private void PlayerAim()
@@ -119,14 +179,22 @@ public partial class Player : CharacterBody2D
 
 	private void Shoot()
 	{
-
+		if(!reloadTimer.IsStopped())
+		{
+			return;
+		}
 
 		Vector2 targetPosition = aimingRayCast.GetCollisionPoint();
 
 		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
 		sparkParticles.GlobalPosition = targetPosition;
-		AddSibling(sparkParticles);
-
+		
+		if(aimingRayCast.IsColliding())
+		{
+			AddSibling(sparkParticles);
+		}
+		
+		reloadTimer.Start();
 
 	}
 
@@ -154,7 +222,7 @@ public partial class Player : CharacterBody2D
 
 
 
-	private void RepawnPlayer()
+	private void RespawnPlayer()
 	{
 		respawnScreen.Hide();
 		isAlive = true;
@@ -162,7 +230,7 @@ public partial class Player : CharacterBody2D
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
 	}
 
-	public void MoveRespawn()
+	public void MoveRespawnPosition()
 	{
 		GlobalPosition = GameManager.instance.currentLevel.GetSpawnPoint();
 	}
@@ -171,6 +239,9 @@ public partial class Player : CharacterBody2D
 
 
 	// DEBUG END
+
+
+
 
 
 }
