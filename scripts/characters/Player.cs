@@ -16,6 +16,7 @@ public partial class Player : CharacterBody2D
 	public Timer reloadTimer;
 
 	[Export] private Camera2D camera;
+	[Export] private PointLight2D visionLight;
 
 
 	public string playerID = "0A";
@@ -32,6 +33,7 @@ public partial class Player : CharacterBody2D
 
 	PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
 	PackedScene clonePackedScene = GD.Load<PackedScene>("res://scenes/characters/Clone.tscn");
+	PackedScene fogPackedScene = GD.Load<PackedScene>("res://scenes/UI/FogOfWar.tscn");
 
 	[Export]
 	RespawnScreen respawnScreen;
@@ -42,7 +44,21 @@ public partial class Player : CharacterBody2D
 	public void Initialize()
 	{
 		isControlled = playerID == SteamManager.Manager.PlayerSteamID.AccountId.ToString();
-		if (isControlled) { camera.MakeCurrent(); }
+		if (isControlled)
+		{
+			camera.MakeCurrent();
+
+			//fog for us only, follows this player + camera
+			FogOfWar fog = fogPackedScene.Instantiate<FogOfWar>();
+			fog.player = this;
+			fog.camera = camera;
+			AddSibling(fog);
+		}
+		else
+		{
+			//other players shouldnt provide fog of war for each other
+			visionLight.Enabled = false;
+		}
 
 
 		// DEBUG
