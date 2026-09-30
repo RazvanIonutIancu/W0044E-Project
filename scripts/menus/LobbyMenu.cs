@@ -175,7 +175,7 @@ public partial class LobbyMenu : Control
 
 	public void OnLobbyInitializedCallback(bool b) 
 	{
-		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code") +" (lobbyinit)";
+		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code");
 	}
 
 	private void OnReadyMessageCallback(Dictionary<string,string> packet) 
