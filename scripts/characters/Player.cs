@@ -230,13 +230,25 @@ public partial class Player : CharacterBody2D, IShootable
 	/// </summary>
 	private void TryShoot()
 	{
+		
+
 		if(!reloadTimer.IsStopped())
 		{
 			return;
 		}
 
+		if(!SteamManager.Manager.IsHost)
+		{
+			SteamManager.SendData(playerShoot, Steamworks.Data.SendType.Reliable);
+		}
+		else
+		{
+            Dictionary<string, string> shotResults = CheckShot(playerShoot);
+			SteamManager.SendData(shotResults, Steamworks.Data.SendType.Reliable);
+            Shoot(shotResults);
+        }
 
-		SteamManager.SendData(playerShoot, Steamworks.Data.SendType.Reliable);
+		
 
 
 		reloadTimer.Start();

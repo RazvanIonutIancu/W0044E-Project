@@ -59,11 +59,14 @@ public class DataParser
 					if(player.playerID == packet["playerId"])
 					{
 						Dictionary<string, string> newPacket = player.CheckShot(packet);
-						OnPlayerShoot.Invoke(newPacket);
 						SyncIncomingData(newPacket, null); // ???
 					}
 				}
 				break;
+			case "ShootResults":
+				OnPlayerShoot.Invoke(packet);
+                SyncIncomingData(packet, null);
+                break;
             case "InitialState":
                 OnInitialState.Invoke(packet);
                 break;
