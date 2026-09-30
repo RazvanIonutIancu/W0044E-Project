@@ -13,6 +13,8 @@ public partial class LobbyMenu : Control
 	[Export] private VBoxContainer playerContainer;
 
 	[Export] private RichTextLabel codeLabel;
+	[Export] private RichTextLabel hostLabel;
+	[Export] private RichTextLabel memberCountLabel;
 
 	[Export] public RichTextLabel chatLog;
 	[Export] private LineEdit chatInput;
@@ -114,6 +116,7 @@ public partial class LobbyMenu : Control
 	{
         GameManager.RemovePlayer(friend.Id.AccountId.ToString());
         GetNode<LobbyPlayer>($"Players/{friend.Id.AccountId.ToString()}").QueueFree();
+        UpdateLobbyInfo();
 	}
 
 	public void Disconnect()
@@ -164,6 +167,7 @@ public partial class LobbyMenu : Control
 	{
         GameManager.AddPlayer(friend.Id.AccountId.ToString());
         AddLobbyPlayerElement(friend);
+        UpdateLobbyInfo();
         //OnLobbyInitializedCallback(true);
         //SendReadyPacket();
     }
@@ -176,6 +180,15 @@ public partial class LobbyMenu : Control
 	public void OnLobbyInitializedCallback(bool b) 
 	{
 		codeLabel.Text = "Code: " + SteamManager.currentLobby.Value.GetData("code");
+		UpdateLobbyInfo();
+	}
+
+	//shows who the host is and how many players are in the lobby
+	private void UpdateLobbyInfo()
+	{
+		Lobby lobby = SteamManager.currentLobby.Value;
+		hostLabel.Text = "The Host-est with the Most-est: " + lobby.Owner.Name;
+		memberCountLabel.Text = "Homie Count: " + GameManager.Instance().playerList.Count + "/" + lobby.MaxMembers;
 	}
 
 	private void OnReadyMessageCallback(Dictionary<string,string> packet) 

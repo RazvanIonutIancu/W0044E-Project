@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://buxsp1chjj2vd" path="res://scripts/menus/LobbyMenu.cs" id="1_77kkm"]
 [ext_resource type="PackedScene" uid="uid://cr4283a6y45sk" path="res://prefabs/LobbyPlayer.tscn" id="2_j2aal"]
 
-[node name="LobbyMenu" type="Control" unique_id=1965579072 node_paths=PackedStringArray("playerContainer", "codeLabel", "chatLog", "chatInput", "levelSelect", "startButton")]
+[node name="LobbyMenu" type="Control" unique_id=1965579072 node_paths=PackedStringArray("playerContainer", "codeLabel", "hostLabel", "memberCountLabel", "chatLog", "chatInput", "levelSelect", "startButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +14,8 @@ script = ExtResource("1_77kkm")
 lobbyPlayer = ExtResource("2_j2aal")
 playerContainer = NodePath("Players")
 codeLabel = NodePath("Toolbar/Control/Code")
+hostLabel = NodePath("Toolbar/HostLabel")
+memberCountLabel = NodePath("Toolbar/MemberCountLabel")
 chatLog = NodePath("Chat/ChatLog")
 chatInput = NodePath("Chat/InputRow/ChatInput")
 levelSelect = NodePath("Toolbar/OptionButton")
@@ -57,6 +59,18 @@ offset_bottom = 39.0
 text = "Code: AAAA"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="HostLabel" type="RichTextLabel" parent="Toolbar" unique_id=1300188220]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+fit_content = true
+text = "Host: -"
+
+[node name="MemberCountLabel" type="RichTextLabel" parent="Toolbar" unique_id=1300188221]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+fit_content = true
+text = "Players: 0/4"
 
 [node name="OptionButton" type="OptionButton" parent="Toolbar" unique_id=1291747964]
 custom_minimum_size = Vector2(0, 35)
