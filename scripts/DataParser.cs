@@ -15,6 +15,7 @@ public class DataParser
     public static Action<Dictionary<string,string>> OnPingInfo;
     public static Action<Dictionary<string,string>> OnStartGame;
     public static Action<Dictionary<string,string>> OnPlayerMove;
+    public static Action<Dictionary<string,string>> OnPlayerShoot;
 
     public static Action<Dictionary<string,string>> OnInitialState;
     public static Action<Dictionary<string, string>> OnLevelSelected;
@@ -52,6 +53,17 @@ public class DataParser
                 OnPlayerMove.Invoke(packet);
 			    SyncIncomingData(packet, sender);
                 break;
+			case "Shoot":
+				foreach(Player player in GameManager.Instance().playerNodeList)
+				{
+					if(player.playerID == packet["playerId"])
+					{
+						Dictionary<string, string> newPacket = player.CheckShot(packet);
+						OnPlayerShoot.Invoke(newPacket);
+						SyncIncomingData(newPacket, sender); // ???
+					}
+				}
+				break;
             case "InitialState":
                 OnInitialState.Invoke(packet);
                 break;

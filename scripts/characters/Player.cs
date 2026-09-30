@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Player : CharacterBody2D
+public partial class Player : CharacterBody2D, IShootable
 {
 	[Export]
 	public float speed = 300.0f * 60f;
@@ -23,9 +23,22 @@ public partial class Player : CharacterBody2D
 	private bool isControlled = false;
 	public bool isAlive = true;
 
+	/// <summary>
+	/// Changed by the host
+	/// </summary>
+	public Vector2 respawnLocation = new Vector2();
+
 
 	Dictionary<string, string> playerMovementDictionary = new Dictionary<string, string>();
+	Dictionary<string, string> playerShoot = new Dictionary<string, string>();
+	Dictionary<string, string> playerShootResults = new Dictionary<string, string>();
 
+	public enum PossibleHits
+	{
+		NoHit,
+		RigidBody,
+		Player
+	}
 
 
 
@@ -72,16 +85,32 @@ public partial class Player : CharacterBody2D
 		playerMovementDictionary.Add("posX", Position.X.ToString());
 		playerMovementDictionary.Add("posY", Position.Y.ToString());
 		playerMovementDictionary.Add("rotation", Rotation.ToString());
+
+		playerShoot.Add("DataType", "Shoot");
+		playerShoot.Add("playerID", playerID);
+
+		playerShootResults.Add("DataType", "ShootResults");
+		playerShootResults.Add("playerID", playerID);
+		// if hitting something, for particle uses. NoHit has no particles
+		playerShootResults.Add("targetHit", PossibleHits.NoHit.ToString());
+		playerShootResults.Add("hitPosX", "0.0");
+		playerShootResults.Add("hitPosY", "0.0");
+		// if it hits a player send playerID
+		playerShootResults.Add("playerHit", "0A");
 	}
 
 	public override void _EnterTree()
 	{
+		GameManager.Instance().playerNodeList.Add(this);
 		DataParser.OnPlayerMove += MovePlayer;
+		DataParser.OnPlayerShoot += Shoot;
 	}
 
 	public override void _ExitTree()
 	{
+		GameManager.Instance().playerNodeList.Remove(this);
 		DataParser.OnPlayerMove -= MovePlayer;
+		DataParser.OnPlayerShoot -= Shoot;
 	}
 
 
@@ -108,7 +137,10 @@ public partial class Player : CharacterBody2D
 
 	}
 
-
+	/// <summary>
+	/// This one is moved by the client
+	/// </summary>
+	/// <param name="delta"></param>
 	private void MoveCharacter(double delta)
 	{
 		Vector2 velocity = Input.GetVector("left", "right", "up", "down");
@@ -133,7 +165,7 @@ public partial class Player : CharacterBody2D
 
 		if(Input.IsActionJustPressed("shoot"))
 		{
-			Shoot();
+			TryShoot();
 		}
 
 		if(Input.IsActionJustPressed("spawnClone"))
@@ -152,7 +184,10 @@ public partial class Player : CharacterBody2D
 		SteamManager.SendData(playerMovementDictionary, Steamworks.Data.SendType.NoDelay);
 	}
 
-
+	/// <summary>
+	/// This one is moved by the host
+	/// </summary>
+	/// <param name="packet"></param>
 	private void MovePlayer(Dictionary<string, string> packet)
 	{
 		if(isControlled)
@@ -190,28 +225,84 @@ public partial class Player : CharacterBody2D
 
 
 
-
-	// DEBUG
-
-	private void Shoot()
+	/// <summary>
+	/// Sends request to shoot
+	/// </summary>
+	private void TryShoot()
 	{
 		if(!reloadTimer.IsStopped())
 		{
 			return;
 		}
 
-		Vector2 targetPosition = aimingRayCast.GetCollisionPoint();
 
-		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
-		sparkParticles.GlobalPosition = targetPosition;
-		
+		SteamManager.SendData(playerShoot, Steamworks.Data.SendType.Reliable);
+
+
+		reloadTimer.Start();
+	}
+
+
+	// DEBUG
+
+	public Dictionary<string, string> CheckShot(Dictionary<string, string> packet)
+	{
+		Vector2 targetPosition = new Vector2();
+
 		if(aimingRayCast.IsColliding())
 		{
-			AddSibling(sparkParticles);
+			targetPosition = aimingRayCast.GetCollisionPoint();
+			if(aimingRayCast.GetCollider() is IShootable obj)
+			{
+				if(obj is Player player)
+				{
+					playerShootResults["targetHit"] = PossibleHits.Player.ToString();
+					playerShootResults["playerHit"] = player.playerID;
+				}
+				else
+				{
+					playerShootResults["targetHit"] = PossibleHits.RigidBody.ToString();
+				}
+			}
+
+			targetPosition = aimingRayCast.GetCollisionPoint();
+
+			playerShootResults["hitPosX"] = targetPosition.X.ToString();
+			playerShootResults["hitPosY"] = targetPosition.Y.ToString();
+			
+		}
+		else
+		{
+			playerShootResults["targetHit"] = PossibleHits.NoHit.ToString();
+		}
+
+
+		return playerShootResults;
+	}
+
+
+	private void Shoot(Dictionary<string, string> packet)
+	{
+		if(packet["targetHit"] == PossibleHits.NoHit.ToString())
+		{
+			return;
+		}
+
+		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
+		Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
+		sparkParticles.GlobalPosition = targetPosition;
+		AddSibling(sparkParticles);
+
+		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
+		{
+			return;
+		}
+
+		if(packet["playerHit"] == playerID)
+		{
+			KillPlayer();
 		}
 		
-		reloadTimer.Start();
-
 	}
 
 
