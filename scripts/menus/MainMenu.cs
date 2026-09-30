@@ -11,6 +11,8 @@ public partial class MainMenu : Control
 	[Export] private VBoxContainer lobbyContainer;
 	[Export] private ProgressBar progressBar;
 	[Export] private LineEdit codeEdit;
+	[Export] private CheckBox IsLobbyPrivateCheckbox;
+	private bool IsLobbyPrivate { get { return IsLobbyPrivateCheckbox.ButtonPressed; } }
 
     public override void _EnterTree()
     {
@@ -30,8 +32,13 @@ public partial class MainMenu : Control
 
 	private void OnLobbyRefreshCompletedCallback(List<Lobby> lobbies)
 	{
+		// TODO: should delete and/or modify cashed lobbies
+		// foreach(var child in lobbyContainer.GetChildren()) child.QueueFree();
+
 		foreach(var item in lobbies)
 		{
+			if(item.GetData("visibility") != "public") continue;
+
 			LobbyElement element = lobbyElement.Instantiate<LobbyElement>();
 			lobbyContainer.AddChild(element);
 			element.SetLabels(item.Id.ToString(), item.GetData("ownerNameDataString") + "'s lobby", item);
@@ -40,7 +47,7 @@ public partial class MainMenu : Control
 
 	public async void CreateLobby()
 	{
-		await SteamManager.Manager.CreateLobby();
+		await SteamManager.Manager.CreateLobby(IsLobbyPrivate);
 	}
 
 	public async void GetLobbies()

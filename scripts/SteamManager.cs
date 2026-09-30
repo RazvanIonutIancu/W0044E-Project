@@ -16,8 +16,8 @@ public partial class SteamManager : Node3D
 
 	const int MAX_MEMBERS = 4;
 	const int MAX_LOBBY_QUERY_RESULTS = 10;
-	const string GAME_KEY = "nyckel";
-	const string GAME_VALUE = "varde";
+	const string GAME_KEY = "GAME_NAME_UUID";
+	const string GAME_VALUE = "d69952cf-e808-4701-bc3a-ffd160ecd2fb";
 
 	public static SteamManager Manager;
 	public SteamId PlayerSteamID;
@@ -127,7 +127,7 @@ public partial class SteamManager : Node3D
 		IsHost = false;
 	}
 
-	public async Task<bool> CreateLobby()
+	public async Task<bool> CreateLobby(bool isLobbyPrivate = false)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -152,8 +152,9 @@ public partial class SteamManager : Node3D
 			lobby.SetJoinable(true);
 			lobby.SetData("ownerNameDataString", PlayerName);
 			lobby.SetData(GAME_KEY, GAME_VALUE);
-
-			string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";			
+			lobby.SetData("visibility", isLobbyPrivate? "private": "public");
+			
+			string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
 			string code = "";
 
 			while(true) 

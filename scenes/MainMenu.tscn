@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "IsLobbyPrivateCheckbox")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +15,7 @@ lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
 codeEdit = NodePath("Toolbar/HBoxContainer/Code")
+IsLobbyPrivateCheckbox = NodePath("Toolbar/Hosting/IsPrivate")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
 custom_minimum_size = Vector2(107.125, 0)
@@ -30,10 +31,17 @@ grow_vertical = 2
 [node name="ProgressBar" type="ProgressBar" parent="Toolbar" unique_id=925621852]
 layout_mode = 2
 
-[node name="Host" type="Button" parent="Toolbar" unique_id=2017420289]
+[node name="Hosting" type="HBoxContainer" parent="Toolbar" unique_id=675523583]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="Toolbar/Hosting" unique_id=2017420289]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Host"
+
+[node name="IsPrivate" type="CheckBox" parent="Toolbar/Hosting" unique_id=583541856]
+layout_mode = 2
+text = "private"
 
 [node name="Find" type="Button" parent="Toolbar" unique_id=1560355549]
 custom_minimum_size = Vector2(0, 35)
@@ -61,6 +69,6 @@ offset_top = 15.0
 offset_right = 1084.0
 offset_bottom = 583.0
 
-[connection signal="button_down" from="Toolbar/Host" to="." method="CreateLobby"]
+[connection signal="button_down" from="Toolbar/Hosting/Host" to="." method="CreateLobby"]
 [connection signal="button_down" from="Toolbar/Find" to="." method="GetLobbies"]
 [connection signal="button_down" from="Toolbar/HBoxContainer/Join" to="." method="Join"]

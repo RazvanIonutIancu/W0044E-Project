@@ -6,4 +6,6 @@
     "**/*.import": true,
     "**/**.uid": true
     },
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": false,
 }
