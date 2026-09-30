@@ -98,7 +98,7 @@ public partial class LobbyMenu : Control
 	private void OnInitialState(Dictionary<string,string> packet)
 	{
         //initialStatePacket = packet;
-        codeLabel.Text = "Code: " + packet["Code"]+ " (init state)";
+        codeLabel.Text = "Code: " + packet["Code"];
         int levelSelectedIndex = int.Parse(packet["LevelIndex"]);
         levelSelect.Selected = levelSelectedIndex;
         LevelSelected(levelSelect.Selected);
