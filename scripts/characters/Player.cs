@@ -309,10 +309,13 @@ public partial class Player : CharacterBody2D, IShootable
 			return;
 		}
 
-		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
-		Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
-		sparkParticles.GlobalPosition = targetPosition;
-		AddSibling(sparkParticles);
+		if(isControlled)
+		{
+			GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
+			Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
+			sparkParticles.GlobalPosition = targetPosition;
+			AddSibling(sparkParticles);
+		}
 
 		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
 		{
