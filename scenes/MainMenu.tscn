@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibility", "HostPasswordEdit")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibility", "JoinPasswordEdit", "HostPasswordEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +16,7 @@ lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
 codeEdit = NodePath("Toolbar/HBoxContainer/Code")
 lobbyVisibility = NodePath("Toolbar/Hosting/LobbyType")
+JoinPasswordEdit = NodePath("Toolbar/JoinPassword")
 HostPasswordEdit = NodePath("Toolbar/Hosting/HostPassword")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]

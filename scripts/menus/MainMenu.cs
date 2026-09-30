@@ -17,7 +17,7 @@ public partial class MainMenu : Control
 	[Export] private LineEdit HostPasswordEdit;
 
 	string HostPassword {get {
-		return HostPasswordEdit.Editable? HostPasswordEdit.Text.Trim(): "";
+		return HostPasswordEdit.Editable? HostPasswordEdit.Text.Trim(): null;
 	}}
 	string JoinPassword {get {
 		return JoinPasswordEdit.Text.Trim();
@@ -74,7 +74,7 @@ public partial class MainMenu : Control
 	public async void CreateLobby()
 	{
 		GD.PrintS(GetSelectedLobbyVisibilityStr(),"|",lobbyVisibility.Selected);
-		await SteamManager.Manager.CreateLobby(GetSelectedLobbyVisibility());
+		await SteamManager.Manager.CreateLobby(GetSelectedLobbyVisibility(), HostPassword);
 	}
 
 	public async void GetLobbies()

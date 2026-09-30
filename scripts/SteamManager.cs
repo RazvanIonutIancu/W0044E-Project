@@ -93,7 +93,7 @@ public partial class SteamManager : Node3D
 		SteamClient.RunCallbacks();
 		try
 		{
-			if(steamSocketManager != null)
+			if(steamSocketManager is not null)
 			{
                 steamSocketManager.Receive();
             }
@@ -126,7 +126,7 @@ public partial class SteamManager : Node3D
 		}
 		IsHost = false;
 	}
-	public async Task<bool> CreateLobby(LobbyVisibilityEnum lobbyVisibility = LobbyVisibilityEnum.Public, string password="")
+	public async Task<bool> CreateLobby(LobbyVisibilityEnum lobbyVisibility = LobbyVisibilityEnum.Public, string password=null)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -188,6 +188,12 @@ public partial class SteamManager : Node3D
 			}
 			GD.Print("Code " + code);
 
+			if (password is not null && password != ""){
+				lobby.SetData("password", password);
+				GD.Print("Password: ",password);
+			}
+			else GD.Print("No Password");
+
 			lobby.SetData("code",code);
 
 			currentLobby = lobby;
@@ -235,7 +241,7 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public async Task<bool> TryJoinViaCode(string code,string password="")
+	public async Task<bool> TryJoinViaCode(string code,string password=null)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
