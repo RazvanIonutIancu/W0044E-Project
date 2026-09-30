@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Steamworks.Data;
 using Steamworks;
+using static LobbyData;
 
 public partial class MainMenu : Control
 {
@@ -12,13 +13,28 @@ public partial class MainMenu : Control
 	[Export] private ProgressBar progressBar;
 	[Export] private LineEdit codeEdit;
 	[Export] private OptionButton lobbyVisibility;
+	[Export] private LineEdit HostPasswordEdit;
 
-	static private readonly Dictionary<int,string> lobbyVisibilityDict = new() {
-		{-1, "public"}, // Default
-		{0, "public"},
-		{1, "friendsOnly"},
-		{2, "private"}
-	};
+
+	private void OnLobbyVisibilitySelected(int index){
+		switch ((LobbyVisibilityEnum)index)
+		{
+			case LobbyVisibilityEnum.Public:
+			case LobbyVisibilityEnum.Default:
+				HostPasswordEdit.Editable = false;
+				break;
+			case LobbyVisibilityEnum.Private:
+			case LobbyVisibilityEnum.FriendsOnly:
+				HostPasswordEdit.Editable = true;
+				break;
+		}
+	}
+	LobbyVisibilityEnum GetSelectedLobbyVisibility(){
+		return (LobbyVisibilityEnum)lobbyVisibility.Selected;
+	}
+	string GetSelectedLobbyVisibilityStr(){
+		return ((LobbyVisibilityEnum)lobbyVisibility.Selected).ToString();
+	}
 
     public override void _EnterTree()
     {
@@ -50,8 +66,8 @@ public partial class MainMenu : Control
 
 	public async void CreateLobby()
 	{
-		GD.PrintS(lobbyVisibilityDict[lobbyVisibility.Selected],"|",lobbyVisibility.Selected);
-		await SteamManager.Manager.CreateLobby(lobbyVisibilityDict[lobbyVisibility.Selected]);
+		GD.PrintS(GetSelectedLobbyVisibilityStr(),"|",lobbyVisibility.Selected);
+		await SteamManager.Manager.CreateLobby(GetSelectedLobbyVisibility());
 	}
 
 	public async void GetLobbies()

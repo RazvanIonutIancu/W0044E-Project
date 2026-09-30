@@ -10,14 +10,14 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Buffers;
 using System.Text;
-
+using static LobbyData;
 public partial class SteamManager : Node3D
 {
 
 	const int MAX_MEMBERS = 4;
 	const int MAX_LOBBY_QUERY_RESULTS = 10;
-	const string GAME_KEY = "nyckel";
-	const string GAME_VALUE = "varde";
+	const string GAME_KEY = "GAME_NAME_UUID";
+	const string GAME_VALUE = "d69952cf-e808-4701-bc3a-ffd160ecd2fb";
 
 	public static SteamManager Manager;
 	public SteamId PlayerSteamID;
@@ -126,8 +126,7 @@ public partial class SteamManager : Node3D
 		}
 		IsHost = false;
 	}
-
-	public async Task<bool> CreateLobby(string lobbyVisibility = "public")
+	public async Task<bool> CreateLobby(LobbyVisibilityEnum lobbyVisibility = LobbyVisibilityEnum.Public)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -153,17 +152,17 @@ public partial class SteamManager : Node3D
 				// case "private":
 				// 	lobby.SetPrivate();
 				// 	break;
-				case "friendsOnly":
+				case LobbyVisibilityEnum.FriendsOnly:
 					lobby.SetFriendsOnly();
 					break;
 
-				case "public":
+				case LobbyVisibilityEnum.Public:
 				default:
-				lobby.SetPublic();
-				break;
+					lobby.SetPublic();
+					break;
 			}
 			
-			lobby.SetData("visibility", lobbyVisibility);
+			lobby.SetData("visibility", lobbyVisibility.ToString());
 
 			lobby.SetJoinable(true);
 			lobby.SetData("ownerNameDataString", PlayerName);
@@ -236,7 +235,7 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public async Task<bool> TryJoinViaCode(string code)
+	public async Task<bool> TryJoinViaCode(string code, string password)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 

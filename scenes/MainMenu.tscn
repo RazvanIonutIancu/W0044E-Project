@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibility", "HostPasswordEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,6 +15,8 @@ lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
 codeEdit = NodePath("Toolbar/HBoxContainer/Code")
+lobbyVisibility = NodePath("Toolbar/Hosting/LobbyType")
+HostPasswordEdit = NodePath("Toolbar/Hosting/HostPassword")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
 custom_minimum_size = Vector2(107.125, 0)
@@ -70,9 +72,9 @@ selected = 0
 item_count = 3
 popup/item_0/text = "Public"
 popup/item_0/id = 0
-popup/item_1/text = "Friends Only"
+popup/item_1/text = "Private"
 popup/item_1/id = 1
-popup/item_2/text = "Private"
+popup/item_2/text = "Friends Only"
 popup/item_2/id = 2
 
 [node name="HostPassword" type="LineEdit" parent="Toolbar/Hosting" unique_id=1176882151]
@@ -90,3 +92,4 @@ offset_bottom = 583.0
 [connection signal="button_down" from="Toolbar/Find" to="." method="GetLobbies"]
 [connection signal="button_down" from="Toolbar/HBoxContainer/Join" to="." method="Join"]
 [connection signal="button_down" from="Toolbar/Hosting/Host" to="." method="CreateLobby"]
+[connection signal="item_selected" from="Toolbar/Hosting/LobbyType" to="." method="OnLobbyVisibilitySelected"]
