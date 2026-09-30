@@ -126,7 +126,7 @@ public partial class SteamManager : Node3D
 		}
 		IsHost = false;
 	}
-	public async Task<bool> CreateLobby(LobbyVisibilityEnum lobbyVisibility = LobbyVisibilityEnum.Public)
+	public async Task<bool> CreateLobby(LobbyVisibilityEnum lobbyVisibility = LobbyVisibilityEnum.Public, string password="")
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -161,7 +161,7 @@ public partial class SteamManager : Node3D
 					lobby.SetPublic();
 					break;
 			}
-			
+
 			lobby.SetData("visibility", lobbyVisibility.ToString());
 
 			lobby.SetJoinable(true);
@@ -235,18 +235,20 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public async Task<bool> TryJoinViaCode(string code, string password)
+	public async Task<bool> TryJoinViaCode(string code,string password="")
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
 			GD.Print("Try again later. Steam networking availability is pending");
 			return false; 
 		}
+		LobbyQuery query = SteamMatchmaking.LobbyList
+			.WithKeyValue(GAME_KEY,GAME_VALUE)
+			.WithKeyValue("code",code);
+		if(password is not null && password != "")
+			query = query.WithKeyValue("password", password);
 
-		Lobby[] lobbies = 
-			await SteamMatchmaking.LobbyList.
-			WithKeyValue(GAME_KEY,GAME_VALUE).
-			WithKeyValue("code",code).RequestAsync();
+		Lobby[] lobbies = await query.RequestAsync();
 		if(lobbies == null) 
 		{ 
 			GD.Print("Found no lobby with code: " + code);

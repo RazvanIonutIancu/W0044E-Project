@@ -32,7 +32,10 @@ public class SteamSocketManager : SocketManager
     {
         base.OnConnecting(connection, info);
 
-		// connection.SendMessage()
+        unsafe{ fixed(byte* ptr = DataContainer.outgoingData) {
+            
+	    	// connection.SendMessage();
+        }}
 		GD.Print("New player connecting");
     }
 

@@ -13,8 +13,15 @@ public partial class MainMenu : Control
 	[Export] private ProgressBar progressBar;
 	[Export] private LineEdit codeEdit;
 	[Export] private OptionButton lobbyVisibility;
+	[Export] private LineEdit JoinPasswordEdit;
 	[Export] private LineEdit HostPasswordEdit;
 
+	string HostPassword {get {
+		return HostPasswordEdit.Editable? HostPasswordEdit.Text.Trim(): "";
+	}}
+	string JoinPassword {get {
+		return JoinPasswordEdit.Text.Trim();
+	}}
 
 	private void OnLobbyVisibilitySelected(int index){
 		switch ((LobbyVisibilityEnum)index)

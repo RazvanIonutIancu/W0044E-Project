@@ -58,6 +58,8 @@ public class DataParser
 			case "LevelSelected":
                 OnLevelSelected.Invoke(packet);
                 break;
+			// case "JoinRequest":
+
             default:
 				break;
 		}
