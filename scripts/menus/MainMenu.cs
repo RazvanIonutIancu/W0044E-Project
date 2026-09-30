@@ -11,11 +11,14 @@ public partial class MainMenu : Control
 	[Export] private VBoxContainer lobbyContainer;
 	[Export] private ProgressBar progressBar;
 	[Export] private LineEdit codeEdit;
-	[Export] private CheckBox PrivateLobbyCheckbox;
-	[Export] private LineEdit LobbyPasswordEdit;
+	[Export] private OptionButton lobbyVisibility;
 
-	public bool IsLobbyPrivate {get  { return PrivateLobbyCheckbox.ButtonPressed;} }
-	public string LobbyPassword {get { return LobbyPasswordEdit.Text;} }
+	static private readonly Dictionary<int,string> lobbyVisibilityDict = new() {
+		{-1, "public"}, // Default
+		{0, "public"},
+		{1, "friendsOnly"},
+		{2, "private"}
+	};
 
     public override void _EnterTree()
     {
@@ -37,15 +40,18 @@ public partial class MainMenu : Control
 	{
 		foreach(var item in lobbies)
 		{
-			LobbyElement element = lobbyElement.Instantiate<LobbyElement>();
-			lobbyContainer.AddChild(element);
-			element.SetLabels(item.Id.ToString(), item.GetData("ownerNameDataString") + "'s lobby", item);
+			if(item.GetData("visibility") == "public") {
+				LobbyElement element = lobbyElement.Instantiate<LobbyElement>();
+				lobbyContainer.AddChild(element);
+				element.SetLabels(item.Id.ToString(), item.GetData("ownerNameDataString") + "'s lobby", item);
+			}
 		}
 	}
 
 	public async void CreateLobby()
 	{
-		await SteamManager.Manager.CreateLobby();
+		GD.PrintS(lobbyVisibilityDict[lobbyVisibility.Selected],"|",lobbyVisibility.Selected);
+		await SteamManager.Manager.CreateLobby(lobbyVisibilityDict[lobbyVisibility.Selected]);
 	}
 
 	public async void GetLobbies()

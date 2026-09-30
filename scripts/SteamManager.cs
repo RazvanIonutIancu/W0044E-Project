@@ -127,7 +127,7 @@ public partial class SteamManager : Node3D
 		IsHost = false;
 	}
 
-	public async Task<bool> CreateLobby()
+	public async Task<bool> CreateLobby(string lobbyVisibility = "public")
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -148,12 +148,28 @@ public partial class SteamManager : Node3D
 			Lobby lobby;
 			
 			lobby = createLobbyOutput.Value;
-			lobby.SetPublic();
+
+			switch (lobbyVisibility) {
+				// case "private":
+				// 	lobby.SetPrivate();
+				// 	break;
+				case "friendsOnly":
+					lobby.SetFriendsOnly();
+					break;
+
+				case "public":
+				default:
+				lobby.SetPublic();
+				break;
+			}
+			
+			lobby.SetData("visibility", lobbyVisibility);
+
 			lobby.SetJoinable(true);
 			lobby.SetData("ownerNameDataString", PlayerName);
 			lobby.SetData(GAME_KEY, GAME_VALUE);
 
-			string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";			
+			string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
 			string code = "";
 
 			while(true) 
@@ -199,7 +215,9 @@ public partial class SteamManager : Node3D
 		try
 		{
             availableLobbies.Clear();
-            Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithKeyValue(GAME_KEY,GAME_VALUE).WithMaxResults(MAX_LOBBY_QUERY_RESULTS).RequestAsync();
+            Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithKeyValue(GAME_KEY,GAME_VALUE)
+				.WithKeyValue("visibility", "public")
+				.WithMaxResults(MAX_LOBBY_QUERY_RESULTS).RequestAsync();
 			if (lobbies != null)
 			{
 				foreach(var item in lobbies)

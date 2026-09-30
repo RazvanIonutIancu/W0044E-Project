@@ -31,6 +31,8 @@ public class SteamSocketManager : SocketManager
     public override void OnConnecting(Connection connection, ConnectionInfo info)
     {
         base.OnConnecting(connection, info);
+
+		// connection.SendMessage()
 		GD.Print("New player connecting");
     }
 
