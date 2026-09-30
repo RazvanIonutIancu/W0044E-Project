@@ -15,7 +15,7 @@ public class DataParser
     public static Action<Dictionary<string,string>> OnPingInfo;
     public static Action<Dictionary<string,string>> OnStartGame;
     public static Action<Dictionary<string,string>> OnPlayerMove;
-    public static Action<Dictionary<string,string>> OnPlayerShoot;
+    public static Action<Dictionary<string,string>> OnShootResults;
 
     public static Action<Dictionary<string,string>> OnInitialState;
     public static Action<Dictionary<string, string>> OnLevelSelected;
@@ -64,7 +64,7 @@ public class DataParser
 				}
 				break;
 			case "ShootResults":
-				OnPlayerShoot.Invoke(packet);
+				OnShootResults.Invoke(packet);
                 SyncIncomingData(packet, null);
                 break;
             case "InitialState":
