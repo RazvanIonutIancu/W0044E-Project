@@ -127,7 +127,7 @@ public partial class SteamManager : Node3D
 		IsHost = false;
 	}
 
-	public async Task<bool> CreateLobby(bool isLobbyPrivate = false)
+	public async Task<bool> CreateLobby(string lobbyVisibility = "public")
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -152,7 +152,7 @@ public partial class SteamManager : Node3D
 			lobby.SetJoinable(true);
 			lobby.SetData("ownerNameDataString", PlayerName);
 			lobby.SetData(GAME_KEY, GAME_VALUE);
-			lobby.SetData("visibility", isLobbyPrivate? "private": "public");
+			lobby.SetData("visibility", lobbyVisibility);
 			
 			string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
 			string code = "";

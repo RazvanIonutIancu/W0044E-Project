@@ -47,7 +47,7 @@ public partial class MainMenu : Control
 
 	public async void CreateLobby()
 	{
-		await SteamManager.Manager.CreateLobby(IsLobbyPrivate);
+		await SteamManager.Manager.CreateLobby(IsLobbyPrivate? "private" : "public");
 	}
 
 	public async void GetLobbies()
