@@ -103,14 +103,14 @@ public partial class Player : CharacterBody2D, IShootable
 	{
 		GameManager.Instance().playerNodeList.Add(this);
 		DataParser.OnPlayerMove += MovePlayer;
-		DataParser.OnPlayerShoot += Shoot;
+		DataParser.OnShootResults += ShootResults;
 	}
 
 	public override void _ExitTree()
 	{
 		GameManager.Instance().playerNodeList.Remove(this);
 		DataParser.OnPlayerMove -= MovePlayer;
-		DataParser.OnPlayerShoot -= Shoot;
+		DataParser.OnShootResults -= ShootResults;
 	}
 
 
@@ -243,10 +243,12 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 		else
 		{
-            Dictionary<string, string> shotResults = CheckShot(playerShoot);
+			GD.Print("Host is trying to shoot");
+			Dictionary<string, string> shotResults = CheckShot(playerShoot);
 			SteamManager.SendData(shotResults, Steamworks.Data.SendType.Reliable);
-            Shoot(shotResults);
-        }
+			DataParser.OnShootResults.Invoke(shotResults);
+			//ShootResults(shotResults);
+		}
 
 		
 
@@ -259,11 +261,11 @@ public partial class Player : CharacterBody2D, IShootable
 
 	public Dictionary<string, string> CheckShot(Dictionary<string, string> packet)
 	{
-		Vector2 targetPosition = new Vector2();
+		GD.Print("Checking shot...");
+		Vector2 targetPosition;
 
 		if(aimingRayCast.IsColliding())
 		{
-			targetPosition = aimingRayCast.GetCollisionPoint();
 			if(aimingRayCast.GetCollider() is IShootable obj)
 			{
 				if(obj is Player player)
@@ -275,6 +277,10 @@ public partial class Player : CharacterBody2D, IShootable
 				{
 					playerShootResults["targetHit"] = PossibleHits.RigidBody.ToString();
 				}
+			}
+			else
+			{
+				playerShootResults["targetHit"] = PossibleHits.RigidBody.ToString();
 			}
 
 			targetPosition = aimingRayCast.GetCollisionPoint();
@@ -289,29 +295,37 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 
 
+		GD.Print("Shot Checked!");
 		return playerShootResults;
 	}
 
 
-	private void Shoot(Dictionary<string, string> packet)
+	private void ShootResults(Dictionary<string, string> packet)
 	{
 		if(packet["targetHit"] == PossibleHits.NoHit.ToString())
 		{
+
+			GD.Print("No target hit!");
 			return;
 		}
 
-		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
-		Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
-		sparkParticles.GlobalPosition = targetPosition;
-		AddSibling(sparkParticles);
+		if(isControlled)
+		{
+			GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
+			Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
+			sparkParticles.GlobalPosition = targetPosition;
+			AddSibling(sparkParticles);
+		}
 
 		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
 		{
+			GD.Print("Hit a wall!");
 			return;
 		}
 
 		if(packet["playerHit"] == playerID)
 		{
+			GD.Print("Hit a player!");
 			KillPlayer();
 		}
 		
@@ -326,7 +340,10 @@ public partial class Player : CharacterBody2D, IShootable
 		SpawnClone();
 		respawnTimer.Start();
 		respawnCameraTimer.Start();
-		respawnScreen.Show();
+		if(isControlled)
+		{
+			respawnScreen.Show();
+		}
 	}
 
 	private void SpawnClone()
@@ -343,7 +360,10 @@ public partial class Player : CharacterBody2D, IShootable
 
 	private void RespawnPlayer()
 	{
-		respawnScreen.Hide();
+		if(isControlled)
+		{
+			respawnScreen.Hide();
+		}
 		isAlive = true;
 		GetNode<Polygon2D>("Mesh").Visible = true;
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
