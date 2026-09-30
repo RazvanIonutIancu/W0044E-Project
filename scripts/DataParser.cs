@@ -60,7 +60,7 @@ public class DataParser
 					{
 						Dictionary<string, string> newPacket = player.CheckShot(packet);
 						OnPlayerShoot.Invoke(newPacket);
-						SyncIncomingData(newPacket, sender); // ???
+						SyncIncomingData(newPacket, null); // ???
 					}
 				}
 				break;
