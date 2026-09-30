@@ -23,7 +23,7 @@ public class DataParser
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
 		string str = System.Text.Encoding.UTF8.GetString(DataContainer.incomingData.AsSpan<byte>(0,size));
-		GD.Print(str);
+		//GD.Print(str);
 		return JsonConvert.DeserializeObject<Dictionary<string,string>>(str);
 	}
 
@@ -54,18 +54,21 @@ public class DataParser
 			    SyncIncomingData(packet, sender);
                 break;
 			case "Shoot":
-				foreach(Player player in GameManager.Instance().playerNodeList)
+                GD.Print("Client is trying to shoot!");
+                foreach(Player player in GameManager.Instance().playerNodeList)
 				{
-					if(player.playerID == packet["playerId"])
+					if(player.playerID == packet["playerID"])
 					{
-						Dictionary<string, string> newPacket = player.CheckShot(packet);
-						SyncIncomingData(newPacket, null); // ???
+                        GD.Print("Player was found!");
+                        Dictionary<string, string> newPacket = player.CheckShot(packet);
+						OnShootResults.Invoke(newPacket);
+						SyncIncomingData(newPacket, null);
 					}
 				}
 				break;
 			case "ShootResults":
 				OnShootResults.Invoke(packet);
-                SyncIncomingData(packet, null);
+				SyncIncomingData(packet, null);
                 break;
             case "InitialState":
                 OnInitialState.Invoke(packet);

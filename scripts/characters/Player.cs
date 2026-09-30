@@ -246,7 +246,8 @@ public partial class Player : CharacterBody2D, IShootable
 			GD.Print("Host is trying to shoot");
 			Dictionary<string, string> shotResults = CheckShot(playerShoot);
 			SteamManager.SendData(shotResults, Steamworks.Data.SendType.Reliable);
-			ShootResults(shotResults);
+			DataParser.OnShootResults.Invoke(shotResults);
+			//ShootResults(shotResults);
 		}
 
 		
@@ -336,7 +337,10 @@ public partial class Player : CharacterBody2D, IShootable
 		SpawnClone();
 		respawnTimer.Start();
 		respawnCameraTimer.Start();
-		respawnScreen.Show();
+		if(isControlled)
+		{
+			respawnScreen.Show();
+		}
 	}
 
 	private void SpawnClone()
@@ -353,7 +357,10 @@ public partial class Player : CharacterBody2D, IShootable
 
 	private void RespawnPlayer()
 	{
-		respawnScreen.Hide();
+		if(isControlled)
+		{
+			respawnScreen.Hide();
+		}
 		isAlive = true;
 		GetNode<Polygon2D>("Mesh").Visible = true;
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
