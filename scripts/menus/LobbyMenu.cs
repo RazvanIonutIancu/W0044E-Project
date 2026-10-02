@@ -150,7 +150,7 @@ public partial class LobbyMenu : Control
 
 	private void SendReadyPacket()
 	{
-		Dictionary<string,string> packet = new()
+		Dictionary<string,string> packet = new Dictionary<string,string>()
 		{
 			{"DataType","ReadyMessage"},
 			{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},

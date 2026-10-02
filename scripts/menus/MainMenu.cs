@@ -3,44 +3,20 @@ using System;
 using System.Collections.Generic;
 using Steamworks.Data;
 using Steamworks;
-using static LobbyData;
 
 public partial class MainMenu : Control
 {
-
 	[Export] private PackedScene lobbyElement;
 	[Export] private VBoxContainer lobbyContainer;
 	[Export] private ProgressBar progressBar;
 	[Export] private LineEdit codeEdit;
-	[Export] private OptionButton lobbyVisibility;
-	[Export] private LineEdit JoinPasswordEdit;
-	[Export] private LineEdit HostPasswordEdit;
+	[Export] private OptionButton lobbyVisibilityOptButton;
+	private LobbyVisibility lobbyVisibility = new();
 
-	string HostPassword {get {
-		return HostPasswordEdit.Editable? HostPasswordEdit.Text.Trim(): null;
-	}}
-	string JoinPassword {get {
-		return JoinPasswordEdit.Text.Trim();
-	}}
-
-	private void OnLobbyVisibilitySelected(int index){
-		switch ((LobbyVisibilityEnum)index)
-		{
-			case LobbyVisibilityEnum.Public:
-			case LobbyVisibilityEnum.Default:
-				HostPasswordEdit.Editable = false;
-				break;
-			case LobbyVisibilityEnum.Private:
-			case LobbyVisibilityEnum.FriendsOnly:
-				HostPasswordEdit.Editable = true;
-				break;
-		}
-	}
-	LobbyVisibilityEnum GetSelectedLobbyVisibility(){
-		return (LobbyVisibilityEnum)lobbyVisibility.Selected;
-	}
-	string GetSelectedLobbyVisibilityStr(){
-		return ((LobbyVisibilityEnum)lobbyVisibility.Selected).ToString();
+	private void OnLobbyVisibilitySelected(int idx) {
+		// int id =lobbyVisibilityOptButton.GetItemId(idx);
+		// GD.Print($"OnLobbyVisibilitySelected enum={(LobbyVisibility.LobbyVisibilityEnum)id}, index={idx}, ID={id}");
+		lobbyVisibility.SetValue(lobbyVisibilityOptButton.GetItemId(idx));
 	}
 
     public override void _EnterTree()
@@ -63,18 +39,15 @@ public partial class MainMenu : Control
 	{
 		foreach(var item in lobbies)
 		{
-			if(item.GetData("visibility") == "public") {
-				LobbyElement element = lobbyElement.Instantiate<LobbyElement>();
-				lobbyContainer.AddChild(element);
-				element.SetLabels(item.Id.ToString(), item.GetData("ownerNameDataString") + "'s lobby", item);
-			}
+			LobbyElement element = lobbyElement.Instantiate<LobbyElement>();
+			lobbyContainer.AddChild(element);
+			element.SetLabels(item.Id.ToString(), item.GetData("ownerNameDataString") + "'s lobby", item);
 		}
 	}
 
 	public async void CreateLobby()
 	{
-		GD.PrintS(GetSelectedLobbyVisibilityStr(),"|",lobbyVisibility.Selected);
-		await SteamManager.Manager.CreateLobby(GetSelectedLobbyVisibility(), HostPassword);
+		await SteamManager.Manager.CreateLobby(lobbyVisibility.GetValue());
 	}
 
 	public async void GetLobbies()

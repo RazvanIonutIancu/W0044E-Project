@@ -10,14 +10,14 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.Buffers;
 using System.Text;
-using static LobbyData;
+
 public partial class SteamManager : Node3D
 {
 
 	const int MAX_MEMBERS = 4;
 	const int MAX_LOBBY_QUERY_RESULTS = 10;
-	const string GAME_KEY = "GAME_NAME_UUID";
-	const string GAME_VALUE = "d69952cf-e808-4701-bc3a-ffd160ecd2fb";
+	const string GAME_KEY = "nyckel";
+	const string GAME_VALUE = "varde";
 
 	public static SteamManager Manager;
 	public SteamId PlayerSteamID;
@@ -93,7 +93,7 @@ public partial class SteamManager : Node3D
 		SteamClient.RunCallbacks();
 		try
 		{
-			if(steamSocketManager is not null)
+			if(steamSocketManager != null)
 			{
                 steamSocketManager.Receive();
             }
@@ -126,7 +126,8 @@ public partial class SteamManager : Node3D
 		}
 		IsHost = false;
 	}
-	public async Task<bool> CreateLobby(LobbyVisibilityEnum lobbyVisibility = LobbyVisibilityEnum.Public, string password=null)
+
+    public async Task<bool> CreateLobby(LobbyVisibility.LobbyVisibilityEnum lobbyVisibility = LobbyVisibility.DefaultValue)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
@@ -148,27 +149,27 @@ public partial class SteamManager : Node3D
 			
 			lobby = createLobbyOutput.Value;
 
-			switch (lobbyVisibility) {
-				// case "private":
-				// 	lobby.SetPrivate();
-				// 	break;
-				case LobbyVisibilityEnum.FriendsOnly:
+			lobby.SetData(LobbyVisibility.KEY_VIS, lobbyVisibility.ToString());
+			switch (lobbyVisibility)
+			{
+				case LobbyVisibility.LobbyVisibilityEnum.FriendsOnly:
 					lobby.SetFriendsOnly();
 					break;
-
-				case LobbyVisibilityEnum.Public:
+				case LobbyVisibility.LobbyVisibilityEnum.Private:
+					lobby.SetPrivate();
+					break;
+				case LobbyVisibility.LobbyVisibilityEnum.Public:
+				case LobbyVisibility.LobbyVisibilityEnum.Hidden:
 				default:
 					lobby.SetPublic();
 					break;
 			}
 
-			lobby.SetData("visibility", lobbyVisibility.ToString());
-
 			lobby.SetJoinable(true);
 			lobby.SetData("ownerNameDataString", PlayerName);
 			lobby.SetData(GAME_KEY, GAME_VALUE);
 
-			string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
+			const string chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
 			string code = "";
 
 			while(true) 
@@ -181,18 +182,14 @@ public partial class SteamManager : Node3D
 					GD.Print("Code " + code);
 				}
 				Lobby[] lobbies = 
-					await SteamMatchmaking.LobbyList.
-					WithKeyValue(GAME_KEY,GAME_VALUE).
-					WithKeyValue("code",code).RequestAsync();
+				await SteamMatchmaking.LobbyList
+					.WithKeyValue(GAME_KEY,GAME_VALUE)
+                    .WithKeyValue(LobbyVisibility.KEY_VIS, nameof(LobbyVisibility.LobbyVisibilityEnum.Public))
+					.WithKeyValue("code",code)
+					.RequestAsync();
 				if(lobbies == null) { break; }
 			}
 			GD.Print("Code " + code);
-
-			if (password is not null && password != ""){
-				lobby.SetData("password", password);
-				GD.Print("Password: ",password);
-			}
-			else GD.Print("No Password");
 
 			lobby.SetData("code",code);
 
@@ -220,9 +217,11 @@ public partial class SteamManager : Node3D
 		try
 		{
             availableLobbies.Clear();
-            Lobby[] lobbies = await SteamMatchmaking.LobbyList.WithKeyValue(GAME_KEY,GAME_VALUE)
-				.WithKeyValue("visibility", "public")
-				.WithMaxResults(MAX_LOBBY_QUERY_RESULTS).RequestAsync();
+            Lobby[] lobbies = await SteamMatchmaking.LobbyList
+				.WithKeyValue(GAME_KEY,GAME_VALUE)
+				.WithKeyValue(LobbyVisibility.KEY_VIS, LobbyVisibility.VALUE_VIS_PUB)
+				.WithMaxResults(MAX_LOBBY_QUERY_RESULTS)
+				.RequestAsync();
 			if (lobbies != null)
 			{
 				foreach(var item in lobbies)
@@ -241,20 +240,18 @@ public partial class SteamManager : Node3D
 		}
 	}
 
-	public async Task<bool> TryJoinViaCode(string code,string password=null)
+	public async Task<bool> TryJoinViaCode(string code)
 	{
 		if(SteamNetworkingUtils.Status != SteamNetworkingAvailability.Current) 
 		{ 
 			GD.Print("Try again later. Steam networking availability is pending");
 			return false; 
 		}
-		LobbyQuery query = SteamMatchmaking.LobbyList
-			.WithKeyValue(GAME_KEY,GAME_VALUE)
-			.WithKeyValue("code",code);
-		if(password is not null && password != "")
-			query = query.WithKeyValue("password", password);
 
-		Lobby[] lobbies = await query.RequestAsync();
+		Lobby[] lobbies = 
+			await SteamMatchmaking.LobbyList.
+			WithKeyValue(GAME_KEY,GAME_VALUE).
+			WithKeyValue("code",code).RequestAsync();
 		if(lobbies == null) 
 		{ 
 			GD.Print("Found no lobby with code: " + code);

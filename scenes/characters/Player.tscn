@@ -1,9 +1,21 @@
-[gd_scene format=3 uid="uid://c2k6ny3dbuhjk"]
+[gd_scene load_steps=5 format=3 uid="uid://c2k6ny3dbuhjk"]
 
 [ext_resource type="Script" uid="uid://d3sr0owckgs6c" path="res://scripts/characters/Player.cs" id="1_pq8s5"]
 [ext_resource type="PackedScene" uid="uid://jc2vhw5dase2" path="res://scenes/UI/RespawnScreen.tscn" id="2_gin2a"]
 
-[node name="Player" type="CharacterBody2D" unique_id=1371564531 node_paths=PackedStringArray("aimingRayCast", "respawnTimer", "respawnCameraTimer", "reloadTimer", "camera", "respawnScreen")]
+[sub_resource type="Gradient" id="Gradient_vision"]
+offsets = PackedFloat32Array(0, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_vision"]
+gradient = SubResource("Gradient_vision")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
+
+[node name="Player" type="CharacterBody2D" unique_id=1371564531 node_paths=PackedStringArray("aimingRayCast", "respawnTimer", "respawnCameraTimer", "reloadTimer", "camera", "respawnScreen", "visionLight")]
 collision_mask = 19
 script = ExtResource("1_pq8s5")
 aimingRayCast = NodePath("AimRayCast")
@@ -12,6 +24,7 @@ respawnCameraTimer = NodePath("RespawnCameraTimer")
 reloadTimer = NodePath("Reloadtimer")
 camera = NodePath("Camera2D")
 respawnScreen = NodePath("RespawnScreen")
+visionLight = NodePath("VisionLight")
 
 [node name="Mesh" type="Polygon2D" parent="." unique_id=939396202]
 position = Vector2(0, -7.6293945e-06)
@@ -24,6 +37,11 @@ scale = Vector2(0.530303, 0.54501086)
 polygon = PackedVector2Array(33.857185, -87.406494, 71.57147, -32.36172, 33.857185, 33.692005, 143.22862, -32.36172)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=422650173]
+
+[node name="VisionLight" type="PointLight2D" parent="." unique_id=422650174]
+texture = SubResource("GradientTexture2D_vision")
+texture_scale = 1.0
+shadow_enabled = true
 
 [node name="AimRayCast" type="RayCast2D" parent="." unique_id=1259298338]
 position = Vector2(39, 0)

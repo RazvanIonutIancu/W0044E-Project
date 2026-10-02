@@ -8,13 +8,14 @@ using System.Collections.Generic;
 
 public class DataParser
 {
-	public static List<SteamPacket> packetList = [];
+	public static List<SteamPacket> packetList = new List<SteamPacket>();
 
 	public static Action<Dictionary<string,string>> OnReadyMessage;
 	public static Action<Dictionary<string,string>> OnChatMessage;
     public static Action<Dictionary<string,string>> OnPingInfo;
     public static Action<Dictionary<string,string>> OnStartGame;
     public static Action<Dictionary<string,string>> OnPlayerMove;
+    public static Action<Dictionary<string,string>> OnShootResults;
 
     public static Action<Dictionary<string,string>> OnInitialState;
     public static Action<Dictionary<string, string>> OnLevelSelected;
@@ -22,7 +23,7 @@ public class DataParser
 	{
 		Marshal.Copy(data, DataContainer.incomingData, 0, size);
 		string str = System.Text.Encoding.UTF8.GetString(DataContainer.incomingData.AsSpan<byte>(0,size));
-		GD.Print(str);
+		//GD.Print(str);
 		return JsonConvert.DeserializeObject<Dictionary<string,string>>(str);
 	}
 
@@ -52,14 +53,29 @@ public class DataParser
                 OnPlayerMove.Invoke(packet);
 			    SyncIncomingData(packet, sender);
                 break;
+			case "Shoot":
+                GD.Print("Client is trying to shoot!");
+                foreach(Player player in GameManager.Instance().playerNodeList)
+				{
+					if(player.playerID == packet["playerID"])
+					{
+                        GD.Print("Player was found!");
+                        Dictionary<string, string> newPacket = player.CheckShot(packet);
+						OnShootResults.Invoke(newPacket);
+						SyncIncomingData(newPacket, null);
+					}
+				}
+				break;
+			case "ShootResults":
+				OnShootResults.Invoke(packet);
+				SyncIncomingData(packet, null);
+                break;
             case "InitialState":
                 OnInitialState.Invoke(packet);
                 break;
 			case "LevelSelected":
                 OnLevelSelected.Invoke(packet);
                 break;
-			// case "JoinRequest":
-
             default:
 				break;
 		}

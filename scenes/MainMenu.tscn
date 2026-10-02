@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibility", "JoinPasswordEdit", "HostPasswordEdit")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibilityOptButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,9 +15,7 @@ lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
 codeEdit = NodePath("Toolbar/HBoxContainer/Code")
-lobbyVisibility = NodePath("Toolbar/Hosting/LobbyType")
-JoinPasswordEdit = NodePath("Toolbar/JoinPassword")
-HostPasswordEdit = NodePath("Toolbar/Hosting/HostPassword")
+lobbyVisibilityOptButton = NodePath("Toolbar/Hosting/LobbyType")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
 custom_minimum_size = Vector2(107.125, 0)
@@ -52,10 +50,6 @@ custom_minimum_size = Vector2(0, 33.36)
 layout_mode = 2
 text = "Join"
 
-[node name="JoinPassword" type="LineEdit" parent="Toolbar" unique_id=449815422]
-layout_mode = 2
-placeholder_text = "Password..."
-
 [node name="HSeparator" type="HSeparator" parent="Toolbar" unique_id=1199584440]
 layout_mode = 2
 
@@ -70,18 +64,15 @@ text = "Host"
 [node name="LobbyType" type="OptionButton" parent="Toolbar/Hosting" unique_id=536177551]
 layout_mode = 2
 selected = 0
-item_count = 3
+item_count = 4
 popup/item_0/text = "Public"
 popup/item_0/id = 0
-popup/item_1/text = "Private"
+popup/item_1/text = "Hidden"
 popup/item_1/id = 1
 popup/item_2/text = "Friends Only"
 popup/item_2/id = 2
-
-[node name="HostPassword" type="LineEdit" parent="Toolbar/Hosting" unique_id=1176882151]
-layout_mode = 2
-placeholder_text = "Password..."
-editable = false
+popup/item_3/text = "SetPrivate()"
+popup/item_3/id = 3
 
 [node name="Lobbies" type="VBoxContainer" parent="." unique_id=249399726]
 layout_mode = 0

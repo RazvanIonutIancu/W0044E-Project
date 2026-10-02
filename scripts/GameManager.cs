@@ -7,6 +7,7 @@ public sealed class GameManager
     private static GameManager instance;
 
 	public List<PlayerState> playerList = new List<PlayerState>();
+	public List<Player> playerNodeList = new List<Player>();
 
     public int selectedLevelIndex = 0;
 

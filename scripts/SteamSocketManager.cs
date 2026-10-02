@@ -17,8 +17,7 @@ public class SteamSocketManager : SocketManager
         {
             {"DataType","InitialState"},
             {"Code",SteamManager.currentLobby.Value.GetData("code")},
-            {"LevelIndex",GameManager.Instance().selectedLevelIndex.ToString()},
-            // {"Visibilty", "Public"}
+            {"LevelIndex",GameManager.Instance().selectedLevelIndex.ToString()}
         };
         foreach(PlayerState player in GameManager.Instance().playerList)
         {
@@ -31,11 +30,6 @@ public class SteamSocketManager : SocketManager
     public override void OnConnecting(Connection connection, ConnectionInfo info)
     {
         base.OnConnecting(connection, info);
-
-        unsafe{ fixed(byte* ptr = DataContainer.outgoingData) {
-            
-	    	// connection.SendMessage();
-        }}
 		GD.Print("New player connecting");
     }
 
