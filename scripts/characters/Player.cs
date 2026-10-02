@@ -304,22 +304,10 @@ public partial class Player : CharacterBody2D, IShootable
 
 	private void ShootResults(Dictionary<string, string> packet)
 	{
-		if(packet["targetHit"] == PossibleHits.NoHit.ToString())
+
+		if(packet["playerID"] == playerID)
 		{
-
-			GD.Print("No target hit!");
-			return;
-		}
-
-		GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
-		Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
-		sparkParticles.GlobalPosition = targetPosition;
-		AddSibling(sparkParticles);
-
-		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
-		{
-			GD.Print("Hit a wall!");
-			return;
+			GetNode<MuzzleFlash>("MuzzleFlash").ShowMuzzleFlash();
 		}
 
 		if(packet["playerHit"] == playerID)
@@ -327,7 +315,26 @@ public partial class Player : CharacterBody2D, IShootable
 			GD.Print("Hit a player!");
 			KillPlayer();
 		}
-		
+
+		if(isControlled)
+		{
+			if(packet["targetHit"] == PossibleHits.NoHit.ToString())
+			{
+
+				GD.Print("No target hit!");
+				return;
+			}
+
+			GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
+			Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
+			sparkParticles.GlobalPosition = targetPosition;
+			AddSibling(sparkParticles);
+
+			if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
+			{
+				GD.Print("Hit a wall!");
+			}
+		}
 	}
 
 

@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d3sr0owckgs6c" path="res://scripts/characters/Player.cs" id="1_pq8s5"]
 [ext_resource type="PackedScene" uid="uid://jc2vhw5dase2" path="res://scenes/UI/RespawnScreen.tscn" id="2_gin2a"]
+[ext_resource type="PackedScene" uid="uid://8ceevo6yj7oi" path="res://scenes/vfx/MuzzleFlash.tscn" id="3_7n8ao"]
 
 [sub_resource type="Gradient" id="Gradient_vision"]
-offsets = PackedFloat32Array(0, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_vision"]
@@ -15,7 +15,7 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
 
-[node name="Player" type="CharacterBody2D" unique_id=1371564531 node_paths=PackedStringArray("aimingRayCast", "respawnTimer", "respawnCameraTimer", "reloadTimer", "camera", "respawnScreen", "visionLight")]
+[node name="Player" type="CharacterBody2D" unique_id=1371564531 node_paths=PackedStringArray("aimingRayCast", "respawnTimer", "respawnCameraTimer", "reloadTimer", "camera", "visionLight", "respawnScreen")]
 collision_mask = 19
 script = ExtResource("1_pq8s5")
 aimingRayCast = NodePath("AimRayCast")
@@ -23,6 +23,7 @@ respawnTimer = NodePath("RespawnTimer")
 respawnCameraTimer = NodePath("RespawnCameraTimer")
 reloadTimer = NodePath("Reloadtimer")
 camera = NodePath("Camera2D")
+visionLight = NodePath("VisionLight")
 respawnScreen = NodePath("RespawnScreen")
 visionLight = NodePath("VisionLight")
 
@@ -39,9 +40,8 @@ polygon = PackedVector2Array(33.857185, -87.406494, 71.57147, -32.36172, 33.8571
 [node name="Camera2D" type="Camera2D" parent="." unique_id=422650173]
 
 [node name="VisionLight" type="PointLight2D" parent="." unique_id=422650174]
-texture = SubResource("GradientTexture2D_vision")
-texture_scale = 1.0
 shadow_enabled = true
+texture = SubResource("GradientTexture2D_vision")
 
 [node name="AimRayCast" type="RayCast2D" parent="." unique_id=1259298338]
 position = Vector2(39, 0)
@@ -60,6 +60,9 @@ one_shot = true
 one_shot = true
 
 [node name="RespawnScreen" parent="." unique_id=1164163506 instance=ExtResource("2_gin2a")]
+
+[node name="MuzzleFlash" parent="." unique_id=858232857 instance=ExtResource("3_7n8ao")]
+position = Vector2(54, -2)
 
 [connection signal="timeout" from="RespawnTimer" to="." method="RespawnPlayer"]
 [connection signal="timeout" from="RespawnCameraTimer" to="." method="MoveRespawnPosition"]
