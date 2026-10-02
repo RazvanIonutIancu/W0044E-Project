@@ -66,12 +66,12 @@ public partial class Player : CharacterBody2D, IShootable
 			fog.player = this;
 			fog.camera = camera;
 			AddSibling(fog);
-
+		}
 		else
 		{
 			//other players shouldnt provide fog of war for each other
 			visionLight.Enabled = false;
-			
+
 			GetNode<Polygon2D>("Mesh").Color = Colors.Black;
 		}
 
