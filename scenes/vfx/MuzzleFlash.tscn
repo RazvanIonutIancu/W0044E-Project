@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://8ceevo6yj7oi"]
+
+[ext_resource type="Texture2D" uid="uid://brkeks7agevbv" path="res://scenes/vfx/New Piskel.png" id="1_kwips"]
+
+[node name="MuzzleFlash" type="Sprite2D" unique_id=858232857]
+texture_filter = 1
+texture = ExtResource("1_kwips")
