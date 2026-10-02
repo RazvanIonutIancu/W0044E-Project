@@ -66,6 +66,11 @@ public partial class Player : CharacterBody2D, IShootable
 			fog.player = this;
 			fog.camera = camera;
 			AddSibling(fog);
+
+			if(!isControlled)
+			{
+				GetNode<Polygon2D>("Mesh").Color = Colors.Black;
+			}
 		}
 		else
 		{
