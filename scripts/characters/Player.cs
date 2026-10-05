@@ -348,6 +348,7 @@ public partial class Player : CharacterBody2D, IShootable
 	{
 		isAlive = false;
 		GetNode<Polygon2D>("Mesh").Visible = false;
+		GetNode<CollisionPolygon2D>("CollisionShape").Disabled = true;
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = false;
 		SpawnClone();
 		respawnTimer.Start();
@@ -378,6 +379,7 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 		isAlive = true;
 		GetNode<Polygon2D>("Mesh").Visible = true;
+		GetNode<CollisionPolygon2D>("CollisionShape").Disabled = false;
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
 	}
 
