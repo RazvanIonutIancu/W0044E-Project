@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibilityOptButton")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,6 @@ lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
 codeEdit = NodePath("Toolbar/JoinByCode/Code")
-lobbyVisibilityOptButton = NodePath("Toolbar/Hosting/LobbyType")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
 custom_minimum_size = Vector2(107.125, 0)
@@ -74,7 +73,8 @@ custom_minimum_size = Vector2(0, 33.36)
 layout_mode = 2
 text = "Join"
 
-[node name="Button" type="Button" parent="Toolbar" unique_id=511102644]
+[node name="find friend" type="Button" parent="Toolbar" unique_id=511102644]
+visible = false
 layout_mode = 2
 text = "Find friend lobbies"
 
