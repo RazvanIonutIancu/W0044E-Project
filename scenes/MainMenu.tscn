@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
-[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit", "lobbyVisibilityOptButton")]
+[node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,8 +14,7 @@ script = ExtResource("1_0ykhv")
 lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
-codeEdit = NodePath("Toolbar/HBoxContainer/Code")
-lobbyVisibilityOptButton = NodePath("Toolbar/Hosting/LobbyType")
+codeEdit = NodePath("Toolbar/Joining/Code")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
 custom_minimum_size = Vector2(107.125, 0)
@@ -29,28 +28,6 @@ offset_bottom = 13.0
 grow_vertical = 2
 
 [node name="ProgressBar" type="ProgressBar" parent="Toolbar" unique_id=925621852]
-layout_mode = 2
-
-[node name="Find" type="Button" parent="Toolbar" unique_id=1560355549]
-custom_minimum_size = Vector2(0, 35)
-layout_mode = 2
-text = "Find"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Toolbar" unique_id=909220022]
-layout_mode = 2
-
-[node name="Code" type="LineEdit" parent="Toolbar/HBoxContainer" unique_id=2000686908]
-layout_mode = 2
-placeholder_text = "Code..."
-max_length = 4
-caret_blink = true
-
-[node name="Join" type="Button" parent="Toolbar/HBoxContainer" unique_id=776333206]
-custom_minimum_size = Vector2(0, 33.36)
-layout_mode = 2
-text = "Join"
-
-[node name="HSeparator" type="HSeparator" parent="Toolbar" unique_id=1199584440]
 layout_mode = 2
 
 [node name="Hosting" type="VBoxContainer" parent="Toolbar" unique_id=1281357157]
@@ -74,6 +51,28 @@ popup/item_2/id = 2
 popup/item_3/text = "SetPrivate()"
 popup/item_3/id = 3
 
+[node name="HSeparator" type="HSeparator" parent="Toolbar" unique_id=1199584440]
+layout_mode = 2
+
+[node name="Find" type="Button" parent="Toolbar" unique_id=1560355549]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+text = "Find"
+
+[node name="Joining" type="HBoxContainer" parent="Toolbar" unique_id=909220022]
+layout_mode = 2
+
+[node name="Code" type="LineEdit" parent="Toolbar/Joining" unique_id=2000686908]
+layout_mode = 2
+placeholder_text = "Code..."
+max_length = 4
+caret_blink = true
+
+[node name="Join" type="Button" parent="Toolbar/Joining" unique_id=776333206]
+custom_minimum_size = Vector2(0, 33.36)
+layout_mode = 2
+text = "Join"
+
 [node name="Lobbies" type="VBoxContainer" parent="." unique_id=249399726]
 layout_mode = 0
 offset_left = 185.0
@@ -81,7 +80,7 @@ offset_top = 15.0
 offset_right = 1084.0
 offset_bottom = 583.0
 
-[connection signal="button_down" from="Toolbar/Find" to="." method="GetLobbies"]
-[connection signal="button_down" from="Toolbar/HBoxContainer/Join" to="." method="Join"]
 [connection signal="button_down" from="Toolbar/Hosting/Host" to="." method="CreateLobby"]
 [connection signal="item_selected" from="Toolbar/Hosting/LobbyType" to="." method="OnLobbyVisibilitySelected"]
+[connection signal="button_down" from="Toolbar/Find" to="." method="GetLobbies"]
+[connection signal="button_down" from="Toolbar/Joining/Join" to="." method="Join"]
