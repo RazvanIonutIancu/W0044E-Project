@@ -266,6 +266,9 @@ public partial class Player : CharacterBody2D, IShootable
 		GD.Print("Checking shot...");
 		Vector2 targetPosition;
 
+		// Resetting player hit
+		playerShootResults["playerHit"] = "";
+
 		if(aimingRayCast.IsColliding())
 		{
 			if(aimingRayCast.GetCollider() is IShootable obj)
@@ -310,10 +313,9 @@ public partial class Player : CharacterBody2D, IShootable
 			GetNode<MuzzleFlash>("MuzzleFlash").ShowMuzzleFlash();
 		}
 
-
-
 		if(isControlled)
 		{
+			// THIS FUNCTION SHOULD GO FIRST TO MAKE SURE THERE ARE NO WEIRD KILLS WITH NO TARGETING
 			if(packet["targetHit"] == PossibleHits.NoHit.ToString())
 			{
 
@@ -326,18 +328,19 @@ public partial class Player : CharacterBody2D, IShootable
 			sparkParticles.GlobalPosition = targetPosition;
 			AddSibling(sparkParticles);
 
+			if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
+			{
+				GD.Print("Hit a wall!");
+			}
+
+			if(packet["playerHit"] == playerID)
+			{
+				GD.Print("Hit a player!");
+				KillPlayer();
+			}
+
 		}
 
-		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
-		{
-			GD.Print("Hit a wall!");
-		}
-
-		if(packet["playerHit"] == playerID)
-		{
-			GD.Print("Hit a player!");
-			KillPlayer();
-		}
 	}
 
 
@@ -345,6 +348,7 @@ public partial class Player : CharacterBody2D, IShootable
 	{
 		isAlive = false;
 		GetNode<Polygon2D>("Mesh").Visible = false;
+		GetNode<CollisionPolygon2D>("CollisionShape").Disabled = true;
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = false;
 		SpawnClone();
 		respawnTimer.Start();
@@ -375,6 +379,7 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 		isAlive = true;
 		GetNode<Polygon2D>("Mesh").Visible = true;
+		GetNode<CollisionPolygon2D>("CollisionShape").Disabled = false;
 		GetNode<CollisionPolygon2D>("CollisionShape").Visible = true;
 	}
 
