@@ -184,7 +184,7 @@ public partial class SteamManager : Node3D
 				Lobby[] lobbies = 
 				await SteamMatchmaking.LobbyList
 					.WithKeyValue(GAME_KEY,GAME_VALUE)
-                    .WithKeyValue(LobbyVisibility.KEY_VIS, nameof(LobbyVisibility.LobbyVisibilityEnum.Public))
+                    // .WithKeyValue(LobbyVisibility.KEY_VIS, nameof(LobbyVisibility.LobbyVisibilityEnum.Public))
 					.WithKeyValue("code",code)
 					.RequestAsync();
 				if(lobbies == null) { break; }

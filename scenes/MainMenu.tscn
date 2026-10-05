@@ -14,7 +14,7 @@ script = ExtResource("1_0ykhv")
 lobbyElement = ExtResource("2_2wh52")
 lobbyContainer = NodePath("Lobbies")
 progressBar = NodePath("Toolbar/ProgressBar")
-codeEdit = NodePath("Toolbar/Joining/Code")
+codeEdit = NodePath("Toolbar/JoinByCode/Code")
 lobbyVisibilityOptButton = NodePath("Toolbar/Hosting/LobbyType")
 
 [node name="Toolbar" type="VBoxContainer" parent="." unique_id=1293847646]
@@ -60,19 +60,23 @@ custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 text = "Find"
 
-[node name="Joining" type="HBoxContainer" parent="Toolbar" unique_id=909220022]
+[node name="JoinByCode" type="HBoxContainer" parent="Toolbar" unique_id=909220022]
 layout_mode = 2
 
-[node name="Code" type="LineEdit" parent="Toolbar/Joining" unique_id=2000686908]
+[node name="Code" type="LineEdit" parent="Toolbar/JoinByCode" unique_id=2000686908]
 layout_mode = 2
 placeholder_text = "Code..."
 max_length = 4
 caret_blink = true
 
-[node name="Join" type="Button" parent="Toolbar/Joining" unique_id=776333206]
+[node name="Join" type="Button" parent="Toolbar/JoinByCode" unique_id=776333206]
 custom_minimum_size = Vector2(0, 33.36)
 layout_mode = 2
 text = "Join"
+
+[node name="Button" type="Button" parent="Toolbar" unique_id=511102644]
+layout_mode = 2
+text = "Find friend lobbies"
 
 [node name="Lobbies" type="VBoxContainer" parent="." unique_id=249399726]
 layout_mode = 0
@@ -84,4 +88,4 @@ offset_bottom = 583.0
 [connection signal="button_down" from="Toolbar/Hosting/Host" to="." method="CreateLobby"]
 [connection signal="item_selected" from="Toolbar/Hosting/LobbyType" to="." method="OnLobbyVisibilitySelected"]
 [connection signal="button_down" from="Toolbar/Find" to="." method="GetLobbies"]
-[connection signal="button_down" from="Toolbar/Joining/Join" to="." method="Join"]
+[connection signal="button_down" from="Toolbar/JoinByCode/Join" to="." method="Join"]
