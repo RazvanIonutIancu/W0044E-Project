@@ -1,11 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public partial class Player : CharacterBody2D, IShootable
 {
 	[Export]
-	public float speed = 300.0f * 60f;
+	public float speed = 20000.0f;
 	[Export]
 	public RayCast2D aimingRayCast;
 	[Export]
@@ -42,16 +43,17 @@ public partial class Player : CharacterBody2D, IShootable
 
 
 
-	// DEBUG
-
 	PackedScene sparkPackedScene = GD.Load<PackedScene>("res://scenes/particles/SparkParticles.tscn");
 	PackedScene clonePackedScene = GD.Load<PackedScene>("res://scenes/characters/Clone.tscn");
 	PackedScene fogPackedScene = GD.Load<PackedScene>("res://scenes/UI/FogOfWar.tscn");
+	PackedScene reloadBarScene = GD.Load<PackedScene>("res://prefabs/ReloadBar.tscn");
+
+
+	private TextureProgressBar reloadBar;
 
 	[Export]
 	RespawnScreen respawnScreen;
 
-	// DEBUG END
 
 
 	public void Initialize()
@@ -76,12 +78,15 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 
 
-		// DEBUG
+
+
 
 		respawnScreen.player = this;
 		respawnScreen.respawnTimer = respawnTimer;
 
-		// DEBUG END
+		reloadBar = reloadBarScene.Instantiate<TextureProgressBar>();
+		AddSibling(reloadBar);
+
 		playerMovementDictionary.Add("DataType", "MovePlayer");
 		playerMovementDictionary.Add("playerID", playerID);
 		playerMovementDictionary.Add("posX", Position.X.ToString());
@@ -122,6 +127,7 @@ public partial class Player : CharacterBody2D, IShootable
 	public override void _PhysicsProcess(double delta)
 	{
 
+
 		if(!isControlled)
 		{
 			// This is a remote player
@@ -136,6 +142,7 @@ public partial class Player : CharacterBody2D, IShootable
 
 		PlayerAim();
 		MoveCharacter(delta);
+		UpdateUI();
 
 	}
 
@@ -185,6 +192,22 @@ public partial class Player : CharacterBody2D, IShootable
 
 		SteamManager.SendData(playerMovementDictionary, Steamworks.Data.SendType.NoDelay);
 	}
+
+
+	private void UpdateUI()
+	{
+		if(!reloadTimer.IsStopped())
+		{
+			reloadBar.GlobalPosition = new Vector2(GlobalPosition.X + 30f, GlobalPosition.Y + 30f);
+			reloadBar.Value = 100f - (reloadTimer.TimeLeft * 100f / reloadTimer.WaitTime);
+		}
+	}
+
+
+
+
+
+
 
 	/// <summary>
 	/// This one is moved by the host
@@ -256,10 +279,20 @@ public partial class Player : CharacterBody2D, IShootable
 
 
 		reloadTimer.Start();
+		reloadBar.Show();
+		UpdateUI();
+	}
+
+	// Called by the reload timer
+	public void AfterReload()
+	{
+		if(isControlled)
+		{
+			reloadBar.Hide();
+		}
 	}
 
 
-	// DEBUG
 
 	public Dictionary<string, string> CheckShot(Dictionary<string, string> packet)
 	{
@@ -376,6 +409,7 @@ public partial class Player : CharacterBody2D, IShootable
 		if(isControlled)
 		{
 			respawnScreen.Hide();
+			reloadBar.Hide();
 		}
 		isAlive = true;
 		GetNode<Polygon2D>("Mesh").Visible = true;
@@ -390,8 +424,6 @@ public partial class Player : CharacterBody2D, IShootable
 
 
 
-
-	// DEBUG END
 
 
 

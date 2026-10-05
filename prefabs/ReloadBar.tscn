@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c7wccoe2h01b2"]
+
+[ext_resource type="Texture2D" uid="uid://csqxghg4g8hap" path="res://assets/UI/ReloadBarUnder.png" id="1_gstcq"]
+[ext_resource type="Texture2D" uid="uid://sdqkwvy3wmjt" path="res://assets/UI/ReloadBarOver.png" id="2_uokd7"]
+
+[node name="ReloadBar" type="TextureProgressBar" unique_id=1527580]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1856.0
+offset_bottom = -1016.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+fill_mode = 4
+texture_under = ExtResource("1_gstcq")
+texture_progress = ExtResource("2_uokd7")

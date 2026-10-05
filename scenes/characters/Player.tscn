@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2k6ny3dbuhjk"]
+[gd_scene format=3 uid="uid://c2k6ny3dbuhjk"]
 
 [ext_resource type="Script" uid="uid://d3sr0owckgs6c" path="res://scripts/characters/Player.cs" id="1_pq8s5"]
 [ext_resource type="PackedScene" uid="uid://jc2vhw5dase2" path="res://scenes/UI/RespawnScreen.tscn" id="2_gin2a"]
@@ -25,7 +25,6 @@ reloadTimer = NodePath("Reloadtimer")
 camera = NodePath("Camera2D")
 visionLight = NodePath("VisionLight")
 respawnScreen = NodePath("RespawnScreen")
-visionLight = NodePath("VisionLight")
 
 [node name="Mesh" type="Polygon2D" parent="." unique_id=939396202]
 position = Vector2(0, -7.6293945e-06)
@@ -58,6 +57,7 @@ one_shot = true
 
 [node name="Reloadtimer" type="Timer" parent="." unique_id=1512862929]
 one_shot = true
+autostart = true
 
 [node name="RespawnScreen" parent="." unique_id=1164163506 instance=ExtResource("2_gin2a")]
 
@@ -66,3 +66,4 @@ position = Vector2(54, -2)
 
 [connection signal="timeout" from="RespawnTimer" to="." method="RespawnPlayer"]
 [connection signal="timeout" from="RespawnCameraTimer" to="." method="MoveRespawnPosition"]
+[connection signal="timeout" from="Reloadtimer" to="." method="AfterReload"]
