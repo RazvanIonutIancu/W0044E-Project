@@ -313,32 +313,32 @@ public partial class Player : CharacterBody2D, IShootable
 			GetNode<MuzzleFlash>("MuzzleFlash").ShowMuzzleFlash();
 		}
 
+		// THIS FUNCTION SHOULD GO FIRST TO MAKE SURE THERE ARE NO WEIRD KILLS WITH NO TARGETING
+		if(packet["targetHit"] == PossibleHits.NoHit.ToString())
+		{
+
+			GD.Print("No target hit!");
+			return;
+		}
+
+
+		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
+		{
+			GD.Print("Hit a wall!");
+		}
+
+		if(packet["playerHit"] == playerID)
+		{
+			GD.Print("Hit a player!");
+			KillPlayer();
+		}
+
 		if(isControlled)
 		{
-			// THIS FUNCTION SHOULD GO FIRST TO MAKE SURE THERE ARE NO WEIRD KILLS WITH NO TARGETING
-			if(packet["targetHit"] == PossibleHits.NoHit.ToString())
-			{
-
-				GD.Print("No target hit!");
-				return;
-			}
-
 			GpuParticles2D sparkParticles = sparkPackedScene.Instantiate<GpuParticles2D>();
 			Vector2 targetPosition = new Vector2(float.Parse(packet["hitPosX"]), float.Parse(packet["hitPosY"]));
 			sparkParticles.GlobalPosition = targetPosition;
 			AddSibling(sparkParticles);
-
-			if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
-			{
-				GD.Print("Hit a wall!");
-			}
-
-			if(packet["playerHit"] == playerID)
-			{
-				GD.Print("Hit a player!");
-				KillPlayer();
-			}
-
 		}
 
 	}
