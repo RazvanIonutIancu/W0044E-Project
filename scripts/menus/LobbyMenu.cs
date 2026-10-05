@@ -164,6 +164,7 @@ public partial class LobbyMenu : Control
 	{
         GameManager.AddPlayer(friend.Id.AccountId.ToString());
         AddLobbyPlayerElement(friend);
+		startButton.Visible = SteamManager.Manager.IsHost && GameManager.IsEveryoneReady();
         //OnLobbyInitializedCallback(true);
         //SendReadyPacket();
     }
