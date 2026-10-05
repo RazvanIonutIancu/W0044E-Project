@@ -9,13 +9,20 @@ using SingleScore = byte;
 public class ScoreSytem
 {
 	const byte MAX_PLAYERS = sizeof(PackedScores) / sizeof(SingleScore);
+	const int BITSHIFT_SIZE = sizeof(SingleScore) * 8;
 	public static ScoreValues playerScores = new();
+	/*
+	00000000000000000000000011111111
+	00000000000000001111111100000000
+	00000000111111110000000000000000
+	11111111000000000000000000000000
+	*/
 	static readonly ScoreMaskType[] masks = [
 		//MaxValue bitshifted by the byte size of SingleScore * the size of a byte in bits * index
-		(SingleScore.MaxValue << sizeof(SingleScore) * 8 * 0),
-		(SingleScore.MaxValue << sizeof(SingleScore) * 8 * 1),
-		(SingleScore.MaxValue << sizeof(SingleScore) * 8 * 2),
-		(SingleScore.MaxValue << sizeof(SingleScore) * 8 * 3)
+		(SingleScore.MaxValue << BITSHIFT_SIZE * 0),
+		(SingleScore.MaxValue << BITSHIFT_SIZE * 1),
+		(SingleScore.MaxValue << BITSHIFT_SIZE * 2),
+		(SingleScore.MaxValue << BITSHIFT_SIZE * 3)
 	];
 	public static void Test()
 	{
@@ -42,7 +49,7 @@ public class ScoreSytem
 		PackedScores o = 0;
 		for (byte i = 0; i < ScoreValues.Length; i++)
 		{
-            o += scores[i] << sizeof(SingleScore) * 8 * i;
+            o += scores[i] << BITSHIFT_SIZE * i;
 		}
 		return o;
 	}
@@ -52,7 +59,7 @@ public class ScoreSytem
 		ScoreValues o = new();
 		for (byte i = 0; i < MAX_PLAYERS; ++i)
 		{
-            o[i] = (byte)((packed & masks[i]) >> sizeof(SingleScore) * 8 * i);
+            o[i] = (byte)((packed & masks[i]) >> BITSHIFT_SIZE * i);
 		}
 		return o;
 	}
