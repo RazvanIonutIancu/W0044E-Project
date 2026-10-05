@@ -310,11 +310,7 @@ public partial class Player : CharacterBody2D, IShootable
 			GetNode<MuzzleFlash>("MuzzleFlash").ShowMuzzleFlash();
 		}
 
-		if(packet["playerHit"] == playerID)
-		{
-			GD.Print("Hit a player!");
-			KillPlayer();
-		}
+
 
 		if(isControlled)
 		{
@@ -330,10 +326,17 @@ public partial class Player : CharacterBody2D, IShootable
 			sparkParticles.GlobalPosition = targetPosition;
 			AddSibling(sparkParticles);
 
-			if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
-			{
-				GD.Print("Hit a wall!");
-			}
+		}
+
+		if(packet["targetHit"] == PossibleHits.RigidBody.ToString())
+		{
+			GD.Print("Hit a wall!");
+		}
+
+		if(packet["playerHit"] == playerID)
+		{
+			GD.Print("Hit a player!");
+			KillPlayer();
 		}
 	}
 
