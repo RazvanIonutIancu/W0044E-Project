@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bff4asmrymkii"]
+
+[ext_resource type="Script" uid="uid://dc8g5842rgdva" path="res://scripts/UI/Scoreboard.cs" id="1_r6ejx"]
+
+[node name="Scoreboard" type="Control" unique_id=1714535897]
+top_level = true
+z_index = 69
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r6ejx")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=295089387]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
