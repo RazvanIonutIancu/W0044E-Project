@@ -5,6 +5,7 @@ public partial class SceneLoader : Node
 {
 	[Export] private PackedScene mainMenu;
 	[Export] private PackedScene lobbyMenu;
+	[Export] private PackedScene pauseMenu;
 
 	[Export] private Control menuSceneContainer;
 
@@ -54,4 +55,13 @@ public partial class SceneLoader : Node
         levelContainer.AddChild((Node)level);
         return level;
     }
+
+	public void LoadPauseMenu(LobbySession session)
+	{
+		ClearMenuContainer();
+
+		PauseMenu menu = pauseMenu.Instantiate<PauseMenu>();
+		menuSceneContainer.AddChild(menu);
+		menu.session = session;
+	}
 }

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bk66tyorskbqu" path="res://scenes/MainMenu.tscn" id="4_611at"]
 [ext_resource type="Script" uid="uid://byba5v5rkwe1f" path="res://scripts/SceneLoader.cs" id="4_k24pf"]
 [ext_resource type="PackedScene" uid="uid://drot2uw411mve" path="res://scenes/maps/TestMap.tscn" id="6_1wiy7"]
+[ext_resource type="PackedScene" uid="uid://cvehod7hjhmy0" path="res://scenes/pause_menu.tscn" id="6_u1u68"]
 [ext_resource type="PackedScene" uid="uid://dvybprtma3esf" path="res://scenes/LobbyMenu.tscn" id="6_ygjfp"]
 [ext_resource type="PackedScene" uid="uid://dj16j5xu82h54" path="res://scenes/maps/TestMap2.tscn" id="7_1wiy7"]
 
@@ -20,6 +21,7 @@ sceneLoader = NodePath("../SceneLoader")
 script = ExtResource("4_k24pf")
 mainMenu = ExtResource("4_611at")
 lobbyMenu = ExtResource("6_ygjfp")
+pauseMenu = ExtResource("6_u1u68")
 menuSceneContainer = NodePath("../MenuSceneContainer")
 levelContainer = NodePath("../LevelContainer")
 levels = Array[PackedScene]([ExtResource("6_1wiy7"), ExtResource("7_1wiy7")])
