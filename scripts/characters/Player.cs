@@ -395,8 +395,6 @@ public partial class Player : CharacterBody2D, IShootable
 			GD.Print("Hit a player!");
 
 			KillPlayer();
-
-			GameManager.ChangeRevengeScore(packet["playerID"], packet["playerHit"]);
 		}
 
 		if(isControlled)
