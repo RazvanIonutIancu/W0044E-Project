@@ -47,7 +47,9 @@ public partial class SteamManager : Node3D
 
 	public SteamManager()
 	{
-		string path = ProjectSettings.GlobalizePath("res://libsteam_api.so");
+		string path = OS.HasFeature("edtior")
+			? ProjectSettings.GlobalizePath("res://libsteam_api.so")
+			: OS.GetExecutablePath().GetBaseDir().PathJoin("libsteam_api.so");
 		if (OperatingSystem.IsLinux())
 		{
 			NativeLibrary.Load(path);
