@@ -69,8 +69,7 @@ public partial class LobbyMenu : Control
 
 	public void Disconnect()
 	{
-		session = null;
-		SteamManager.Manager.Disconnect();
+		session.Disconnect();
 	}
 
 	public void AddLobbyPlayer(Friend friend)

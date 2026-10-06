@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using Steamworks;
 using Steamworks.Data;
+using System.Globalization;
 
 public class LobbySession
 {
 
-	private readonly LobbyMenu lobbyUI;
+	public LobbyMenu lobbyUI;
 
     private bool clientIsReady = false;
 
@@ -85,6 +86,11 @@ public class LobbySession
         	    }
         	}
 		}
+	}
+
+	public void Disconnect()
+	{
+		SteamManager.Manager.Disconnect();
 	}
 
 	public void ToggleReady()
