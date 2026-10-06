@@ -112,6 +112,7 @@ public partial class SteamManager : Node3D
 
 	public void Disconnect()
 	{
+		// GameManager.Instance().Reset();
 		sceneLoader.LoadMainMenu();
 		if(currentLobby.HasValue)
 		{

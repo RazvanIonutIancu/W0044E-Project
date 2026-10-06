@@ -34,6 +34,7 @@ public partial class SceneLoader : Node
 	public void LoadMainMenu()
 	{
 		ClearMenuContainer();
+		ClearLevelContainer();
 
 		MainMenu menu = mainMenu.Instantiate<MainMenu>();
 		menuSceneContainer.AddChild(menu);

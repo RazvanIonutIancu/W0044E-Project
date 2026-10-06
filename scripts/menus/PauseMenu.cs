@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PauseMenu : Control
+public partial class PauseMenu : CanvasLayer
 {
 	public LobbySession session;
 	public StringName PauseAction = "pause";
@@ -31,11 +31,14 @@ public partial class PauseMenu : Control
 
 	public void Unstuck()
 	{
+		// NOT IMPLEMENTED
 		// kill player
 	}
 	void QuitToLobby()
 	{
-
+		// NOT IMPLEMENTED
+		// EndGame()
+		// SceneLoader.LoadLobbyMenuOrSomething()
 	}
 	void QuitGameToMainMenu()
 	{
