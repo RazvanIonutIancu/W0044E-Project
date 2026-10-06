@@ -96,7 +96,7 @@ public sealed class GameManager
 	{
 		foreach(PlayerState player in Instance().playerList)
 		{
-			if(player.ToString() == playerID)
+			if(player.GetID() == playerID)
 			{
 				return player.GetName();
 			}

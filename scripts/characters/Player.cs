@@ -125,11 +125,11 @@ public partial class Player : CharacterBody2D, IShootable
 	{
 		foreach(PlayerState playerState in GameManager.Instance().playerList)
 		{
-			if(playerState.ToString() == playerID)
+			if(playerState.GetID() == playerID)
 			{
 				continue;
 			}
-			playerRevengeScore.Add(playerState.ToString(), 0);
+			playerRevengeScore.Add(playerState.GetID(), 0);
 		}
 	}
 

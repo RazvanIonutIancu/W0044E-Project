@@ -2,9 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dc8g5842rgdva" path="res://scripts/UI/Scoreboard.cs" id="1_r6ejx"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xk8pb"]
+bg_color = Color(0, 0, 0, 0.72156864)
+
 [node name="Scoreboard" type="Control" unique_id=1714535897 node_paths=PackedStringArray("scoreHolder")]
+visible = false
 top_level = true
 z_index = 69
+z_as_relative = false
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -14,9 +19,9 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r6ejx")
-scoreHolder = NodePath("ScoreHolder")
+scoreHolder = NodePath("PanelContainer/ScoreHolder")
 
-[node name="ScoreHolder" type="VBoxContainer" parent="." unique_id=295089387]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1978300736]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -29,25 +34,29 @@ offset_right = 304.0
 offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xk8pb")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScoreHolder" unique_id=1199862139]
+[node name="ScoreHolder" type="VBoxContainer" parent="PanelContainer" unique_id=295089387]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="ScoreHolder/HBoxContainer" unique_id=1675983560]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/ScoreHolder" unique_id=1199862139]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/ScoreHolder/HBoxContainer" unique_id=1675983560]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Player Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="ScoreHolder/HBoxContainer" unique_id=2146504012]
+[node name="Label2" type="Label" parent="PanelContainer/ScoreHolder/HBoxContainer" unique_id=2146504012]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="ScoreHolder/HBoxContainer" unique_id=1039744545]
+[node name="Label3" type="Label" parent="PanelContainer/ScoreHolder/HBoxContainer" unique_id=1039744545]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Revenge Score"

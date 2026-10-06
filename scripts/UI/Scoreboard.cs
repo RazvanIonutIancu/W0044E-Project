@@ -31,18 +31,32 @@ public partial class Scoreboard : Control
 		DataParser.OnShootResults -= UpdateScores;
 	}
 
-
+	public override void _PhysicsProcess(double delta)
+	{
+		if(Input.IsActionPressed("showScoreboard"))
+		{
+			GlobalPosition = controlledPlayer.GlobalPosition;
+			UpdateUI();
+			Show();
+		}
+		if(Input.IsActionJustReleased("showScoreboard"))
+		{
+			Hide();
+		}
+	}
 
 	public void Initialize()
 	{
-		foreach(PlayerState playerID in GameManager.Instance().playerList)
+		foreach(PlayerState playerState in GameManager.Instance().playerList)
 		{
-			playerScores.Add(playerID.ToString(), 0);
-			if(GameManager.GetPlayerObjectFromID(playerID.ToString()).isControlled)
+			GD.Print(GameManager.Instance().playerList.Count);
+			playerScores.Add(playerState.GetID(), 0);
+			if(GameManager.GetPlayerObjectFromID(playerState.GetID()).isControlled)
 			{
-				controlledPlayer = GameManager.GetPlayerObjectFromID(playerID.ToString());
+				controlledPlayer = GameManager.GetPlayerObjectFromID(playerState.GetID());
 			}
 		}
+		CreateUI();
 	}
 
 	private void UpdateScores(Dictionary<string, string> packet)
@@ -54,6 +68,7 @@ public partial class Scoreboard : Control
 
 		AddScore(packet["playerID"], packet["playerHit"]);
 		GameManager.ChangeRevengeScore(packet["playerID"], packet["playerHit"]);
+
 	}
 
 
@@ -73,8 +88,6 @@ public partial class Scoreboard : Control
 
 		playerScores[shootingPlayer] += scoreToAdd;
 
-
-		UpdateUI();
 	}
 
 
@@ -83,33 +96,37 @@ public partial class Scoreboard : Control
 		foreach(PlayerState playerState in GameManager.Instance().playerList)
 		{
 			HBoxContainer container = new HBoxContainer();
+			scoreHolder.AddChild(container);
 
 			Label nameLabel = new Label();
 			nameLabel.CustomMinimumSize = new Vector2(200f, 50f);
 			nameLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			nameLabel.VerticalAlignment = VerticalAlignment.Center;
 			nameLabel.Text = playerState.GetName();
+			container.AddChild(nameLabel);
 
 			Label scoreLabel = new Label();
 			scoreLabel.CustomMinimumSize = new Vector2(200f, 50f);
 			scoreLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			scoreLabel.VerticalAlignment = VerticalAlignment.Center;
-			scoreLabel.Text = playerScores[playerState.ToString()].ToString();
+			scoreLabel.Text = playerScores[playerState.GetID()].ToString();
 			scoreLabels.Add(scoreLabel);
+			container.AddChild(scoreLabel);
 
 			Label revengeLabel = new Label();
 			revengeLabel.CustomMinimumSize = new Vector2(200f, 50f);
 			revengeLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			revengeLabel.VerticalAlignment = VerticalAlignment.Center;
-			if(playerState.ToString() != controlledPlayer.playerID)
+			if(playerState.GetID() != controlledPlayer.playerID)
 			{
-				revengeLabel.Text = controlledPlayer.playerRevengeScore[playerState.ToString()].ToString();
+				revengeLabel.Text = controlledPlayer.playerRevengeScore[playerState.GetID()].ToString();
 			}
 			else
 			{
 				revengeLabel.Text = "-";
 			}
 			revengeLabels.Add(revengeLabel);
+			container.AddChild(revengeLabel);
 		}
 	}
 
@@ -117,11 +134,11 @@ public partial class Scoreboard : Control
 	{
 		for (int i = 0; i < GameManager.Instance().playerList.Count; i++)
 		{
-			scoreLabels[i].Text = playerScores[GameManager.Instance().playerList[i].ToString()].ToString();
+			scoreLabels[i].Text = playerScores[GameManager.Instance().playerList[i].GetID()].ToString();
 			if(revengeLabels[i].Text != "-")
 			{
 				revengeLabels[i].Text = 
-					controlledPlayer.playerRevengeScore[GameManager.Instance().playerList[i].ToString()].ToString();
+					controlledPlayer.playerRevengeScore[GameManager.Instance().playerList[i].GetID()].ToString();
 			}
 			else
 			{
