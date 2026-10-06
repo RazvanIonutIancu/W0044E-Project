@@ -21,7 +21,7 @@ public class SteamSocketManager : SocketManager
         };
         foreach(PlayerState player in GameManager.Instance().playerList)
         {
-            packet.Add(player.ToString(), player.isReady.ToString());
+            packet.Add(player.GetID(), player.isReady.ToString());
         }
         SteamManager.BroadcastToSpecificConnection(JsonConvert.SerializeObject(packet),connection);
         GD.Print("Player has connected");

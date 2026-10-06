@@ -45,15 +45,15 @@ public class LobbySession
 		lobbyUI?.OnInitialState(packet["Code"], int.Parse(packet["LevelIndex"]));
 		foreach (PlayerState player in GameManager.Instance().playerList)
 		{
-			bool _isReady = bool.Parse(packet[player.ToString()]);
+			bool _isReady = bool.Parse(packet[player.GetID()]);
 			player.isReady = _isReady;
-			lobbyUI?.SetReadyLabel(player.ToString(), _isReady);
+			lobbyUI?.SetReadyLabel(player.GetID(), _isReady);
 		}
 	}
 
 	private void OnPlayerJoinLobbyCallback(Friend friend)
 	{
-        GameManager.AddPlayer(friend.Id.AccountId.ToString());
+        GameManager.AddPlayer(friend.Id.AccountId.ToString(),friend.Name);
         lobbyUI?.AddLobbyPlayer(friend);
 		lobbyUI?.SetStartButtonState(SteamManager.Manager.IsHost && GameManager.IsEveryoneReady());
     }

@@ -1,3 +1,4 @@
+using Godot;
 using System;
 using PackedScores = System.Int32;
 using ScoreMaskType = System.Int32;
@@ -26,21 +27,21 @@ public class ScoreSytem
 	];
 	public static void Test()
 	{
-        Console.WriteLine("---mask");
+        GD.Print("---mask");
 		for (uint i = 0; i < MAX_PLAYERS; i++)
 		{
 			playerScores[i] = (byte)(255-i);
-            Console.WriteLine($"{masks[i]}");
+            GD.Print($"{masks[i]}");
 		}
-		Console.WriteLine("...");
+		GD.Print("...");
 		
-        Console.WriteLine($"{playerScores[0]},{playerScores[1]},{playerScores[2]},{playerScores[3]}");
+        GD.Print($"{playerScores[0]},{playerScores[1]},{playerScores[2]},{playerScores[3]}");
         PackedScores packed = PackPlayerScores(playerScores);
-		Console.WriteLine(packed);
+		GD.Print(packed);
         ScoreValues vals = UnpackPlayerScores(packed);
         PackedScores repacked = PackPlayerScores(vals);
-        Console.WriteLine(repacked);
-        Console.WriteLine($"{vals[0]},{vals[1]},{vals[2]},{vals[3]},");
+        GD.Print(repacked);
+        GD.Print($"{vals[0]},{vals[1]},{vals[2]},{vals[3]},");
             
         
 	}

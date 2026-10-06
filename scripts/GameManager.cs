@@ -27,9 +27,9 @@ public sealed class GameManager
 		
 	}
 
-	public static void AddPlayer(string id)
+	public static void AddPlayer(string id, string name)
 	{
-        Instance().playerList.Add(new PlayerState(id));
+        Instance().playerList.Add(new PlayerState(id, name));
     }
 
 	public static void RemovePlayer(string id)
@@ -43,7 +43,7 @@ public sealed class GameManager
 	{
         for (int i = 0; i < Instance().playerList.Count; i++)
 		{
-			if(Instance().playerList[i].ToString() == id)
+			if(Instance().playerList[i].GetID() == id)
 			{
                 return Instance().playerList[i];
             }
