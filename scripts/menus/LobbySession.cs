@@ -15,6 +15,13 @@ public class LobbySession
 	private int frameCounter = 0;
     private readonly int frameCounterTarget = 30;
 
+	// DEBUG
+
+	PackedScene scoreboardScene = GD.Load<PackedScene>("res://scenes/UI/Scoreboard.tscn");
+
+
+	// DEBUG END
+
 	public LobbySession(LobbyMenu ui = null)
 	{
 		lobbyUI = ui;
@@ -168,6 +175,12 @@ public class LobbySession
         }
 
 		SteamManager.Manager.sceneLoader.LoadPauseMenu(this);
+
+		// DEBUG
+		Scoreboard scoreboard = scoreboardScene.Instantiate<Scoreboard>();
+		SteamManager.Manager.GetNode<Control>("MenuSceneContainer").AddChild(scoreboard);
+		scoreboard.Initialize();
+		// DEBUG END
 	}
 
 	private void OnChatMessageCallback(Dictionary<string,string> packet)

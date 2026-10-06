@@ -59,4 +59,49 @@ public sealed class GameManager
 		}
         return true;
     }
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="playerID"></param>
+	/// <returns>NULL if it doesn't find the player</returns>
+	public static Player GetPlayerObjectFromID(string playerID)
+	{
+
+		foreach(Player player in Instance().playerNodeList)
+		{
+			if(playerID == player.playerID)
+			{
+				return player;
+			}
+		}
+
+
+		return null;
+	}
+
+	public static int GetRevengeScore(string shootingPlayer, string playerShot)
+	{
+		return GetPlayerObjectFromID(shootingPlayer).playerRevengeScore[playerShot];
+	}
+
+	public static void ChangeRevengeScore(string shootingPlayer, string playerShot)
+	{
+		GetPlayerObjectFromID(shootingPlayer).playerRevengeScore[playerShot] -= 1;
+		GetPlayerObjectFromID(playerShot).playerRevengeScore[shootingPlayer] += 1;
+	}
+
+	public static string GetPlayerName(string playerID)
+	{
+		foreach(PlayerState player in Instance().playerList)
+		{
+			if(player.GetID() == playerID)
+			{
+				return player.GetName();
+			}
+		}
+		return "";
+	}
+
 }

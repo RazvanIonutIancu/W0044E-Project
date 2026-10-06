@@ -21,7 +21,7 @@ public partial class Player : CharacterBody2D, IShootable
 
 
 	public string playerID = "0A";
-	private bool isControlled = false;
+	public bool isControlled = false;
 	public bool isAlive = true;
 
 	/// <summary>
@@ -33,6 +33,15 @@ public partial class Player : CharacterBody2D, IShootable
 	Dictionary<string, string> playerMovementDictionary = new Dictionary<string, string>();
 	Dictionary<string, string> playerShoot = new Dictionary<string, string>();
 	Dictionary<string, string> playerShootResults = new Dictionary<string, string>();
+
+
+	// DEBUG
+
+	public Dictionary<string, int> playerRevengeScore = new Dictionary<string, int>();
+
+	// DEBUG END
+
+
 
 	public enum PossibleHits
 	{
@@ -104,7 +113,28 @@ public partial class Player : CharacterBody2D, IShootable
 		playerShootResults.Add("hitPosY", "0.0");
 		// if it hits a player send playerID
 		playerShootResults.Add("playerHit", "0A");
+
+
+
 	}
+
+
+	// DEBUG
+
+	public void InitializeRevengeList()
+	{
+		foreach(PlayerState playerState in GameManager.Instance().playerList)
+		{
+			if(playerState.GetID() == playerID)
+			{
+				continue;
+			}
+			playerRevengeScore.Add(playerState.GetID(), 0);
+		}
+	}
+
+	// DEBUG END
+
 
 	public override void _EnterTree()
 	{
@@ -363,6 +393,7 @@ public partial class Player : CharacterBody2D, IShootable
 		if(packet["playerHit"] == playerID)
 		{
 			GD.Print("Hit a player!");
+
 			KillPlayer();
 		}
 
