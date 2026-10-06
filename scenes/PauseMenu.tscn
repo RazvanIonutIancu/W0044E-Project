@@ -7,14 +7,23 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_syexs"]
 size = Vector2(1920, 1080)
 
-[node name="PauseMenu" type="CanvasLayer" unique_id=826381894 node_paths=PackedStringArray("pauseButton", "Menuroot")]
+[node name="In-game UI" type="CanvasLayer" unique_id=826381894 node_paths=PackedStringArray("pauseButton", "Menuroot")]
 layer = 40
 script = ExtResource("1_n87rw")
-pauseButton = NodePath("PauseButton")
-Menuroot = NodePath("Background")
+pauseButton = NodePath("HUD/PauseButton")
+Menuroot = NodePath("PauseMenu/BackGround")
 
-[node name="Background" type="TextureRect" parent="." unique_id=837025832]
+[node name="PauseMenu" type="Control" parent="." unique_id=1984039850]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackGround" type="TextureRect" parent="PauseMenu" unique_id=837025832]
 self_modulate = Color(1, 1, 1, 0.16862746)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -23,7 +32,7 @@ grow_vertical = 2
 texture = SubResource("PlaceholderTexture2D_syexs")
 expand_mode = 5
 
-[node name="CenterContainer" type="CenterContainer" parent="Background" unique_id=551143855]
+[node name="CenterContainer" type="CenterContainer" parent="PauseMenu/BackGround" unique_id=551143855]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,44 +40,44 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Menu" type="VBoxContainer" parent="Background/CenterContainer" unique_id=2143061030]
+[node name="Menu" type="VBoxContainer" parent="PauseMenu/BackGround/CenterContainer" unique_id=2143061030]
 layout_mode = 2
 theme = ExtResource("2_g4jo0")
 alignment = 1
 
-[node name="Resume" type="Button" parent="Background/CenterContainer/Menu" unique_id=1632064201]
+[node name="Resume" type="Button" parent="PauseMenu/BackGround/CenterContainer/Menu" unique_id=1632064201]
 layout_mode = 2
 text = "Resume"
 
-[node name="Unstuck" type="Button" parent="Background/CenterContainer/Menu" unique_id=911621778]
+[node name="Unstuck" type="Button" parent="PauseMenu/BackGround/CenterContainer/Menu" unique_id=911621778]
 visible = false
 layout_mode = 2
 text = "Unstuck"
 
-[node name="Exit to Lobby" type="Button" parent="Background/CenterContainer/Menu" unique_id=1648915496]
+[node name="Exit to Lobby" type="Button" parent="PauseMenu/BackGround/CenterContainer/Menu" unique_id=1648915496]
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.5058824, 0, 1)
 text = " Exit to Lobby "
 
-[node name="Quit Game" type="Button" parent="Background/CenterContainer/Menu" unique_id=902130104]
+[node name="Quit Game" type="Button" parent="PauseMenu/BackGround/CenterContainer/Menu" unique_id=902130104]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.0627451, 0, 1)
 text = " Quit to Main Menu "
 
-[node name="HostOnly" type="VBoxContainer" parent="Background/CenterContainer/Menu" unique_id=1429036637]
+[node name="HostOnly" type="VBoxContainer" parent="PauseMenu/BackGround/CenterContainer/Menu" unique_id=1429036637]
 visible = false
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="Background/CenterContainer/Menu/HostOnly" unique_id=181575998]
+[node name="HSeparator" type="HSeparator" parent="PauseMenu/BackGround/CenterContainer/Menu/HostOnly" unique_id=181575998]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Background/CenterContainer/Menu/HostOnly" unique_id=1451785520]
+[node name="Label" type="Label" parent="PauseMenu/BackGround/CenterContainer/Menu/HostOnly" unique_id=1451785520]
 layout_mode = 2
 text = " Add kick options 
  here ↓"
 
-[node name="OptionButton" type="OptionButton" parent="Background/CenterContainer/Menu/HostOnly" unique_id=802497382]
+[node name="OptionButton" type="OptionButton" parent="PauseMenu/BackGround/CenterContainer/Menu/HostOnly" unique_id=802497382]
 layout_mode = 2
 allow_reselect = true
 search_bar_enabled = true
@@ -77,15 +86,24 @@ item_count = 1
 popup/item_0/text = "REMOVE"
 popup/item_0/id = 0
 
-[node name="PauseButton" type="TextureButton" parent="." unique_id=2129535064]
+[node name="HUD" type="Control" parent="." unique_id=1750283234]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseButton" type="TextureButton" parent="HUD" unique_id=2129535064]
 texture_filter = 1
+layout_mode = 0
 offset_left = 36.0
 offset_top = 26.0
-offset_right = 151.0
-offset_bottom = 141.0
+offset_right = 126.0
+offset_bottom = 116.0
 texture_normal = ExtResource("3_komsw")
 stretch_mode = 4
 
-[connection signal="pressed" from="Background/CenterContainer/Menu/Resume" to="." method="SetPaused" binds= [false]]
-[connection signal="pressed" from="Background/CenterContainer/Menu/Quit Game" to="." method="QuitGameToMainMenu"]
-[connection signal="pressed" from="PauseButton" to="." method="SetPaused" binds= [true]]
+[connection signal="pressed" from="PauseMenu/BackGround/CenterContainer/Menu/Resume" to="." method="SetPaused" binds= [false]]
+[connection signal="pressed" from="PauseMenu/BackGround/CenterContainer/Menu/Quit Game" to="." method="QuitGameToMainMenu"]
+[connection signal="pressed" from="HUD/PauseButton" to="." method="SetPaused" binds= [true]]
