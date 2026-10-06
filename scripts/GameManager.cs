@@ -66,10 +66,10 @@ public sealed class GameManager
 	/// </summary>
 	/// <param name="playerID"></param>
 	/// <returns>NULL if it doesn't find the player</returns>
-	public Player GetPlayerObjectFromID(string playerID)
+	public static Player GetPlayerObjectFromID(string playerID)
 	{
 
-		foreach(Player player in playerNodeList)
+		foreach(Player player in Instance().playerNodeList)
 		{
 			if(playerID == player.playerID)
 			{
@@ -83,13 +83,25 @@ public sealed class GameManager
 
 	public static int GetRevengeScore(string shootingPlayer, string playerShot)
 	{
-		return Instance().GetPlayerObjectFromID(shootingPlayer).playerRevengeScore[playerShot];
+		return GetPlayerObjectFromID(shootingPlayer).playerRevengeScore[playerShot];
 	}
 
 	public static void ChangeRevengeScore(string shootingPlayer, string playerShot)
 	{
-		Instance().GetPlayerObjectFromID(shootingPlayer).playerRevengeScore[playerShot] -= 1;
-		Instance().GetPlayerObjectFromID(playerShot).playerRevengeScore[shootingPlayer] += 1;
+		GetPlayerObjectFromID(shootingPlayer).playerRevengeScore[playerShot] -= 1;
+		GetPlayerObjectFromID(playerShot).playerRevengeScore[shootingPlayer] += 1;
+	}
+
+	public static string GetPlayerName(string playerID)
+	{
+		foreach(PlayerState player in Instance().playerList)
+		{
+			if(player.ToString() == playerID)
+			{
+				return player.GetName();
+			}
+		}
+		return "";
 	}
 
 }

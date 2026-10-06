@@ -21,7 +21,7 @@ public partial class Player : CharacterBody2D, IShootable
 
 
 	public string playerID = "0A";
-	private bool isControlled = false;
+	public bool isControlled = false;
 	public bool isAlive = true;
 
 	/// <summary>

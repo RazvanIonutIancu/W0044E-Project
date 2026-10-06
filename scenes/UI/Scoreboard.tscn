@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dc8g5842rgdva" path="res://scripts/UI/Scoreboard.cs" id="1_r6ejx"]
 
-[node name="Scoreboard" type="Control" unique_id=1714535897]
+[node name="Scoreboard" type="Control" unique_id=1714535897 node_paths=PackedStringArray("scoreHolder")]
 top_level = true
 z_index = 69
 layout_mode = 3
@@ -14,8 +14,9 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_r6ejx")
+scoreHolder = NodePath("ScoreHolder")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=295089387]
+[node name="ScoreHolder" type="VBoxContainer" parent="." unique_id=295089387]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -29,24 +30,24 @@ offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1199862139]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScoreHolder" unique_id=1199862139]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1675983560]
+[node name="Label" type="Label" parent="ScoreHolder/HBoxContainer" unique_id=1675983560]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Player Name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=2146504012]
+[node name="Label2" type="Label" parent="ScoreHolder/HBoxContainer" unique_id=2146504012]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1039744545]
+[node name="Label3" type="Label" parent="ScoreHolder/HBoxContainer" unique_id=1039744545]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 text = "Revenge Score"
