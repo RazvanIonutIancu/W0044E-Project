@@ -98,12 +98,24 @@ public partial class Scoreboard : Control
 			HBoxContainer container = new HBoxContainer();
 			scoreHolder.AddChild(container);
 
+			// Label for the name
 			Label nameLabel = new Label();
 			nameLabel.CustomMinimumSize = new Vector2(200f, 50f);
 			nameLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			nameLabel.VerticalAlignment = VerticalAlignment.Center;
 			nameLabel.Text = playerState.GetName();
+
+			// Style for the label so it looks good
+			StyleBoxFlat nameStyleBox = new StyleBoxFlat();
+			nameStyleBox.BorderWidthLeft = 5;
+			nameStyleBox.BorderWidthTop = 5;
+			nameStyleBox.BorderWidthBottom = 5;
+			nameStyleBox.BorderColor = Colors.Red;
+			nameStyleBox.DrawCenter = false;
+			nameLabel.AddThemeStyleboxOverride("normal", nameStyleBox);
+
 			container.AddChild(nameLabel);
+
 
 			Label scoreLabel = new Label();
 			scoreLabel.CustomMinimumSize = new Vector2(200f, 50f);
@@ -111,7 +123,16 @@ public partial class Scoreboard : Control
 			scoreLabel.VerticalAlignment = VerticalAlignment.Center;
 			scoreLabel.Text = playerScores[playerState.GetID()].ToString();
 			scoreLabels.Add(scoreLabel);
+
+			StyleBoxFlat scoreStyleBox = new StyleBoxFlat();
+			scoreStyleBox.BorderWidthTop = 5;
+			scoreStyleBox.BorderWidthBottom = 5;
+			scoreStyleBox.BorderColor = Colors.Red;
+			scoreStyleBox.DrawCenter = false;
+			scoreLabel.AddThemeStyleboxOverride("normal", scoreStyleBox);
+
 			container.AddChild(scoreLabel);
+
 
 			Label revengeLabel = new Label();
 			revengeLabel.CustomMinimumSize = new Vector2(200f, 50f);
@@ -126,6 +147,15 @@ public partial class Scoreboard : Control
 				revengeLabel.Text = "-";
 			}
 			revengeLabels.Add(revengeLabel);
+
+			StyleBoxFlat revengeScoreStyleBox = new StyleBoxFlat();
+			revengeScoreStyleBox.BorderWidthRight = 5;
+			revengeScoreStyleBox.BorderWidthTop = 5;
+			revengeScoreStyleBox.BorderWidthBottom = 5;
+			revengeScoreStyleBox.BorderColor = Colors.Red;
+			revengeScoreStyleBox.DrawCenter = false;
+			revengeLabel.AddThemeStyleboxOverride("normal", revengeScoreStyleBox);
+
 			container.AddChild(revengeLabel);
 		}
 	}

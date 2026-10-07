@@ -6,7 +6,6 @@
 bg_color = Color(0, 0, 0, 0.72156864)
 
 [node name="Scoreboard" type="Control" unique_id=1714535897 node_paths=PackedStringArray("scoreHolder")]
-visible = false
 top_level = true
 z_index = 69
 z_as_relative = false
