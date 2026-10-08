@@ -174,6 +174,11 @@ public class LobbySession
             GameManager.Instance().currentLevel.SpawnPlayer(item);
         }
 
+        foreach(Player player in GameManager.Instance().playerNodeList)
+		{
+            player.InitializeRevengeList();
+        }
+
 		SteamManager.Manager.sceneLoader.LoadPauseMenu(this);
 
 		// DEBUG
