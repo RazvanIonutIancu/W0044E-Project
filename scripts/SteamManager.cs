@@ -338,7 +338,7 @@ public partial class SteamManager : Node3D
 
 	public static void SendData(Dictionary<string,string> packet, SendType sendType = SendType.Reliable)
 	{
-		string str = JsonConvert.SerializeObject(packet);
+		string str = JsonConvert.SerializeObject(packet, Formatting.None);
 		int byteCount = Encoding.UTF8.GetByteCount(str);
 		if(byteCount > DataContainer.outgoingData.Length)
 		{
