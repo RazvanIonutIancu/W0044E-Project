@@ -2,6 +2,8 @@ shader_type canvas_item;
 
 //the explored map the subviewport keeps drawing into, bright bits = seen before
 uniform sampler2D exploredMask;
+//the live cone map, redrawn each frame, bright bits = can see right now
+uniform sampler2D visibleMask;
 
 //stuff needed to work out which mask pixel a screen pixel maps to
 uniform vec2 cameraWorldPos;
@@ -21,11 +23,14 @@ void fragment() {
 	vec2 maskUv = (worldPos - worldMin) / worldSize;
 
 	float explored = 0.0;
+	float visible = 0.0;
 	if (maskUv.x >= 0.0 && maskUv.x <= 1.0 && maskUv.y >= 0.0 && maskUv.y <= 1.0) {
 		explored = texture(exploredMask, maskUv).r;
+		visible = texture(visibleMask, maskUv).r;
 	}
 
-	//never seen = solid black, seen before = a bit see-through
-	float alpha = mix(1.0, 1.0 - exploredDarkness, clamp(explored, 0.0, 1.0));
+	//never seen = black, remembered = dim, in the cone right now = clear
+	float rememberedAlpha = mix(1.0, 1.0 - exploredDarkness, clamp(explored, 0.0, 1.0));
+	float alpha = mix(rememberedAlpha, 0.0, clamp(visible, 0.0, 1.0));
 	COLOR = vec4(0.0, 0.0, 0.0, alpha);
 }

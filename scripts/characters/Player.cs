@@ -430,6 +430,8 @@ public partial class Player : CharacterBody2D, IShootable
 		StaticBody2D clone = clonePackedScene.Instantiate<StaticBody2D>();
 		clone.GlobalPosition = targetPosition;
 		clone.Rotation = Rotation;
+		//so the fog of war can find clones to reveal/hide them
+		clone.AddToGroup("clones");
 		AddSibling(clone);
 	}
 
