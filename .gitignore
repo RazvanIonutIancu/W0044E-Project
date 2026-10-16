@@ -2,4 +2,4 @@
 .godot/
 /android/
 addons/gdUnit4/GdUnitRunner.cfg
-reports/report_1/index.html
+reports/*
