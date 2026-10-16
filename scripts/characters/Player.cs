@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using GdUnit4.Tests;
+using GdUnit4;
 
 public partial class Player : CharacterBody2D, IShootable
 {
@@ -451,6 +452,12 @@ public partial class Player : CharacterBody2D, IShootable
 	{
 		GlobalPosition = GameManager.Instance().currentLevel.GetSpawnPoint();
 	}
+
+
+
+
+
+
 
 
 
