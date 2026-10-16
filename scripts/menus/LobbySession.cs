@@ -62,7 +62,7 @@ public class LobbySession
 	{
         GameManager.AddPlayer(friend.Id.AccountId.ToString(),friend.Name);
         lobbyUI?.AddLobbyPlayer(friend);
-		lobbyUI?.SetStartButtonState(SteamManager.Manager.IsHost && GameManager.IsEveryoneReady());
+		lobbyUI?.SetStartButtonState(SteamManager.Manager.IsHost() && GameManager.IsEveryoneReady());
     }
 
 	private void OnPlayerLeftLobbyCallback(Friend friend)
@@ -81,7 +81,7 @@ public class LobbySession
  				Dictionary<string, string> packet = new ()
         		{
 					{"DataType","PingInfo"},
-					{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
+					{"Sender",SteamManager.Manager.GetPlayerSteamID().AccountId.ToString()},
 					{"Ping",SteamManager.steamConnectionManager.Connection.QuickStatus().Ping.ToString()}
         		};
         	    SteamManager.SendData(packet);
@@ -109,7 +109,7 @@ public class LobbySession
 	public void LevelSelected(int idx)
 	{
         GameManager.Instance().selectedLevelIndex = idx;
-		if(SteamManager.Manager.IsHost)
+		if(SteamManager.Manager.IsHost())
 		{
             Dictionary<string, string> packet = new()
             {
@@ -132,7 +132,7 @@ public class LobbySession
 		Dictionary<string,string> packet = new Dictionary<string,string>()
 		{
 			{"DataType","ReadyMessage"},
-			{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
+			{"Sender",SteamManager.Manager.GetPlayerSteamID().AccountId.ToString()},
 			{"Ready",clientIsReady.ToString()}
 		};
 		SteamManager.SendData(packet);
@@ -146,7 +146,7 @@ public class LobbySession
         GameManager.GetPlayerState(_id).isReady = _isReady;
 
 		lobbyUI?.SetReadyLabel(_id, _isReady);
-        lobbyUI?.SetStartButtonState(SteamManager.Manager.IsHost && GameManager.IsEveryoneReady());
+        lobbyUI?.SetStartButtonState(SteamManager.Manager.IsHost() && GameManager.IsEveryoneReady());
     }
 
 	public void OnLobbyInitializedCallback(bool b) 
@@ -167,7 +167,7 @@ public class LobbySession
 
 	private void OnStartGame(Dictionary<string,string> packet)
 	{
-        GameManager.Instance().currentLevel = SteamManager.Manager.sceneLoader.LoadLevel(int.Parse(packet["LevelID"]));
+        GameManager.Instance().currentLevel = SteamManager.Manager.GetSceneLoader().LoadLevel(int.Parse(packet["LevelID"]));
 
         foreach(PlayerState item in GameManager.Instance().playerList)
 		{
@@ -179,11 +179,11 @@ public class LobbySession
             player.InitializeRevengeList();
         }
 
-		SteamManager.Manager.sceneLoader.LoadPauseMenu(this);
+		SteamManager.Manager.GetSceneLoader().LoadPauseMenu(this);
 
 		// DEBUG
 		Scoreboard scoreboard = scoreboardScene.Instantiate<Scoreboard>();
-		SteamManager.Manager.GetNode<Control>("MenuSceneContainer").AddChild(scoreboard);
+		lobbyUI?.GetNode<Control>("MenuSceneContainer").AddChild(scoreboard);
 		scoreboard.Initialize();
 		// DEBUG END
 	}
@@ -198,8 +198,8 @@ public class LobbySession
 		Dictionary<string,string> packet = new ()
 		{
 			{"DataType","ChatMessage"},
-			{"Sender",SteamManager.Manager.PlayerSteamID.AccountId.ToString()},
-			{"SenderName",SteamManager.Manager.PlayerName},
+			{"Sender",SteamManager.Manager.GetPlayerSteamID().AccountId.ToString()},
+			{"SenderName",SteamManager.Manager.GetPlayerName()},
 			{"Message",msg}
 		};
 		OnChatMessageCallback(packet);

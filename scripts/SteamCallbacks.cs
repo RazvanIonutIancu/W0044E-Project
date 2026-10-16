@@ -68,7 +68,7 @@ public partial class SteamCallbacks : Node
 	{
 		SteamManager.currentLobby = lobby;
 		sceneLoader.LoadLobbyMenu();
-		if(lobby.Owner.Id != SteamManager.Manager.PlayerSteamID)
+		if(lobby.Owner.Id != SteamManager.Manager.GetPlayerSteamID())
 		{
 			GD.Print($"You joined {lobby.Owner.Name}'s lobby");
 

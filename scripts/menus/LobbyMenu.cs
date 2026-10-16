@@ -26,7 +26,7 @@ public partial class LobbyMenu : Control
     {
 		session = new LobbySession(this);
 		int _id = 0;
-        foreach(PackedScene scene in SteamManager.Manager.sceneLoader.levels)
+        foreach(PackedScene scene in SteamManager.Manager.GetSceneLoader().levels)
 		{
             ILevelManager level = scene.Instantiate<ILevelManager>();
             levelSelect.AddItem(level.LevelName(), _id);
@@ -38,7 +38,7 @@ public partial class LobbyMenu : Control
 
 		startButton.Visible = false;
 
-        if(!SteamManager.Manager.IsHost)
+        if(!SteamManager.Manager.IsHost())
 		{
             levelSelect.Disabled = true;
         }

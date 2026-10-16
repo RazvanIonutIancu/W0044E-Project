@@ -67,7 +67,7 @@ public partial class Player : CharacterBody2D, IShootable
 
 	public void Initialize()
 	{
-		isControlled = playerID == SteamManager.Manager.PlayerSteamID.AccountId.ToString();
+		isControlled = playerID == SteamManager.Manager.GetPlayerSteamID().AccountId.ToString();
 		if (isControlled)
 		{
 			camera.MakeCurrent();
@@ -292,7 +292,7 @@ public partial class Player : CharacterBody2D, IShootable
 			return;
 		}
 
-		if(!SteamManager.Manager.IsHost)
+		if(!SteamManager.Manager.IsHost())
 		{
 			SteamManager.SendData(playerShoot, Steamworks.Data.SendType.Reliable);
 		}

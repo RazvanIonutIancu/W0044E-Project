@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Buffers;
 using System.Text;
 
-public partial class SteamManager : Node3D
+public partial class SteamManager : Node3D, INetworkManager
 {
 
 	const int MAX_MEMBERS = 4;
@@ -19,7 +19,7 @@ public partial class SteamManager : Node3D
 	const string GAME_KEY = "nyckel";
 	const string GAME_VALUE = "varde";
 
-	public static SteamManager Manager;
+	public static INetworkManager Manager;
 	public SteamId PlayerSteamID;
 	public string PlayerName;
 
@@ -43,7 +43,15 @@ public partial class SteamManager : Node3D
 		return currentLobby != null;
 	}
 
-	public bool IsHost = false;
+	private bool isHost = false;
+
+	public bool IsHost() { return isHost; }
+
+	public SceneLoader GetSceneLoader() { return sceneLoader; }
+
+	public SteamId GetPlayerSteamID() { return PlayerSteamID; }
+
+	public string GetPlayerName() { return PlayerName; } 
 
 	public SteamManager()
 	{
@@ -127,7 +135,7 @@ public partial class SteamManager : Node3D
 		{
 			steamSocketManager.Close();
 		}
-		IsHost = false;
+		isHost = false;
 	}
 
     public async Task<bool> CreateLobby(LobbyVisibility.LobbyVisibilityEnum lobbyVisibility = LobbyVisibility.DefaultValue)
@@ -279,14 +287,14 @@ public partial class SteamManager : Node3D
 	{
 		steamSocketManager = SteamNetworkingSockets.CreateRelaySocket<SteamSocketManager>(0);
 		steamConnectionManager = SteamNetworkingSockets.ConnectRelay<SteamConnectionManager>(PlayerSteamID,0);
-		IsHost = true;
+		isHost = true;
 
 		GD.Print("Socket server created!");
 	}
 
 	public void JoinSteamSocketServer(SteamId host)
 	{
-		if (!IsHost)
+		if (!IsHost())
 		{
 			GD.Print("Joining socket server...");
 			steamConnectionManager = SteamNetworkingSockets.ConnectRelay<SteamConnectionManager>(host, 0);
@@ -295,6 +303,7 @@ public partial class SteamManager : Node3D
 
 	public static void Broadcast(string packetStr, SendType sendType = SendType.Reliable, Steamworks.Data.Connection? skip = null)
 	{
+		if(steamConnectionManager == null) { return; }
 		int byteCount = Encoding.UTF8.GetByteCount(packetStr);
 		if(byteCount > DataContainer.outgoingData.Length)
 		{
@@ -320,6 +329,7 @@ public partial class SteamManager : Node3D
 
 	public static void BroadcastToSpecificConnection(string packetStr, Connection connection, SendType sendType = SendType.Reliable)
 	{
+		if(steamConnectionManager == null) { return; }
 		int byteCount = Encoding.UTF8.GetByteCount(packetStr);
 		if(byteCount > DataContainer.outgoingData.Length)
 		{
@@ -338,6 +348,7 @@ public partial class SteamManager : Node3D
 
 	public static void SendData(Dictionary<string,string> packet, SendType sendType = SendType.Reliable)
 	{
+		if(steamConnectionManager == null) { return; }
 		string str = JsonConvert.SerializeObject(packet, Formatting.None);
 		int byteCount = Encoding.UTF8.GetByteCount(str);
 		if(byteCount > DataContainer.outgoingData.Length)
@@ -350,7 +361,7 @@ public partial class SteamManager : Node3D
         {
             fixed (byte* ptr = DataContainer.outgoingData)
             {
-				if (Manager.IsHost)
+				if (Manager.IsHost())
 				{
 					foreach(var item in steamSocketManager.Connected.Skip(1).ToArray())
 					{

@@ -83,7 +83,7 @@ public class DataParser
 
 	private static void SyncIncomingData(Dictionary<string,string> packet, Connection? sender)
 	{
-		if(SteamManager.Manager.IsHost) 
+		if(SteamManager.Manager.IsHost()) 
 		{
 			SteamManager.Broadcast(JsonConvert.SerializeObject(packet), SendType.Reliable, sender);
 		}
