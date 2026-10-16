@@ -2,8 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using GdUnit4.Tests;
-using GdUnit4;
 
 public partial class Player : CharacterBody2D, IShootable
 {
@@ -406,7 +404,7 @@ public partial class Player : CharacterBody2D, IShootable
 	}
 
 
-	private void KillPlayer()
+	public void KillPlayer()
 	{
 		isAlive = false;
 		GetNode<Polygon2D>("Mesh").Visible = false;
@@ -435,7 +433,7 @@ public partial class Player : CharacterBody2D, IShootable
 
 
 
-	private void RespawnPlayer()
+	public void RespawnPlayer()
 	{
 		if(isControlled)
 		{
@@ -452,15 +450,6 @@ public partial class Player : CharacterBody2D, IShootable
 	{
 		GlobalPosition = GameManager.Instance().currentLevel.GetSpawnPoint();
 	}
-
-
-
-
-
-
-
-
-
 
 
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites id="2026-10-16" name="report_1" tests="2" failures="0" skipped="0" flaky="0" time="0.000">
+	<testsuite id="0" name="TestScripts" package="scripts/tests" timestamp="2026-10-16T11:09:49" hostname="localhost" tests="2" failures="0" errors="0" skipped="0" flaky="0" time="1.143">
+		<testcase name="TestDeath" classname="TestScripts" time="1.077">
+		</testcase>
+		<testcase name="TestRespawn" classname="TestScripts" time="0.013">
+		</testcase>
+	</testsuite>
+</testsuites>
