@@ -64,7 +64,7 @@ public partial class SteamCallbacks : Node
 		SteamManager.Manager.CreateSteamSocketServer();
 	}
 
-	private void OnLobbyEntered(Lobby lobby)
+	public void OnLobbyEntered(Lobby lobby)
 	{
 		SteamManager.currentLobby = lobby;
 		sceneLoader.LoadLobbyMenu();
@@ -74,14 +74,14 @@ public partial class SteamCallbacks : Node
 
 			foreach (var item in lobby.Members)
 			{
-				OnPlayerJoinLobby.Invoke(item);
+				OnPlayerJoinLobby?.Invoke(item);
 			}
 			SteamManager.Manager.JoinSteamSocketServer(lobby.Owner.Id);
 		}
 		else
 		{
 			GD.Print("You have joined your own lobby");
-			OnPlayerJoinLobby.Invoke(lobby.Owner);
+			OnPlayerJoinLobby?.Invoke(lobby.Owner);
 		}
 	}
 

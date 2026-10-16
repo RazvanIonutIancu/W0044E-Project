@@ -26,7 +26,7 @@ public partial class SteamManager : Node3D, INetworkManager
 	private static uint gameAppId = 480;
 	private bool connectedToSteam;
 	public static Lobby? currentLobby;
-	private List<Lobby> availableLobbies = new List<Lobby>();
+	public List<Lobby> availableLobbies = new List<Lobby>();
 
 	public static SteamConnectionManager steamConnectionManager;
 	public static SteamSocketManager steamSocketManager;
@@ -149,7 +149,6 @@ public partial class SteamManager : Node3D, INetworkManager
 		{
 			GD.Print("Creating lobby");
 			Lobby? createLobbyOutput = await SteamMatchmaking.CreateLobbyAsync(MAX_MEMBERS);
-
 			if(!createLobbyOutput.HasValue)
 			{
 				GD.Print("Lobby created but didn't instance correctly!");
@@ -205,7 +204,7 @@ public partial class SteamManager : Node3D, INetworkManager
 			lobby.SetData("code",code);
 
 			currentLobby = lobby;
-			OnLobbyInitialized.Invoke(true);
+			OnLobbyInitialized?.Invoke(true);
 			GD.Print("Lobby created!");
 
 			return true;
@@ -241,7 +240,7 @@ public partial class SteamManager : Node3D, INetworkManager
 				}
 			}
 
-			OnLobbyRefreshCompleted.Invoke(availableLobbies);
+			OnLobbyRefreshCompleted?.Invoke(availableLobbies);
 			return true;
 		}
 		catch (System.Exception e)
