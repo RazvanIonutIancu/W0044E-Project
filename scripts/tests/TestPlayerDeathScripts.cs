@@ -10,14 +10,15 @@ using System.Threading.Tasks;
 
 
 [TestSuite]
-public partial class TestScripts : Node2D
+public partial class TestPlayerDeathScripts : Node2D
 {
 	
 
 	PackedScene playerScene = GD.Load<PackedScene>("res://scenes/characters/Player.tscn");
-
 	Player player;
 	bool isDead = false;
+
+	
 
 	[TestCase]
 	[RequireGodotRuntime]
@@ -58,6 +59,10 @@ public partial class TestScripts : Node2D
 		AssertBool(isDead).IsFalse();
 
 	}
+
+
+
+
 
 
 
