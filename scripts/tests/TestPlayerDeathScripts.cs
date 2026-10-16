@@ -50,6 +50,11 @@ public partial class TestPlayerDeathScripts : Node2D
 		{
 			player.RespawnPlayer();
 		}
+		else
+		{
+			AssertBool(false).OverrideFailureMessage("Player is not dead");
+			GD.Print("Test failed");
+		}
 
 		if(player.isAlive && player.GetNode<Polygon2D>("Mesh").Visible && !player.GetNode<CollisionPolygon2D>("CollisionShape").Disabled && player.GetNode<CollisionPolygon2D>("CollisionShape").Visible)
 		{
