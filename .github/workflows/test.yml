@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/gdUnit4-action@latest
+      - uses: godot-gdunit-labs/gdUnit4-action@v1
         with:
           paths: "res://scripts/tests"
           dotnet-version: net10.0 # will probably fail here
