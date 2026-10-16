@@ -15,9 +15,9 @@ jobs:
       - uses: godot-gdunit-labs/gdUnit4-action@v1
         with:
           paths: "res://scripts/tests"
-          dotnet-version: net9.0 # will probably fail here
+          dotnet-version: net8.0 # will probably fail here
           godot-net: true
           godot-force-mono: true
           version: latest
-          upload-report: false
+          upload-report: true
           
