@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dvybprtma3esf"]
 
-[ext_resource type="Script" uid="uid://buxsp1chjj2vd" path="res://scripts/menus/LobbyMenu.cs" id="1_77kkm"]
+[ext_resource type="Script" uid="uid://buxsp1chjj2vd" path="res://scripts/UI/LobbyMenu.cs" id="1_77kkm"]
 [ext_resource type="PackedScene" uid="uid://cr4283a6y45sk" path="res://prefabs/LobbyPlayer.tscn" id="2_j2aal"]
 
 [node name="LobbyMenu" type="Control" unique_id=1965579072 node_paths=PackedStringArray("playerContainer", "codeLabel", "chatLog", "chatInput", "levelSelect", "startButton")]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bk66tyorskbqu"]
 
-[ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/menus/MainMenu.cs" id="1_0ykhv"]
+[ext_resource type="Script" uid="uid://u2oi28omcu4j" path="res://scripts/UI/MainMenu.cs" id="1_0ykhv"]
 [ext_resource type="PackedScene" uid="uid://b77scs0ayk0qi" path="res://prefabs/LobbyElement.tscn" id="2_2wh52"]
 
 [node name="MainMenu" type="Control" unique_id=642616576 node_paths=PackedStringArray("lobbyContainer", "progressBar", "codeEdit")]

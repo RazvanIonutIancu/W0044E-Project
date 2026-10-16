@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cr4283a6y45sk"]
 
-[ext_resource type="Script" uid="uid://dajge0dtp3ukd" path="res://scripts/menus/LobbyPlayer.cs" id="1_xbtfn"]
+[ext_resource type="Script" uid="uid://dajge0dtp3ukd" path="res://scripts/UI/LobbyPlayer.cs" id="1_xbtfn"]
 
 [node name="LobbyPlayer" type="Control" unique_id=1685741502 node_paths=PackedStringArray("avatar", "name", "readyText", "pingText")]
 custom_minimum_size = Vector2(214, 40)

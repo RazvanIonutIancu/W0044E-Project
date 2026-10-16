@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cvehod7hjhmy0"]
 
-[ext_resource type="Script" uid="uid://c777q7vqv0ub0" path="res://scripts/menus/PauseMenu.cs" id="1_n87rw"]
+[ext_resource type="Script" uid="uid://c777q7vqv0ub0" path="res://scripts/UI/PauseMenu.cs" id="1_n87rw"]
 [ext_resource type="Theme" uid="uid://d275b2kplbiju" path="res://assets/UI/ui_theme.tres" id="2_g4jo0"]
 [ext_resource type="Texture2D" uid="uid://5cx6ijwb0fgx" path="res://assets/UI/pause-button.png" id="3_komsw"]
 

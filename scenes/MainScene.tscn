@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://jko7s7v4xicf"]
 
-[ext_resource type="Script" uid="uid://28w0f3wpsbid" path="res://scripts/SteamManager.cs" id="1_c6dvc"]
-[ext_resource type="Script" uid="uid://7yham0ru035b" path="res://scripts/SteamCallbacks.cs" id="3_k24pf"]
+[ext_resource type="Script" uid="uid://28w0f3wpsbid" path="res://scripts/network/SteamManager.cs" id="1_c6dvc"]
+[ext_resource type="Script" uid="uid://7yham0ru035b" path="res://scripts/network/SteamCallbacks.cs" id="3_k24pf"]
 [ext_resource type="PackedScene" uid="uid://bk66tyorskbqu" path="res://scenes/MainMenu.tscn" id="4_611at"]
-[ext_resource type="Script" uid="uid://byba5v5rkwe1f" path="res://scripts/SceneLoader.cs" id="4_k24pf"]
+[ext_resource type="Script" uid="uid://byba5v5rkwe1f" path="res://scripts/levels/SceneLoader.cs" id="4_k24pf"]
 [ext_resource type="PackedScene" uid="uid://drot2uw411mve" path="res://scenes/maps/TestMap.tscn" id="6_1wiy7"]
 [ext_resource type="PackedScene" uid="uid://cvehod7hjhmy0" path="res://scenes/PauseMenu.tscn" id="6_u1u68"]
 [ext_resource type="PackedScene" uid="uid://dvybprtma3esf" path="res://scenes/LobbyMenu.tscn" id="6_ygjfp"]

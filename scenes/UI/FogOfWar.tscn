@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bpqnnhay6k441"]
 
-[ext_resource type="Script" path="res://scripts/UI/FogOfWar.cs" id="1_fog"]
+[ext_resource type="Script" uid="uid://bmbpxyvrfwr7b" path="res://scripts/vfx/FogOfWar.cs" id="1_fog"]
 
 [node name="FogOfWar" type="Node2D"]
 script = ExtResource("1_fog")

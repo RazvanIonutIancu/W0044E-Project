@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b77scs0ayk0qi"]
 
-[ext_resource type="Script" uid="uid://oqi5s2vuv504" path="res://scripts/menus/LobbyElement.cs" id="1_bp57f"]
+[ext_resource type="Script" uid="uid://oqi5s2vuv504" path="res://scripts/UI/LobbyElement.cs" id="1_bp57f"]
 
 [node name="LobbyElement" type="Control" unique_id=296601057 node_paths=PackedStringArray("nameLabel")]
 custom_minimum_size = Vector2(0, 41)
