@@ -1,0 +1,23 @@
+﻿<Project>
+  <!-- GdUnit4 Component Versions -->
+  <PropertyGroup>
+    <GdUnitAnalyzersVersion>1.0.0</GdUnitAnalyzersVersion>
+    <GdUnitAPIVersion>5.0.0</GdUnitAPIVersion>
+    <GdUnitTestAdapterVersion>3.0.0</GdUnitTestAdapterVersion>
+  </PropertyGroup>
+
+  <!-- Godot Configuration -->
+  <PropertyGroup>
+    <!-- Note: Keep GodotVersion in sync with global.json msbuild-sdks.Godot.NET.Sdk -->
+    <GodotVersion>4.4</GodotVersion>
+    <GodotNetSdkVersion>$(GodotVersion)</GodotNetSdkVersion>
+  </PropertyGroup>
+
+  <!-- Common Build Properties -->
+  <PropertyGroup>
+    <CommonTargetFrameworks Condition="'$(CommonTargetFrameworks)' == ''">net8.0;net9.0</CommonTargetFrameworks>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <DebugType Condition="'$(DebugType)' == ''">portable</DebugType>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Title>gdUnit4Api</Title>
+    <Version>$(GdUnitAPIVersion)</Version>
+    <Description>
+      GdUnit4 API is the C# extention to enable GdUnit4 to run/write unit tests in C#.
+    </Description>
+    <Copyright>© 2025 Mike Schulze</Copyright>
+    <Authors>Mike Schulze</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>$(CommonTargetFrameworks)</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <OutputPath>./nupkg</OutputPath>
+    <Nullable>enable</Nullable>
+    <NullableReferenceTypes>true</NullableReferenceTypes>
+    <RootNamespace>GdUnit4</RootNamespace>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DebugType>portable</DebugType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <!-- warning CS8785, prevent Godot ScriptPathAttributeGenerator errors-->
+    <IsGodotToolsProject>true</IsGodotToolsProject>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageProjectUrl>https://github.com/MikeSchulze/gdUnit4Net</PackageProjectUrl>
+    <PackageId>gdUnit4.api</PackageId>
+    <PackageVersion>$(GdUnitAPIVersion)</PackageVersion>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(MSBuildProjectDirectory)/ReleaseNotes.txt"))</PackageReleaseNotes>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>Godot;Test;Testing;UnitTest;GdUnit4;Utility;Utilities</PackageTags>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/MikeSchulze/gdUnit4Net</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces"/>
+    <PackageReference Include="Mono.Cecil"/>
+    <PackageReference Include="GodotSharp"/>
+    <PackageReference Include="Godot.SourceGenerators">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="CommandLineParser"/>
+    <PackageReference Include="Newtonsoft.Json"/>
+    <PackageReference Include="Moq"/>
+    <!-- Content Include=".gitignore" -->
+    <Content Include="../LICENSE"/>
+    <None Include="README.md" Pack="true" PackagePath="/"/>
+    <None Include="ReleaseNotes.txt" Pack="true" PackagePath="/"/>
+    <None Include="../LICENSE" Pack="true" PackagePath="/"/>
+    <None Include="../CONTRIBUTING.md" Pack="true" PackagePath="/"/>
+    <None Include="../icon.png" Pack="true" PackagePath="/"/>
+    <None Include="build/gdUnit4.api.props" Pack="true" PackagePath="build/gdUnit4.api.props"/>
+    <None Include="buildTransitive/gdUnit4.api.props" Pack="true" PackagePath="buildTransitive/gdUnit4.api.props"/>
+
+    <!-- provide the test runner scene as resource -->
+    <EmbeddedResource Include="src\core\runners\GdUnit4TestRunnerSceneTemplate.cs"/>
+
+  </ItemGroup>
+</Project>

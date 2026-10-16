@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using GdUnit4.Tests;
 
 public partial class Player : CharacterBody2D, IShootable
 {
@@ -149,10 +150,6 @@ public partial class Player : CharacterBody2D, IShootable
 		DataParser.OnPlayerMove -= MovePlayer;
 		DataParser.OnShootResults -= ShootResults;
 	}
-
-
-
-
 
 	public override void _PhysicsProcess(double delta)
 	{
