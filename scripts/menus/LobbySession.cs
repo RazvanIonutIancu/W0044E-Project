@@ -183,7 +183,7 @@ public class LobbySession
 
 		// DEBUG
 		Scoreboard scoreboard = scoreboardScene.Instantiate<Scoreboard>();
-		lobbyUI?.GetNode<Control>("MenuSceneContainer").AddChild(scoreboard);
+		lobbyUI?.GetParent<Control>().AddChild(scoreboard);
 		scoreboard.Initialize();
 		// DEBUG END
 	}
