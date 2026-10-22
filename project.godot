@@ -39,6 +39,11 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
 
 settings/test/test_lookup_folder="tests"
 settings/test/test_discovery=true
+report/verbose_orphans=false
+hooks/session_hooks=Dictionary[String, bool]({
+"res://addons/gdUnit4/src/core/hooks/GdUnitHtmlReporterTestSessionHook.gd": false,
+"res://addons/gdUnit4/src/core/hooks/GdUnitXMLReporterTestSessionHook.gd": false
+})
 
 [input]
 
