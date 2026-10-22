@@ -19,6 +19,8 @@ public partial class TestPlayerMovement : Node2D
 	[RequireGodotRuntime]
 	public async Task PlayerCanMove()
 	{
+		SteamManager.Manager = new DummyNetworkManager(); // Keep this line, see if the regular player works
+
 		ISceneRunner runner = ISceneRunner.Load("res://scenes/characters/DummyPlayer.tscn");
 		DummyPlayer player = runner.Scene() as DummyPlayer;
 
