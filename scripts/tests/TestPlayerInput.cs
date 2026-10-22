@@ -36,7 +36,7 @@ public partial class TestPlayerInput : Node2D
 		public readonly Vector2.Axis axis = axis;
 		public readonly Comparison Comp = comp;
 	}
-	static readonly Dictionary<Key, KeyExpect> KeyMapThingie = new()
+	static readonly Dictionary<Key, KeyExpect> MovementKeyMap = new()
 	{
 		[Key.W] = new(Vector2.Axis.Y, Comparison.LessThan),
 		[Key.A] = new(Vector2.Axis.X, Comparison.LessThan),
@@ -76,7 +76,7 @@ public partial class TestPlayerInput : Node2D
 			List<KeyExpect> expects = [];
 			foreach (Key key in keys)
 			{
-				expects.Add(KeyMapThingie[key]);
+				expects.Add(MovementKeyMap[key]);
 
 				runner.SimulateKeyPress(key);
 			}
