@@ -15,6 +15,12 @@ public class LobbySession
 	private int frameCounter = 0;
     private readonly int frameCounterTarget = 30;
 
+	// how long a match lasts in secods
+	private readonly float matchLength = 300f;
+	private float matchTimeLeft = 0f;
+	private bool matchRunning = false;
+	private Scoreboard scoreboard;
+
 	// DEBUG
 
 	PackedScene scoreboardScene = GD.Load<PackedScene>("res://scenes/UI/Scoreboard.tscn");
@@ -33,6 +39,7 @@ public class LobbySession
         DataParser.OnStartGame += OnStartGame;
         DataParser.OnInitialState += OnInitialState;
         DataParser.OnLevelSelected += OnLevelSelected;
+        DataParser.OnGameOver += OnGameOver;
 	}
 
 	~LobbySession()
@@ -45,6 +52,7 @@ public class LobbySession
 		DataParser.OnStartGame -= OnStartGame;
         DataParser.OnInitialState -= OnInitialState;
         DataParser.OnLevelSelected -= OnLevelSelected;
+        DataParser.OnGameOver -= OnGameOver;
 	}
 
 	private void OnInitialState(Dictionary<string,string> packet)
@@ -97,6 +105,9 @@ public class LobbySession
 
 	public void Disconnect()
 	{
+		// make sure it unfreezes for when next game gets started in saem session
+		Player.gameOver = false;
+		matchRunning = false;
 		SteamManager.Manager.Disconnect();
 	}
 
@@ -165,6 +176,13 @@ public class LobbySession
         OnStartGame(packet);
 	}
 
+	// run the same level again host only. StartGame already reloads everything fresh
+	public void Restart()
+	{
+		if(!SteamManager.Manager.IsHost()) { return; }
+		StartGame(GameManager.Instance().selectedLevelIndex);
+	}
+
 	private void OnStartGame(Dictionary<string,string> packet)
 	{
         GameManager.Instance().currentLevel = SteamManager.Manager.GetSceneLoader().LoadLevel(int.Parse(packet["LevelID"]));
@@ -182,10 +200,62 @@ public class LobbySession
 		SteamManager.Manager.GetSceneLoader().LoadPauseMenu(this);
 
 		// DEBUG
-		Scoreboard scoreboard = scoreboardScene.Instantiate<Scoreboard>();
+		// clear out the old scoreboard first so restarts don't stack them
+		if(scoreboard != null)
+		{
+			scoreboard.QueueFree();
+		}
+		scoreboard = scoreboardScene.Instantiate<Scoreboard>();
 		lobbyUI?.GetParent<Control>().AddChild(scoreboard);
+		scoreboard.session = this;
 		scoreboard.Initialize();
 		// DEBUG END
+
+		// fresh match, let people move again and start the clock
+		Player.gameOver = false;
+		matchTimeLeft = matchLength;
+		matchRunning = true;
+	}
+
+	// called every frame by the pause menu while a match is on everyone counts down for the on-screen timer, but only the host calls the game the other clients are just emulating i guess, or a rough approx.
+	public void TickMatch(double delta)
+	{
+		if(!matchRunning) { return; }
+
+		matchTimeLeft -= (float)delta;
+
+		if(SteamManager.Manager.IsHost() && matchTimeLeft <= 0f)
+		{
+			matchRunning = false;
+			SendGameOver();
+		}
+	}
+
+	// used by the pause menu HUD to show the countdown
+	public int GetMatchTimeLeft()
+	{
+		if(matchTimeLeft < 0f) { return 0; }
+		return (int)matchTimeLeft;
+	}
+	// host works out the winner and tells everyone
+	private void SendGameOver()
+	{
+		string winnerID = scoreboard.GetWinner();
+		Dictionary<string, string> packet = new Dictionary<string, string>()
+		{
+			{"DataType","GameOver"},
+			{"WinnerID",winnerID}
+		};
+		SteamManager.SendData(packet);
+		OnGameOver(packet);
+	}
+
+	private void OnGameOver(Dictionary<string,string> packet)
+	{
+		// freeze everyone and show the final scores with the winner winner CHICKEN DINNER
+		Player.gameOver = true;
+		matchRunning = false;
+		scoreboard.ShowResults(packet["WinnerID"]);
 	}
 
 	private void OnChatMessageCallback(Dictionary<string,string> packet)

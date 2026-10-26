@@ -19,7 +19,9 @@ public partial class Scoreboard : Control
 	Dictionary<string, int> playerScores = new Dictionary<string, int>();
 	List<Label> scoreLabels = new List<Label>();
 	List<Label> revengeLabels = new List<Label>();
+	Label winnerLabel;
 	Player controlledPlayer;
+	public LobbySession session;
 
 	public override void _EnterTree()
 	{
@@ -33,6 +35,12 @@ public partial class Scoreboard : Control
 
 	public override void _PhysicsProcess(double delta)
 	{
+		// once the match is over the results stay upp
+		if(Player.gameOver)
+		{
+			return;
+		}
+
 		if(Input.IsActionPressed("showScoreboard"))
 		{
 			GlobalPosition = controlledPlayer.GlobalPosition;
@@ -73,6 +81,70 @@ public partial class Scoreboard : Control
 
 
 
+	// finds whoever has the most points, used when the match timer runs out
+	public string GetWinner()
+	{
+		string winnerID = "";
+		int bestScore = -1;
+		foreach(KeyValuePair<string, int> entry in playerScores)
+		{
+			if(entry.Value > bestScore)
+			{
+				bestScore = entry.Value;
+				winnerID = entry.Key;
+			}
+		}
+		return winnerID;
+	}
+
+	// game's over, force the scoreboard open and slap the winner's name on top
+	public void ShowResults(string winnerID)
+	{
+		winnerLabel.Text = "Winner: " + GameManager.GetPlayerName(winnerID);
+		winnerLabel.Show();
+		AddResultButtons();
+
+		// put the results on a canvas layer above everything else (fog is 10, the pause menu is 40) so it both shows on top and catches clicks instead of the pause menu underneath it stealing them
+		TopLevel = false;
+		CanvasLayer resultsLayer = new CanvasLayer();
+		resultsLayer.Layer = 50;
+		GetParent().AddChild(resultsLayer);
+		Reparent(resultsLayer);
+		SetAnchorsPreset(Control.LayoutPreset.FullRect);
+
+		UpdateUI();
+		Show();
+	}
+
+	// the main menu aND restart buttons shown under the final scores
+	private void AddResultButtons()
+	{
+		Button menuButton = new Button();
+		menuButton.Text = "Main Menu";
+		menuButton.Pressed += OnMainMenuPressed;
+		scoreHolder.AddChild(menuButton);
+
+		// only the host can restart the match
+		if(SteamManager.Manager.IsHost())
+		{
+			Button restartButton = new Button();
+			restartButton.Text = "Restart";
+			restartButton.Pressed += OnRestartPressed;
+			scoreHolder.AddChild(restartButton);
+		}
+	}
+
+	private void OnMainMenuPressed()
+	{
+		session.Disconnect();
+	}
+
+	private void OnRestartPressed()
+	{
+		session.Restart();
+	}
+
+
 	public void AddScore(string shootingPlayer, string playerShot)
 	{
 		int scoreToAdd = scorePerKill + GameManager.GetRevengeScore(shootingPlayer, playerShot);
@@ -93,6 +165,14 @@ public partial class Scoreboard : Control
 
 	private void CreateUI()
 	{
+		// hidden until the match ends, then ShowResults fills it in
+		winnerLabel = new Label();
+		winnerLabel.CustomMinimumSize = new Vector2(200f, 50f);
+		winnerLabel.HorizontalAlignment = HorizontalAlignment.Center;
+		winnerLabel.VerticalAlignment = VerticalAlignment.Center;
+		winnerLabel.Hide();
+		scoreHolder.AddChild(winnerLabel);
+
 		foreach(PlayerState playerState in GameManager.Instance().playerList)
 		{
 			HBoxContainer container = new HBoxContainer();

@@ -24,6 +24,9 @@ public partial class Player : CharacterBody2D, IShootable
 	public bool isControlled = false;
 	public bool isAlive = true;
 
+	// flipped on when the match ends so nobody can keep moving/shooting
+	public static bool gameOver = false;
+
 	/// <summary>
 	/// Changed by the host
 	/// </summary>
@@ -161,6 +164,11 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 
 		if(!isAlive)
+		{
+			return;
+		}
+
+		if(gameOver)
 		{
 			return;
 		}
