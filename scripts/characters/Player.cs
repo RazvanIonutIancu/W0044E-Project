@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 public partial class Player : CharacterBody2D, IShootable
 {
 	[Export]
-	public float speed = 20000.0f;
+	public float speed = 300.0f;
 	[Export]
 	public RayCast2D aimingRayCast;
 	[Export]
@@ -186,26 +186,6 @@ public partial class Player : CharacterBody2D, IShootable
 	/// <param name="delta"></param>
 	private void MoveCharacter(double delta)
 	{
-		Vector2 velocity = Input.GetVector("left", "right", "up", "down");
-
-		// if(Input.IsActionPressed("up"))
-		// {
-		// 	velocity += Vector2.Up;
-		// }
-		// if(Input.IsActionPressed("down"))
-		// {
-		// 	velocity += Vector2.Down;
-		// }
-		// if(Input.IsActionPressed("left"))
-		// {
-		// 	velocity += Vector2.Left;
-		// }
-		// if(Input.IsActionPressed("right"))
-		// {
-		// 	velocity += Vector2.Right;
-		// }
-
-
 		if(Input.IsActionJustPressed("shoot"))
 		{
 			TryShoot();
@@ -217,7 +197,7 @@ public partial class Player : CharacterBody2D, IShootable
 		}
 
 
-		Velocity = velocity.Normalized() * speed * (float)delta;
+		Velocity = Input.GetVector("left", "right", "up", "down").Normalized() * speed;
 		MoveAndSlide();
 
 		playerMovementDictionary["posX"] = GlobalPosition.X.ToString();
