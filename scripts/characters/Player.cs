@@ -221,7 +221,7 @@ public partial class Player : CharacterBody2D, IShootable
 		MoveAndSlide();
 
 		playerMovementDictionary["posX"] = GlobalPosition.X.ToString();
-		playerMovementDictionary["posY"] = GlobalPosition.Y.ToString();
+        playerMovementDictionary["posY"] = GlobalPosition.Y.ToString();
 		playerMovementDictionary["rotation"] = Rotation.ToString();
 
 		SteamManager.SendData(playerMovementDictionary, Steamworks.Data.SendType.NoDelay);

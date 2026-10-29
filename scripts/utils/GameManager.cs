@@ -26,10 +26,11 @@ public sealed class GameManager
 	{
 		
 	}
-	// public void Reset(){
-	// 	playerList.Clear();
-	// 	playerNodeList.Clear();
-	// }
+	public void Reset()
+	{
+		playerList.Clear();
+		playerNodeList.Clear();
+	}
 
 	public static void AddPlayer(string id, string name)
 	{

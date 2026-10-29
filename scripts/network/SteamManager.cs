@@ -309,7 +309,7 @@ public partial class SteamManager : Node3D, INetworkManager
 			GD.Print("String is too large for the outgoing data buffer");
 			return;
 		}
-		Encoding.UTF8.GetBytes(packetStr, 0, packetStr.Length, DataContainer.outgoingData, 0);
+		byteCount = Encoding.UTF8.GetBytes(packetStr.AsSpan(), DataContainer.outgoingData.AsSpan());
 		unsafe
 		{
 			fixed(byte* ptr = DataContainer.outgoingData)
@@ -335,7 +335,7 @@ public partial class SteamManager : Node3D, INetworkManager
 			GD.Print("String is too large for the outgoing data buffer");
 			return;
 		}
-		Encoding.UTF8.GetBytes(packetStr, 0, packetStr.Length, DataContainer.outgoingData, 0);
+		byteCount = Encoding.UTF8.GetBytes(packetStr.AsSpan(), DataContainer.outgoingData.AsSpan());
 		unsafe
 		{
 			fixed(byte* ptr = DataContainer.outgoingData)
@@ -355,7 +355,7 @@ public partial class SteamManager : Node3D, INetworkManager
 			GD.Print("String is too large for the outgoing data buffer");
 			return;
 		}
-		Encoding.UTF8.GetBytes(str, 0, str.Length, DataContainer.outgoingData, 0);
+		byteCount = Encoding.UTF8.GetBytes(str.AsSpan(), DataContainer.outgoingData.AsSpan());
         unsafe
         {
             fixed (byte* ptr = DataContainer.outgoingData)

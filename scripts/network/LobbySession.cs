@@ -44,15 +44,7 @@ public class LobbySession
 
 	~LobbySession()
 	{
-		SteamCallbacks.OnPlayerLeftLobby -= OnPlayerLeftLobbyCallback;
-		SteamCallbacks.OnPlayerJoinLobby -= OnPlayerJoinLobbyCallback;
-		SteamManager.OnLobbyInitialized -= OnLobbyInitializedCallback;
-		DataParser.OnReadyMessage -= OnReadyMessageCallback;
-		DataParser.OnChatMessage -= OnChatMessageCallback;
-		DataParser.OnStartGame -= OnStartGame;
-        DataParser.OnInitialState -= OnInitialState;
-        DataParser.OnLevelSelected -= OnLevelSelected;
-        DataParser.OnGameOver -= OnGameOver;
+
 	}
 
 	private void OnInitialState(Dictionary<string,string> packet)
@@ -105,6 +97,17 @@ public class LobbySession
 
 	public void Disconnect()
 	{
+		SteamCallbacks.OnPlayerLeftLobby -= OnPlayerLeftLobbyCallback;
+		SteamCallbacks.OnPlayerJoinLobby -= OnPlayerJoinLobbyCallback;
+		SteamManager.OnLobbyInitialized -= OnLobbyInitializedCallback;
+		DataParser.OnReadyMessage -= OnReadyMessageCallback;
+		DataParser.OnChatMessage -= OnChatMessageCallback;
+		DataParser.OnStartGame -= OnStartGame;
+        DataParser.OnInitialState -= OnInitialState;
+        DataParser.OnLevelSelected -= OnLevelSelected;
+        DataParser.OnGameOver -= OnGameOver;
+		GameManager.Instance().Reset();
+
 		// make sure it unfreezes for when next game gets started in saem session
 		Player.gameOver = false;
 		matchRunning = false;
